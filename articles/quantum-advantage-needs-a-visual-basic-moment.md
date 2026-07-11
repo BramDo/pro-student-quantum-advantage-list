@@ -46,6 +46,12 @@ You can explore the list here:
 
 **https://edukaizen.nl/pro-student-quantum-advantage-list/**
 
+The open and extensible GitHub repository, including the machine-readable
+entries, contribution template, and classical-challenge workflow, is available
+here:
+
+**https://github.com/BramDo/pro-student-quantum-advantage-list**
+
 ## Why hobbyist and student projects matter
 
 Quantum computing will not mature through hardware improvements alone. It also needs a much larger population of people who can experiment, make mistakes, compare methods, and publish reproducible results.
