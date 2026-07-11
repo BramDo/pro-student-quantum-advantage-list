@@ -1,0 +1,48 @@
+{
+  "schema_version": 1,
+  "id": "fermi-hubbard-120q",
+  "title": "Fermi-Hubbard dynamics on 120 qubits",
+  "short_title": "1D Fermi-Hubbard",
+  "evidence_date": "2026-06-26",
+  "summary": "A 60-site Fermi-Hubbard hardware workflow produced local charge, spin, and double-occupancy observables and was compared with local MPS and observable-specific Majorana calculations.",
+  "scale": {"qubits": 120, "sites": 60},
+  "quantum": {
+    "backend": "IBM Kingston through Q-CTRL Fire Opal",
+    "task": "Estimate local observables after 30 Trotter steps at model time t=6",
+    "workflow": "Fire Opal main and readout execution proxy with 4,096 main shots",
+    "timings": [
+      {"seconds": 33.148928, "scope": "Estimated main plus readout circuit execution; excludes full human and cloud workflow time", "primary": true}
+    ],
+    "result_summary": "The hardware produced a full 120-qubit observable profile; raw mean double occupancy was 0.22862549 and readout-corrected mean double occupancy was 0.23067722."
+  },
+  "classical_baselines": [
+    {"method": "Local quimb MPS with maximum bond dimension chi=256", "seconds": 9033.0, "scope": "End-to-end local wall time for the 120-qubit, 60-site reference", "status": "not fully converged; maximum bond reached the requested cap"},
+    {"method": "Local Majorana propagation with cutoff 2", "seconds": 20.96, "scope": "Mean double occupancy only", "status": "faster than the quantum proxy but visibly inaccurate"},
+    {"method": "Local Majorana propagation with cutoff 4", "seconds": 1153.51, "scope": "Mean double occupancy only", "status": "close to the chi=256 value for this selected observable"}
+  ],
+  "comparison": {
+    "classification": "local_time_to_answer",
+    "headline": "The quantum execution proxy was 272.50x shorter than the local chi=256 MPS wall time for this declared instance.",
+    "ratio": 272.5,
+    "ratio_is_lower_bound": false,
+    "scope": "The ratio compares a quantum execution proxy with local MPS wall time; it is not full workflow parity and not a comparison with the later four-H200 classical implementation."
+  },
+  "official_sources": [
+    {"label": "Hartnett et al., large-scale Fermi-Hubbard digital quantum simulation", "url": "https://arxiv.org/abs/2605.04025", "type": "paper"},
+    {"label": "Rausch et al., GPU and symmetry-aware classical challenge", "url": "https://arxiv.org/abs/2606.04771", "type": "paper"}
+  ],
+  "implementation": {
+    "edukaizen_url": "https://edukaizen.nl/fermi-hubbard-quantum-simulation-project/",
+    "github_repositories": ["https://github.com/BramDo/fermi-hubbard-60q-tdvp"],
+    "key_articles": [
+      "https://edukaizen.nl/fermi-hubbard-quantum-computer-part-5-quantum-advantage-or-time-to-answer/"
+    ]
+  },
+  "claim_boundary": [
+    "This is a local time-to-answer result, not a reproduction of the paper's headline practical-advantage claim.",
+    "The chi=256 MPS baseline did not establish full convergence.",
+    "The fast Majorana route demonstrates that observable-specific classical methods can change the ranking."
+  ],
+  "tags": ["fermi-hubbard", "many-body", "fire-opal", "tensor-networks", "120-qubits"]
+}
+

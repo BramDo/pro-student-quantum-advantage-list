@@ -1,0 +1,43 @@
+name: Submit a classical challenge
+description: Report a stronger classical result for an existing entry.
+title: "[Classical challenge] "
+labels: ["classical-challenge"]
+body:
+  - type: dropdown
+    id: entry
+    attributes:
+      label: Existing entry
+      options:
+        - 1D Fermi-Hubbard dynamics
+        - Non-Abelian SU(2) hadron dynamics
+        - Operator Loschmidt Echo Q80
+    validations:
+      required: true
+  - type: input
+    id: artifact
+    attributes:
+      label: Code, data, or report URL
+      placeholder: https://
+    validations:
+      required: true
+  - type: textarea
+    id: method
+    attributes:
+      label: Algorithm, software, and compute hardware
+    validations:
+      required: true
+  - type: textarea
+    id: parity
+    attributes:
+      label: Task and accuracy parity
+      description: Explain whether the same observable, precision target, and full instance were evaluated.
+    validations:
+      required: true
+  - type: textarea
+    id: timing
+    attributes:
+      label: Timing scope and result
+      description: Include preprocessing, tuning, convergence checks, and excluded overhead.
+    validations:
+      required: true
+

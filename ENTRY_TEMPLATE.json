@@ -1,0 +1,61 @@
+{
+  "schema_version": 1,
+  "id": "short-stable-project-id",
+  "title": "Full project title",
+  "short_title": "Short title",
+  "evidence_date": "YYYY-MM-DD",
+  "summary": "A short plain-English description of the task and result.",
+  "scale": {
+    "qubits": 1,
+    "sites": null
+  },
+  "quantum": {
+    "backend": "Provider and backend",
+    "task": "The measured task or observable",
+    "workflow": "Execution and mitigation route",
+    "timings": [
+      {
+        "seconds": 1.0,
+        "scope": "Exact timing scope and excluded overhead",
+        "primary": true
+      }
+    ],
+    "result_summary": "Measured value, uncertainty, or qualitative outcome"
+  },
+  "classical_baselines": [
+    {
+      "method": "Classical method and compute platform",
+      "seconds": 2.0,
+      "scope": "Exact task and timing scope",
+      "status": "converged, not converged, bounded, or diagnostic"
+    }
+  ],
+  "comparison": {
+    "classification": "local_time_to_answer",
+    "headline": "A cautious one-sentence comparison.",
+    "ratio": null,
+    "ratio_is_lower_bound": false,
+    "scope": "What the ratio does and does not compare"
+  },
+  "official_sources": [
+    {
+      "label": "Official paper or repository",
+      "url": "https://example.org/source",
+      "type": "paper"
+    }
+  ],
+  "implementation": {
+    "edukaizen_url": "https://edukaizen.nl/example/",
+    "github_repositories": [
+      "https://github.com/example/project"
+    ],
+    "key_articles": []
+  },
+  "claim_boundary": [
+    "State the most important limitation."
+  ],
+  "tags": [
+    "quantum-computing"
+  ]
+}
+

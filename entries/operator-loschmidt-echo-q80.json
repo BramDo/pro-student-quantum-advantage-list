@@ -1,0 +1,48 @@
+{
+  "schema_version": 1,
+  "id": "operator-loschmidt-echo-q80",
+  "title": "Operator Loschmidt Echo on 80 qubits",
+  "short_title": "Operator Loschmidt Echo Q80",
+  "evidence_date": "2026-07-11",
+  "summary": "A tracker-compatible 80-qubit extension estimates an Operator Loschmidt Echo from finite computational-basis samples and compares the complete mitigated hardware action with a bounded tracker-linked BP-TN calculation.",
+  "scale": {"qubits": 80, "sites": null},
+  "quantum": {
+    "backend": "IBM Kingston through Q-CTRL Fire Opal",
+    "task": "Estimate a finite-sample Operator Loschmidt Echo scrambling observable",
+    "workflow": "Sixteen mitigated circuits with N_init=8 and 8,000 shots per circuit",
+    "timings": [
+      {"seconds": 328.0, "scope": "Complete Fire Opal action wall time for all sixteen mitigated circuits", "primary": true},
+      {"seconds": 155.23, "scope": "IBM job creation-to-completion time", "primary": false},
+      {"seconds": 43.85, "scope": "Estimated QPU seconds", "primary": false}
+    ],
+    "result_summary": "The measured delta/delta0 OLE ratio was 0.74028847 +/- 0.01663657; all eight sample ratios were positive."
+  },
+  "classical_baselines": [
+    {"method": "Tracker-linked Heisenberg BP-TN at bond dimension 16", "seconds": 365.14, "scope": "Completed delta and delta0 halves", "status": "not converged; apparent ratio is not a valid physical estimate"},
+    {"method": "Tracker-linked Heisenberg BP-TN delta half at bond dimension 32", "seconds": 342.42, "scope": "Delta half only", "status": "not converged; value shifted by 86 percent from bond dimension 16"},
+    {"method": "Tracker-linked Heisenberg BP-TN delta half at bond dimension 64", "seconds": 901.01, "scope": "Delta half only, stopped at the bounded wall-time limit", "status": "timeout before producing a result"}
+  ],
+  "comparison": {
+    "classification": "local_runtime_lower_bound",
+    "headline": "The incomplete bond-dimension-64 classical delta half alone exceeded the complete Fire Opal action by more than 2.75x on this machine.",
+    "ratio": 2.75,
+    "ratio_is_lower_bound": true,
+    "scope": "The classical route did not converge and did not complete the delta0 half, so this is a local runtime lower bound rather than a matched-accuracy quantum-advantage result."
+  },
+  "official_sources": [
+    {"label": "Quantum Advantage Tracker observable-estimation register", "url": "https://quantum-advantage-tracker.github.io/trackers/observable-estimations", "type": "tracker"},
+    {"label": "Released Operator Loschmidt Echo circuits", "url": "https://github.com/quantum-advantage-tracker/quantum-advantage-tracker.github.io/tree/main/data/observable-estimations/circuit-models/operator_loschmidt_echo", "type": "repository"}
+  ],
+  "implementation": {
+    "edukaizen_url": "https://edukaizen.nl/quantum-tracker-ole-q80-project/",
+    "github_repositories": ["https://github.com/BramDo/onderzoek_blackhole_echo_status_2026-03-05_131816"],
+    "key_articles": ["https://edukaizen.nl/quantum-tracker-ole-q80-part-4-the-tensor-network-challenge/"]
+  },
+  "claim_boundary": [
+    "The classical calculation did not converge and no matched-accuracy ratio was obtained.",
+    "This is a tracker-compatible 80-qubit extension with N_init=8, not an official tracker instance or an N_init=500 reproduction.",
+    "The observation is local and does not cover every classical implementation or optimized compute platform."
+  ],
+  "tags": ["operator-loschmidt-echo", "scrambling", "fire-opal", "tensor-networks", "80-qubits"]
+}
+

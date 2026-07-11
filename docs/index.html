@@ -1,0 +1,127 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="description" content="An extensible register of student-scale local practical quantum advantage projects.">
+  <title>Pro Student Quantum Advantage List</title>
+  <style>
+    :root { color-scheme: light; --ink:#14212b; --muted:#52616b; --line:#c7d1d7; --teal:#087f73; --orange:#dc5a32; --blue:#315f86; --paper:#ffffff; --wash:#f3f6f6; }
+    * { box-sizing:border-box; }
+    body { margin:0; font-family:Inter,ui-sans-serif,system-ui,-apple-system,"Segoe UI",sans-serif; color:var(--ink); background:var(--paper); }
+    a { color:#006f73; text-underline-offset:3px; }
+    header { border-top:8px solid var(--orange); padding:4rem 1.25rem 3rem; background:var(--wash); }
+    .wrap { max-width:1080px; margin:0 auto; }
+    h1 { max-width:850px; margin:0 0 1rem; font-family:Georgia,serif; font-size:clamp(2.4rem,7vw,5rem); line-height:1.02; letter-spacing:0; }
+    h2,h3 { letter-spacing:0; }
+    h2 { font-family:Georgia,serif; font-size:clamp(1.8rem,4vw,2.7rem); }
+    .lede { max-width:800px; color:var(--muted); font-size:1.2rem; line-height:1.65; }
+    nav { margin-top:1.5rem; display:flex; flex-wrap:wrap; gap:1rem 1.5rem; }
+    main { max-width:1080px; margin:0 auto; padding:0 1.25rem 4rem; }
+    .intro { padding:3rem 0; border-bottom:1px solid var(--line); }
+    .definition { border-left:5px solid var(--teal); padding:1rem 1.25rem; background:#edf7f5; line-height:1.65; }
+    .table-wrap { overflow-x:auto; }
+    table { width:100%; min-width:720px; border-collapse:collapse; }
+    th,td { padding:.8rem; border:1px solid var(--line); text-align:left; vertical-align:top; }
+    th { background:var(--ink); color:white; }
+    tbody tr:nth-child(even) { background:#f6f8f8; }
+    .entry { padding:3.5rem 0; border-top:5px solid var(--blue); }
+    .entry:nth-of-type(3n+1) { border-top-color:var(--orange); }
+    .entry:nth-of-type(3n+2) { border-top-color:var(--teal); }
+    .kicker { color:var(--muted); font-size:.82rem; font-weight:750; text-transform:uppercase; }
+    .summary { max-width:880px; font-size:1.08rem; line-height:1.7; }
+    .facts { display:grid; grid-template-columns:repeat(2,minmax(0,1fr)); border-top:1px solid var(--line); border-bottom:1px solid var(--line); }
+    .facts div { padding:1rem; }
+    dt { color:var(--muted); font-size:.82rem; font-weight:700; text-transform:uppercase; }
+    dd { margin:.35rem 0 0; line-height:1.5; }
+    .headline { border-left:4px solid var(--ink); padding:1rem 1.2rem; background:#f6f7f8; line-height:1.65; }
+    .columns { display:grid; grid-template-columns:1fr 1fr; gap:2rem; }
+    li { margin:.45rem 0; line-height:1.55; }
+    .figure { margin:2rem 0; }
+    .figure img { width:100%; height:auto; border:1px solid var(--line); }
+    .figure figcaption { color:var(--muted); line-height:1.5; margin-top:.5rem; }
+    footer { border-top:1px solid var(--line); padding:2rem 1.25rem; color:var(--muted); }
+    @media(max-width:700px) { .facts,.columns { grid-template-columns:1fr; } header { padding-top:2.6rem; } }
+  </style>
+</head>
+<body>
+  <header><div class="wrap">
+    <p class="kicker">Open benchmark register</p>
+    <h1>Pro Student Quantum Advantage List</h1>
+    <p class="lede">Complete, challengeable quantum projects from students, hobbyists, independent researchers, and small teams. Every entry links the official work to a hardware implementation, a classical competitor, and an explicit claim boundary.</p>
+    <nav><a href="https://edukaizen.nl/pro-student-quantum-advantage-list/">Edukaizen article</a><a href="https://github.com/BramDo/pro-student-quantum-advantage-list">GitHub repository</a><a href="data/advantage-list.json">JSON feed</a><a href="https://github.com/BramDo/pro-student-quantum-advantage-list/issues">Submit a challenge</a></nav>
+  </div></header>
+  <main>
+    <section class="intro">
+      <h2>What counts here</h2>
+      <div class="definition"><strong>Local practical advantage</strong> means that a measured quantum workflow reached a useful answer faster than a named classical workflow for the same stated task on the resources actually available to the project. It is not proof against every classical algorithm or supercomputer.</div>
+      <p>A stronger classical result is not a problem for this list. It is a successful challenge. The entry and its classification should change when the evidence changes.</p>
+      <div class="table-wrap"><table><thead><tr><th>Project</th><th>Scale</th><th>Primary quantum timing</th><th>Classification</th></tr></thead><tbody><tr><td><a href="#fermi-hubbard-120q">1D Fermi-Hubbard</a></td><td>120 qubits / 60 sites</td><td>33.148928 s</td><td>Local time-to-answer separation</td></tr><tr><td><a href="#su2-hadron-120q">SU(2) hadron dynamics</a></td><td>120 qubits / 60 sites</td><td>1.425408 s</td><td>Paper-aligned local separation</td></tr><tr><td><a href="#operator-loschmidt-echo-q80">Operator Loschmidt Echo Q80</a></td><td>80 qubits</td><td>328 s</td><td>Local runtime lower bound</td></tr></tbody></table></div>
+      <figure class="figure"><img src="assets/fermi-hubbard-120q-charge-density.png" alt="Measured charge-density outcome by site for the 120-qubit Fermi-Hubbard hardware run"><figcaption>One of the measured outcomes behind the list: the 120-qubit Fermi-Hubbard charge-density profile. The sector-plus-readout route is diagnostic because postselection discarded 98.9 percent of shots.</figcaption></figure>
+    </section>
+    
+    <section class="entry" id="fermi-hubbard-120q">
+      <p class="kicker">Local time-to-answer separation</p>
+      <h2>Fermi-Hubbard dynamics on 120 qubits</h2>
+      <p class="summary">A 60-site Fermi-Hubbard hardware workflow produced local charge, spin, and double-occupancy observables and was compared with local MPS and observable-specific Majorana calculations.</p>
+      <dl class="facts">
+        <div><dt>Scale</dt><dd>120 qubits / 60 sites</dd></div>
+        <div><dt>Backend</dt><dd>IBM Kingston through Q-CTRL Fire Opal</dd></div>
+        <div><dt>Primary timing</dt><dd>33.148928 s</dd></div>
+        <div><dt>Timing scope</dt><dd>Estimated main plus readout circuit execution; excludes full human and cloud workflow time</dd></div>
+      </dl>
+      <p class="headline"><strong>Measured comparison.</strong> The quantum execution proxy was 272.50x shorter than the local chi=256 MPS wall time for this declared instance.</p>
+      <h3>Classical baselines</h3>
+      <div class="table-wrap"><table><thead><tr><th>Method</th><th>Wall time</th><th>Status</th></tr></thead><tbody><tr><td>Local quimb MPS with maximum bond dimension chi=256</td><td>9,033 s</td><td>not fully converged; maximum bond reached the requested cap</td></tr><tr><td>Local Majorana propagation with cutoff 2</td><td>20.96 s</td><td>faster than the quantum proxy but visibly inaccurate</td></tr><tr><td>Local Majorana propagation with cutoff 4</td><td>1,153.51 s</td><td>close to the chi=256 value for this selected observable</td></tr></tbody></table></div>
+      <div class="columns">
+        <div><h3>Official sources</h3><ul><li><a href="https://arxiv.org/abs/2605.04025">Hartnett et al., large-scale Fermi-Hubbard digital quantum simulation</a></li><li><a href="https://arxiv.org/abs/2606.04771">Rausch et al., GPU and symmetry-aware classical challenge</a></li></ul></div>
+        <div><h3>Complete implementation</h3><ul><li><a href="https://edukaizen.nl/fermi-hubbard-quantum-simulation-project/">Edukaizen project</a></li><li><a href="https://github.com/BramDo/fermi-hubbard-60q-tdvp">GitHub implementation</a></li></ul></div>
+      </div>
+      <h3>Claim boundary</h3><ul><li>This is a local time-to-answer result, not a reproduction of the paper&#x27;s headline practical-advantage claim.</li><li>The chi=256 MPS baseline did not establish full convergence.</li><li>The fast Majorana route demonstrates that observable-specific classical methods can change the ranking.</li></ul>
+      <p class="entry-data"><a href="https://github.com/BramDo/pro-student-quantum-advantage-list/blob/main/entries/fermi-hubbard-120q.json">View machine-readable entry</a></p>
+    </section>
+    <section class="entry" id="su2-hadron-120q">
+      <p class="kicker">Paper-aligned local separation</p>
+      <h2>Non-Abelian SU(2) hadron dynamics on 120 active qubits</h2>
+      <p class="summary">A Loop-String-Hadron implementation follows a differential hadron signal on a 60-site lattice and compares the quantum route with local circuit-MPS checks and published tensor-network and Pauli-propagation baselines.</p>
+      <dl class="facts">
+        <div><dt>Scale</dt><dd>120 qubits / 60 sites</dd></div>
+        <div><dt>Backend</dt><dd>IBM hardware through Q-CTRL Fire Opal</dd></div>
+        <div><dt>Primary timing</dt><dd>1.425408 s</dd></div>
+        <div><dt>Timing scope</dt><dd>Local hardware time including readout circuits; excludes queue, API, compilation, and local analysis</dd></div>
+      </dl>
+      <p class="headline"><strong>Measured comparison.</strong> Both the local circuit checks and the paper-native baselines show a substantial runtime separation under their declared timing definitions.</p>
+      <h3>Classical baselines</h3>
+      <div class="table-wrap"><table><thead><tr><th>Method</th><th>Wall time</th><th>Status</th></tr></thead><tbody><tr><td>Local Aer MPS on compiled QASM</td><td>34.281305 s</td><td>completed local sanity baseline</td></tr><tr><td>Local ITensorMPS on compiled QASM</td><td>174.611 s</td><td>completed local sanity baseline</td></tr><tr><td>Published Pauli propagation on CPU at step 5</td><td>477.4471 s</td><td>published baseline</td></tr><tr><td>Published Pauli propagation on GPU at step 5</td><td>547.581 s</td><td>published baseline</td></tr><tr><td>Published ITensor TDVP tensor network at step 5</td><td>584.092 s</td><td>published baseline</td></tr></tbody></table></div>
+      <div class="columns">
+        <div><h3>Official sources</h3><ul><li><a href="https://arxiv.org/abs/2602.18080">Ilcic et al., Observation of Robust and Coherent Non-Abelian Hadron Dynamics on Noisy Quantum Processors</a></li><li><a href="https://github.com/quantum-advantage-tracker/quantum-advantage-tracker.github.io/issues/149">Quantum Advantage Tracker issue 149</a></li><li><a href="https://github.com/indrakshir/LSH-IBM">Official LSH-IBM circuit repository</a></li><li><a href="https://github.com/mathew0036/lsh_data">Official lsh_data repository</a></li></ul></div>
+        <div><h3>Complete implementation</h3><ul><li><a href="https://edukaizen.nl/hadron-quantumsimulatie/">Edukaizen project</a></li><li><a href="https://github.com/BramDo/hadron">GitHub implementation</a></li></ul></div>
+      </div>
+      <h3>Claim boundary</h3><ul><li>Hardware-only time is not cloud wall time and excludes several service overheads.</li><li>The local scalar normalization remains distinct from the tracker&#x27;s published hadron scalar.</li><li>The result supports runtime separation and circuit or sector validation, not an independent precision reproduction of every published observable.</li></ul>
+      <p class="entry-data"><a href="https://github.com/BramDo/pro-student-quantum-advantage-list/blob/main/entries/su2-hadron-120q.json">View machine-readable entry</a></p>
+    </section>
+    <section class="entry" id="operator-loschmidt-echo-q80">
+      <p class="kicker">Local runtime lower bound</p>
+      <h2>Operator Loschmidt Echo on 80 qubits</h2>
+      <p class="summary">A tracker-compatible 80-qubit extension estimates an Operator Loschmidt Echo from finite computational-basis samples and compares the complete mitigated hardware action with a bounded tracker-linked BP-TN calculation.</p>
+      <dl class="facts">
+        <div><dt>Scale</dt><dd>80 qubits</dd></div>
+        <div><dt>Backend</dt><dd>IBM Kingston through Q-CTRL Fire Opal</dd></div>
+        <div><dt>Primary timing</dt><dd>328 s</dd></div>
+        <div><dt>Timing scope</dt><dd>Complete Fire Opal action wall time for all sixteen mitigated circuits</dd></div>
+      </dl>
+      <p class="headline"><strong>Measured comparison.</strong> The incomplete bond-dimension-64 classical delta half alone exceeded the complete Fire Opal action by more than 2.75x on this machine.</p>
+      <h3>Classical baselines</h3>
+      <div class="table-wrap"><table><thead><tr><th>Method</th><th>Wall time</th><th>Status</th></tr></thead><tbody><tr><td>Tracker-linked Heisenberg BP-TN at bond dimension 16</td><td>365.14 s</td><td>not converged; apparent ratio is not a valid physical estimate</td></tr><tr><td>Tracker-linked Heisenberg BP-TN delta half at bond dimension 32</td><td>342.42 s</td><td>not converged; value shifted by 86 percent from bond dimension 16</td></tr><tr><td>Tracker-linked Heisenberg BP-TN delta half at bond dimension 64</td><td>901.01 s</td><td>timeout before producing a result</td></tr></tbody></table></div>
+      <div class="columns">
+        <div><h3>Official sources</h3><ul><li><a href="https://quantum-advantage-tracker.github.io/trackers/observable-estimations">Quantum Advantage Tracker observable-estimation register</a></li><li><a href="https://github.com/quantum-advantage-tracker/quantum-advantage-tracker.github.io/tree/main/data/observable-estimations/circuit-models/operator_loschmidt_echo">Released Operator Loschmidt Echo circuits</a></li></ul></div>
+        <div><h3>Complete implementation</h3><ul><li><a href="https://edukaizen.nl/quantum-tracker-ole-q80-project/">Edukaizen project</a></li><li><a href="https://github.com/BramDo/onderzoek_blackhole_echo_status_2026-03-05_131816">GitHub implementation</a></li></ul></div>
+      </div>
+      <h3>Claim boundary</h3><ul><li>The classical calculation did not converge and no matched-accuracy ratio was obtained.</li><li>This is a tracker-compatible 80-qubit extension with N_init=8, not an official tracker instance or an N_init=500 reproduction.</li><li>The observation is local and does not cover every classical implementation or optimized compute platform.</li></ul>
+      <p class="entry-data"><a href="https://github.com/BramDo/pro-student-quantum-advantage-list/blob/main/entries/operator-loschmidt-echo-q80.json">View machine-readable entry</a></p>
+    </section>
+    <section class="intro"><h2>Make the list better</h2><p>Copy the entry template, add the official source and full implementation, state both timing scopes, and preserve every convergence or accuracy limitation. Classical challenges are first-class contributions.</p><p><a href="https://github.com/BramDo/pro-student-quantum-advantage-list/blob/main/CONTRIBUTING.md">Read the contribution guide</a>.</p></section>
+  </main>
+  <footer><div class="wrap">Evidence updated through 2026-07-11. Content: CC BY 4.0. Code: MIT.</div></footer>
+</body>
+</html>

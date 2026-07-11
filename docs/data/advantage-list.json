@@ -1,0 +1,301 @@
+{
+  "canonical_url": "https://edukaizen.nl/pro-student-quantum-advantage-list/",
+  "entries": [
+    {
+      "claim_boundary": [
+        "This is a local time-to-answer result, not a reproduction of the paper's headline practical-advantage claim.",
+        "The chi=256 MPS baseline did not establish full convergence.",
+        "The fast Majorana route demonstrates that observable-specific classical methods can change the ranking."
+      ],
+      "classical_baselines": [
+        {
+          "method": "Local quimb MPS with maximum bond dimension chi=256",
+          "scope": "End-to-end local wall time for the 120-qubit, 60-site reference",
+          "seconds": 9033.0,
+          "status": "not fully converged; maximum bond reached the requested cap"
+        },
+        {
+          "method": "Local Majorana propagation with cutoff 2",
+          "scope": "Mean double occupancy only",
+          "seconds": 20.96,
+          "status": "faster than the quantum proxy but visibly inaccurate"
+        },
+        {
+          "method": "Local Majorana propagation with cutoff 4",
+          "scope": "Mean double occupancy only",
+          "seconds": 1153.51,
+          "status": "close to the chi=256 value for this selected observable"
+        }
+      ],
+      "comparison": {
+        "classification": "local_time_to_answer",
+        "headline": "The quantum execution proxy was 272.50x shorter than the local chi=256 MPS wall time for this declared instance.",
+        "ratio": 272.5,
+        "ratio_is_lower_bound": false,
+        "scope": "The ratio compares a quantum execution proxy with local MPS wall time; it is not full workflow parity and not a comparison with the later four-H200 classical implementation."
+      },
+      "evidence_date": "2026-06-26",
+      "id": "fermi-hubbard-120q",
+      "implementation": {
+        "edukaizen_url": "https://edukaizen.nl/fermi-hubbard-quantum-simulation-project/",
+        "github_repositories": [
+          "https://github.com/BramDo/fermi-hubbard-60q-tdvp"
+        ],
+        "key_articles": [
+          "https://edukaizen.nl/fermi-hubbard-quantum-computer-part-5-quantum-advantage-or-time-to-answer/"
+        ]
+      },
+      "official_sources": [
+        {
+          "label": "Hartnett et al., large-scale Fermi-Hubbard digital quantum simulation",
+          "type": "paper",
+          "url": "https://arxiv.org/abs/2605.04025"
+        },
+        {
+          "label": "Rausch et al., GPU and symmetry-aware classical challenge",
+          "type": "paper",
+          "url": "https://arxiv.org/abs/2606.04771"
+        }
+      ],
+      "quantum": {
+        "backend": "IBM Kingston through Q-CTRL Fire Opal",
+        "result_summary": "The hardware produced a full 120-qubit observable profile; raw mean double occupancy was 0.22862549 and readout-corrected mean double occupancy was 0.23067722.",
+        "task": "Estimate local observables after 30 Trotter steps at model time t=6",
+        "timings": [
+          {
+            "primary": true,
+            "scope": "Estimated main plus readout circuit execution; excludes full human and cloud workflow time",
+            "seconds": 33.148928
+          }
+        ],
+        "workflow": "Fire Opal main and readout execution proxy with 4,096 main shots"
+      },
+      "scale": {
+        "qubits": 120,
+        "sites": 60
+      },
+      "schema_version": 1,
+      "short_title": "1D Fermi-Hubbard",
+      "summary": "A 60-site Fermi-Hubbard hardware workflow produced local charge, spin, and double-occupancy observables and was compared with local MPS and observable-specific Majorana calculations.",
+      "tags": [
+        "fermi-hubbard",
+        "many-body",
+        "fire-opal",
+        "tensor-networks",
+        "120-qubits"
+      ],
+      "title": "Fermi-Hubbard dynamics on 120 qubits"
+    },
+    {
+      "claim_boundary": [
+        "Hardware-only time is not cloud wall time and excludes several service overheads.",
+        "The local scalar normalization remains distinct from the tracker's published hadron scalar.",
+        "The result supports runtime separation and circuit or sector validation, not an independent precision reproduction of every published observable."
+      ],
+      "classical_baselines": [
+        {
+          "method": "Local Aer MPS on compiled QASM",
+          "scope": "Circuit-level tensor check on the same compiled-QASM family",
+          "seconds": 34.281305,
+          "status": "completed local sanity baseline"
+        },
+        {
+          "method": "Local ITensorMPS on compiled QASM",
+          "scope": "Circuit-level tensor check on the same compiled-QASM family",
+          "seconds": 174.611,
+          "status": "completed local sanity baseline"
+        },
+        {
+          "method": "Published Pauli propagation on CPU at step 5",
+          "scope": "Paper x=100 step-5 circuit-level baseline",
+          "seconds": 477.4471,
+          "status": "published baseline"
+        },
+        {
+          "method": "Published Pauli propagation on GPU at step 5",
+          "scope": "Paper x=100 step-5 circuit-level baseline",
+          "seconds": 547.581,
+          "status": "published baseline"
+        },
+        {
+          "method": "Published ITensor TDVP tensor network at step 5",
+          "scope": "Paper x=100 step-5 fuller LSH-Hamiltonian baseline",
+          "seconds": 584.092,
+          "status": "published baseline"
+        }
+      ],
+      "comparison": {
+        "classification": "paper_aligned_local_separation",
+        "headline": "Both the local circuit checks and the paper-native baselines show a substantial runtime separation under their declared timing definitions.",
+        "ratio": null,
+        "ratio_is_lower_bound": false,
+        "scope": "The local quantum number is hardware-only time, while the paper reports a separate 20-second QPU timing; the two timing systems must not be merged into one universal ratio."
+      },
+      "evidence_date": "2026-07-08",
+      "id": "su2-hadron-120q",
+      "implementation": {
+        "edukaizen_url": "https://edukaizen.nl/hadron-quantumsimulatie/",
+        "github_repositories": [
+          "https://github.com/BramDo/hadron"
+        ],
+        "key_articles": [
+          "https://edukaizen.nl/hadron-quantumsimulatie/quantumvoordeel-vergelijking/"
+        ]
+      },
+      "official_sources": [
+        {
+          "label": "Ilcic et al., Observation of Robust and Coherent Non-Abelian Hadron Dynamics on Noisy Quantum Processors",
+          "type": "paper",
+          "url": "https://arxiv.org/abs/2602.18080"
+        },
+        {
+          "label": "Quantum Advantage Tracker issue 149",
+          "type": "tracker",
+          "url": "https://github.com/quantum-advantage-tracker/quantum-advantage-tracker.github.io/issues/149"
+        },
+        {
+          "label": "Official LSH-IBM circuit repository",
+          "type": "repository",
+          "url": "https://github.com/indrakshir/LSH-IBM"
+        },
+        {
+          "label": "Official lsh_data repository",
+          "type": "data",
+          "url": "https://github.com/mathew0036/lsh_data"
+        }
+      ],
+      "quantum": {
+        "backend": "IBM hardware through Q-CTRL Fire Opal",
+        "result_summary": "The local hardware route produced charge-sector and differential-observable data for the 120-qubit circuit family.",
+        "task": "Estimate differential hadron observables and verify the conserved charge sector",
+        "timings": [
+          {
+            "primary": true,
+            "scope": "Local hardware time including readout circuits; excludes queue, API, compilation, and local analysis",
+            "seconds": 1.425408
+          },
+          {
+            "primary": false,
+            "scope": "Main hardware circuits only",
+            "seconds": 0.987136
+          }
+        ],
+        "workflow": "Local Fire Opal execution of paired strong-coupling-vacuum and centered-hadron circuits with readout calibration"
+      },
+      "scale": {
+        "qubits": 120,
+        "sites": 60
+      },
+      "schema_version": 1,
+      "short_title": "SU(2) hadron dynamics",
+      "summary": "A Loop-String-Hadron implementation follows a differential hadron signal on a 60-site lattice and compares the quantum route with local circuit-MPS checks and published tensor-network and Pauli-propagation baselines.",
+      "tags": [
+        "hadron",
+        "lattice-gauge-theory",
+        "fire-opal",
+        "tensor-networks",
+        "120-qubits"
+      ],
+      "title": "Non-Abelian SU(2) hadron dynamics on 120 active qubits"
+    },
+    {
+      "claim_boundary": [
+        "The classical calculation did not converge and no matched-accuracy ratio was obtained.",
+        "This is a tracker-compatible 80-qubit extension with N_init=8, not an official tracker instance or an N_init=500 reproduction.",
+        "The observation is local and does not cover every classical implementation or optimized compute platform."
+      ],
+      "classical_baselines": [
+        {
+          "method": "Tracker-linked Heisenberg BP-TN at bond dimension 16",
+          "scope": "Completed delta and delta0 halves",
+          "seconds": 365.14,
+          "status": "not converged; apparent ratio is not a valid physical estimate"
+        },
+        {
+          "method": "Tracker-linked Heisenberg BP-TN delta half at bond dimension 32",
+          "scope": "Delta half only",
+          "seconds": 342.42,
+          "status": "not converged; value shifted by 86 percent from bond dimension 16"
+        },
+        {
+          "method": "Tracker-linked Heisenberg BP-TN delta half at bond dimension 64",
+          "scope": "Delta half only, stopped at the bounded wall-time limit",
+          "seconds": 901.01,
+          "status": "timeout before producing a result"
+        }
+      ],
+      "comparison": {
+        "classification": "local_runtime_lower_bound",
+        "headline": "The incomplete bond-dimension-64 classical delta half alone exceeded the complete Fire Opal action by more than 2.75x on this machine.",
+        "ratio": 2.75,
+        "ratio_is_lower_bound": true,
+        "scope": "The classical route did not converge and did not complete the delta0 half, so this is a local runtime lower bound rather than a matched-accuracy quantum-advantage result."
+      },
+      "evidence_date": "2026-07-11",
+      "id": "operator-loschmidt-echo-q80",
+      "implementation": {
+        "edukaizen_url": "https://edukaizen.nl/quantum-tracker-ole-q80-project/",
+        "github_repositories": [
+          "https://github.com/BramDo/onderzoek_blackhole_echo_status_2026-03-05_131816"
+        ],
+        "key_articles": [
+          "https://edukaizen.nl/quantum-tracker-ole-q80-part-4-the-tensor-network-challenge/"
+        ]
+      },
+      "official_sources": [
+        {
+          "label": "Quantum Advantage Tracker observable-estimation register",
+          "type": "tracker",
+          "url": "https://quantum-advantage-tracker.github.io/trackers/observable-estimations"
+        },
+        {
+          "label": "Released Operator Loschmidt Echo circuits",
+          "type": "repository",
+          "url": "https://github.com/quantum-advantage-tracker/quantum-advantage-tracker.github.io/tree/main/data/observable-estimations/circuit-models/operator_loschmidt_echo"
+        }
+      ],
+      "quantum": {
+        "backend": "IBM Kingston through Q-CTRL Fire Opal",
+        "result_summary": "The measured delta/delta0 OLE ratio was 0.74028847 +/- 0.01663657; all eight sample ratios were positive.",
+        "task": "Estimate a finite-sample Operator Loschmidt Echo scrambling observable",
+        "timings": [
+          {
+            "primary": true,
+            "scope": "Complete Fire Opal action wall time for all sixteen mitigated circuits",
+            "seconds": 328.0
+          },
+          {
+            "primary": false,
+            "scope": "IBM job creation-to-completion time",
+            "seconds": 155.23
+          },
+          {
+            "primary": false,
+            "scope": "Estimated QPU seconds",
+            "seconds": 43.85
+          }
+        ],
+        "workflow": "Sixteen mitigated circuits with N_init=8 and 8,000 shots per circuit"
+      },
+      "scale": {
+        "qubits": 80,
+        "sites": null
+      },
+      "schema_version": 1,
+      "short_title": "Operator Loschmidt Echo Q80",
+      "summary": "A tracker-compatible 80-qubit extension estimates an Operator Loschmidt Echo from finite computational-basis samples and compares the complete mitigated hardware action with a bounded tracker-linked BP-TN calculation.",
+      "tags": [
+        "operator-loschmidt-echo",
+        "scrambling",
+        "fire-opal",
+        "tensor-networks",
+        "80-qubits"
+      ],
+      "title": "Operator Loschmidt Echo on 80 qubits"
+    }
+  ],
+  "entry_count": 3,
+  "project": "Pro Student Quantum Advantage List",
+  "repository": "https://github.com/BramDo/pro-student-quantum-advantage-list",
+  "schema_version": 1
+}

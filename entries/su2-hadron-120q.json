@@ -1,0 +1,51 @@
+{
+  "schema_version": 1,
+  "id": "su2-hadron-120q",
+  "title": "Non-Abelian SU(2) hadron dynamics on 120 active qubits",
+  "short_title": "SU(2) hadron dynamics",
+  "evidence_date": "2026-07-08",
+  "summary": "A Loop-String-Hadron implementation follows a differential hadron signal on a 60-site lattice and compares the quantum route with local circuit-MPS checks and published tensor-network and Pauli-propagation baselines.",
+  "scale": {"qubits": 120, "sites": 60},
+  "quantum": {
+    "backend": "IBM hardware through Q-CTRL Fire Opal",
+    "task": "Estimate differential hadron observables and verify the conserved charge sector",
+    "workflow": "Local Fire Opal execution of paired strong-coupling-vacuum and centered-hadron circuits with readout calibration",
+    "timings": [
+      {"seconds": 1.425408, "scope": "Local hardware time including readout circuits; excludes queue, API, compilation, and local analysis", "primary": true},
+      {"seconds": 0.987136, "scope": "Main hardware circuits only", "primary": false}
+    ],
+    "result_summary": "The local hardware route produced charge-sector and differential-observable data for the 120-qubit circuit family."
+  },
+  "classical_baselines": [
+    {"method": "Local Aer MPS on compiled QASM", "seconds": 34.281305, "scope": "Circuit-level tensor check on the same compiled-QASM family", "status": "completed local sanity baseline"},
+    {"method": "Local ITensorMPS on compiled QASM", "seconds": 174.611, "scope": "Circuit-level tensor check on the same compiled-QASM family", "status": "completed local sanity baseline"},
+    {"method": "Published Pauli propagation on CPU at step 5", "seconds": 477.4471, "scope": "Paper x=100 step-5 circuit-level baseline", "status": "published baseline"},
+    {"method": "Published Pauli propagation on GPU at step 5", "seconds": 547.581, "scope": "Paper x=100 step-5 circuit-level baseline", "status": "published baseline"},
+    {"method": "Published ITensor TDVP tensor network at step 5", "seconds": 584.092, "scope": "Paper x=100 step-5 fuller LSH-Hamiltonian baseline", "status": "published baseline"}
+  ],
+  "comparison": {
+    "classification": "paper_aligned_local_separation",
+    "headline": "Both the local circuit checks and the paper-native baselines show a substantial runtime separation under their declared timing definitions.",
+    "ratio": null,
+    "ratio_is_lower_bound": false,
+    "scope": "The local quantum number is hardware-only time, while the paper reports a separate 20-second QPU timing; the two timing systems must not be merged into one universal ratio."
+  },
+  "official_sources": [
+    {"label": "Ilcic et al., Observation of Robust and Coherent Non-Abelian Hadron Dynamics on Noisy Quantum Processors", "url": "https://arxiv.org/abs/2602.18080", "type": "paper"},
+    {"label": "Quantum Advantage Tracker issue 149", "url": "https://github.com/quantum-advantage-tracker/quantum-advantage-tracker.github.io/issues/149", "type": "tracker"},
+    {"label": "Official LSH-IBM circuit repository", "url": "https://github.com/indrakshir/LSH-IBM", "type": "repository"},
+    {"label": "Official lsh_data repository", "url": "https://github.com/mathew0036/lsh_data", "type": "data"}
+  ],
+  "implementation": {
+    "edukaizen_url": "https://edukaizen.nl/hadron-quantumsimulatie/",
+    "github_repositories": ["https://github.com/BramDo/hadron"],
+    "key_articles": ["https://edukaizen.nl/hadron-quantumsimulatie/quantumvoordeel-vergelijking/"]
+  },
+  "claim_boundary": [
+    "Hardware-only time is not cloud wall time and excludes several service overheads.",
+    "The local scalar normalization remains distinct from the tracker's published hadron scalar.",
+    "The result supports runtime separation and circuit or sector validation, not an independent precision reproduction of every published observable."
+  ],
+  "tags": ["hadron", "lattice-gauge-theory", "fire-opal", "tensor-networks", "120-qubits"]
+}
+

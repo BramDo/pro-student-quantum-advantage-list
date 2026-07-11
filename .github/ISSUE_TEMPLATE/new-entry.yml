@@ -1,0 +1,49 @@
+name: Propose a new entry
+description: Propose a complete quantum project for the public list.
+title: "[New entry] "
+labels: ["new-entry"]
+body:
+  - type: markdown
+    attributes:
+      value: |
+        A new entry needs an official source, a real hardware result, a classical baseline, explicit timing scopes, and a claim boundary.
+  - type: input
+    id: title
+    attributes:
+      label: Project title
+    validations:
+      required: true
+  - type: input
+    id: official
+    attributes:
+      label: Official paper, tracker item, or repository
+      placeholder: https://
+    validations:
+      required: true
+  - type: input
+    id: implementation
+    attributes:
+      label: Public implementation
+      placeholder: https://
+    validations:
+      required: true
+  - type: textarea
+    id: quantum
+    attributes:
+      label: Quantum task, backend, result, and wall-time scope
+    validations:
+      required: true
+  - type: textarea
+    id: classical
+    attributes:
+      label: Classical method, hardware, result, convergence, and wall-time scope
+    validations:
+      required: true
+  - type: textarea
+    id: boundary
+    attributes:
+      label: Claim boundary
+      description: State why this is not a universal or formal advantage claim.
+    validations:
+      required: true
+
