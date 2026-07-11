@@ -201,7 +201,7 @@ def render_html(entries: list[dict]) -> str:
     )
     sections = "".join(render_entry(entry) for entry in entries)
     updated = max(entry["evidence_date"] for entry in entries)
-    return f"""<!doctype html>
+    document = f"""<!doctype html>
 <html lang="en">
 <head>
   <meta charset="utf-8">
@@ -269,6 +269,7 @@ def render_html(entries: list[dict]) -> str:
 </body>
 </html>
 """
+    return "\n".join(line.rstrip() for line in document.splitlines()) + "\n"
 
 
 def data_feed(entries: list[dict]) -> str:
@@ -320,4 +321,3 @@ def main() -> int:
 
 if __name__ == "__main__":
     raise SystemExit(main())
-

@@ -92,4 +92,3 @@ or timing parity is missing.
 Code is released under the MIT License. Written content and entry metadata are
 released under CC BY 4.0; attribution should name the repository and the linked
 project authors.
-

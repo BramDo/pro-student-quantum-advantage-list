@@ -37,4 +37,3 @@ python -m unittest discover -s tests
 ```
 
 Generated files under `docs/` must be committed with the source entry change.
-

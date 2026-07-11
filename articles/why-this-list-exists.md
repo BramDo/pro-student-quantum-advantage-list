@@ -88,4 +88,3 @@ demonstrations.
 
 Canonical public page:
 <https://edukaizen.nl/pro-student-quantum-advantage-list/>
-

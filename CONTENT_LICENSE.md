@@ -6,4 +6,3 @@ metadata in this repository are licensed under the
 
 Attribution should name the Pro Student Quantum Advantage List repository and
 retain the official-source and project-author links in each entry.
-
