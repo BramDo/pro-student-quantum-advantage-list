@@ -292,9 +292,104 @@
         "80-qubits"
       ],
       "title": "Operator Loschmidt Echo on 80 qubits"
+    },
+    {
+      "claim_boundary": [
+        "The 70-qubit classical runtime is extrapolated from measurements ending at 12 qubits, not measured at full width.",
+        "The quantum samples have no validated full-distribution fidelity, and the separate predeclared 95 percent stabilizer test failed.",
+        "The post-hoc 75 percent lower bound is an exploratory sensitivity result, not 75 percent fidelity and not evidence of quantum advantage."
+      ],
+      "classical_baselines": [
+        {
+          "method": "Local Qiskit Aer extended-stabilizer fit evaluated at 70 qubits",
+          "scope": "Projected time for one sample from timings measured only at 4, 6, 8, 10, and 12 qubits",
+          "seconds": 217512854796362.62,
+          "status": "extrapolated; not measured at 70 qubits and not quality matched"
+        },
+        {
+          "method": "Local ITensorMPS at maximum bond dimension 64",
+          "scope": "Warm-process state construction plus 256 samples for the complete 70-qubit circuit",
+          "seconds": 205.36,
+          "status": "completed but strongly truncated and not converged"
+        },
+        {
+          "method": "Local exact MPS anchor at 14 induced qubits",
+          "scope": "Median runtime for a newly induced 14-qubit circuit",
+          "seconds": 3.23,
+          "status": "exact small-width validation; not a 70-qubit baseline"
+        }
+      ],
+      "comparison": {
+        "classification": "diagnostic_only",
+        "headline": "Hardware returned 256 samples in 19 quantum-seconds, while a local Aer fit projects about 6.89 million years for one 70-qubit sample; sample counts and output quality are not matched.",
+        "ratio": null,
+        "ratio_is_lower_bound": false,
+        "scope": "This is a same-width clock scenario, not a measured speedup or a quality-matched quantum-advantage result."
+      },
+      "evidence_date": "2026-07-16",
+      "id": "random-graph-sampling-70q",
+      "implementation": {
+        "edukaizen_url": "https://edukaizen.nl/random-graph-sampling/",
+        "github_repositories": [
+          "https://github.com/BramDo/random_graph"
+        ],
+        "key_articles": [
+          "https://edukaizen.nl/19-seconds-versus-6-89-million-years/"
+        ]
+      },
+      "official_sources": [
+        {
+          "label": "Quantum Advantage Tracker issue 151",
+          "type": "tracker",
+          "url": "https://github.com/quantum-advantage-tracker/quantum-advantage-tracker.github.io/issues/151"
+        },
+        {
+          "label": "Released Random Graph Sampling circuits",
+          "type": "repository",
+          "url": "https://github.com/quantum-advantage-tracker/quantum-advantage-tracker.github.io/tree/main/data/classically-verifiable-problems/circuit-models/random_graph_sampling"
+        }
+      ],
+      "quantum": {
+        "backend": "IBM Kingston through Q-CTRL Fire Opal and IBM Runtime",
+        "result_summary": "The complete circuit returned 256 samples. The separate checked dataset retained 4,519 of 184,320 shots and gave a graph-state-prefix point estimate of 0.01217; its predeclared one-sided 95 percent lower-bound test failed.",
+        "task": "Sample the complete random-graph circuit and estimate the graph-state prefix with predeclared stabilizers",
+        "timings": [
+          {
+            "primary": true,
+            "scope": "Provider quantum-seconds for 256 samples from the complete 70-data-qubit circuit; excludes queue and local workflow time",
+            "seconds": 19.0
+          },
+          {
+            "primary": false,
+            "scope": "Provider running-to-finished interval for the complete-circuit sampling action",
+            "seconds": 81.670984
+          },
+          {
+            "primary": false,
+            "scope": "Quantum-seconds across the separate 80-stabilizer direct-fidelity-estimation jobs",
+            "seconds": 58.0
+          }
+        ],
+        "workflow": "Fire Opal sampling of the complete circuit plus a separate 80-stabilizer, eight-check IBM Runtime verification route"
+      },
+      "scale": {
+        "qubits": 70,
+        "sites": null
+      },
+      "schema_version": 1,
+      "short_title": "Random Graph Sampling",
+      "summary": "A complete 70-data-qubit non-Clifford circuit was sampled on IBM hardware, alongside an independent 70+8-qubit stabilizer-verification workflow and local classical scaling studies.",
+      "tags": [
+        "random-graph-sampling",
+        "graph-states",
+        "fire-opal",
+        "stabilizer-verification",
+        "70-qubits"
+      ],
+      "title": "Random Graph Sampling on 70 data qubits"
     }
   ],
-  "entry_count": 3,
+  "entry_count": 4,
   "project": "Pro Student Quantum Advantage List",
   "repository": "https://github.com/BramDo/pro-student-quantum-advantage-list",
   "schema_version": 1

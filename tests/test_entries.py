@@ -12,10 +12,10 @@ SPEC.loader.exec_module(BUILD)
 
 
 class EntryTests(unittest.TestCase):
-    def test_three_initial_entries_validate(self):
+    def test_four_entries_validate(self):
         entries = BUILD.load_entries()
-        self.assertEqual(len(entries), 3)
-        self.assertEqual({entry["scale"]["qubits"] for entry in entries}, {80, 120})
+        self.assertEqual(len(entries), 4)
+        self.assertEqual({entry["scale"]["qubits"] for entry in entries}, {70, 80, 120})
 
     def test_every_entry_is_challengeable(self):
         for entry in BUILD.load_entries():
@@ -30,6 +30,12 @@ class EntryTests(unittest.TestCase):
         self.assertEqual(entry["comparison"]["classification"], "local_runtime_lower_bound")
         self.assertTrue(entry["comparison"]["ratio_is_lower_bound"])
         self.assertIn("did not converge", " ".join(entry["claim_boundary"]))
+
+    def test_random_graph_remains_diagnostic_only(self):
+        entry = json.loads((ROOT / "entries" / "random-graph-sampling-70q.json").read_text(encoding="utf-8"))
+        self.assertEqual(entry["comparison"]["classification"], "diagnostic_only")
+        self.assertIsNone(entry["comparison"]["ratio"])
+        self.assertIn("not evidence of quantum advantage", " ".join(entry["claim_boundary"]))
 
     def test_generated_outputs_are_current(self):
         for path, content in BUILD.outputs(BUILD.load_entries()).items():

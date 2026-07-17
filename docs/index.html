@@ -56,7 +56,7 @@
       <h2>What counts here</h2>
       <div class="definition"><strong>Local practical advantage</strong> means that a measured quantum workflow reached a useful answer faster than a named classical workflow for the same stated task on the resources actually available to the project. It is not proof against every classical algorithm or supercomputer.</div>
       <p>A stronger classical result is not a problem for this list. It is a successful challenge. The entry and its classification should change when the evidence changes.</p>
-      <div class="table-wrap"><table><thead><tr><th>Project</th><th>Scale</th><th>Primary quantum timing</th><th>Classification</th></tr></thead><tbody><tr><td><a href="#fermi-hubbard-120q">1D Fermi-Hubbard</a></td><td>120 qubits / 60 sites</td><td>33.148928 s</td><td>Local time-to-answer separation</td></tr><tr><td><a href="#su2-hadron-120q">SU(2) hadron dynamics</a></td><td>120 qubits / 60 sites</td><td>1.425408 s</td><td>Paper-aligned local separation</td></tr><tr><td><a href="#operator-loschmidt-echo-q80">Operator Loschmidt Echo Q80</a></td><td>80 qubits</td><td>328 s</td><td>Local runtime lower bound</td></tr></tbody></table></div>
+      <div class="table-wrap"><table><thead><tr><th>Project</th><th>Scale</th><th>Primary quantum timing</th><th>Classification</th></tr></thead><tbody><tr><td><a href="#fermi-hubbard-120q">1D Fermi-Hubbard</a></td><td>120 qubits / 60 sites</td><td>33.148928 s</td><td>Local time-to-answer separation</td></tr><tr><td><a href="#su2-hadron-120q">SU(2) hadron dynamics</a></td><td>120 qubits / 60 sites</td><td>1.425408 s</td><td>Paper-aligned local separation</td></tr><tr><td><a href="#operator-loschmidt-echo-q80">Operator Loschmidt Echo Q80</a></td><td>80 qubits</td><td>328 s</td><td>Local runtime lower bound</td></tr><tr><td><a href="#random-graph-sampling-70q">Random Graph Sampling</a></td><td>70 qubits</td><td>19 s</td><td>Diagnostic only</td></tr></tbody></table></div>
       <figure class="figure"><img src="assets/fermi-hubbard-120q-charge-density.png" alt="Measured charge-density outcome by site for the 120-qubit Fermi-Hubbard hardware run"><figcaption>One of the measured outcomes behind the list: the 120-qubit Fermi-Hubbard charge-density profile. The sector-plus-readout route is diagnostic because postselection discarded 98.9 percent of shots.</figcaption></figure>
     </section>
 
@@ -120,8 +120,28 @@
       <h3>Claim boundary</h3><ul><li>The classical calculation did not converge and no matched-accuracy ratio was obtained.</li><li>This is a tracker-compatible 80-qubit extension with N_init=8, not an official tracker instance or an N_init=500 reproduction.</li><li>The observation is local and does not cover every classical implementation or optimized compute platform.</li></ul>
       <p class="entry-data"><a href="https://github.com/BramDo/pro-student-quantum-advantage-list/blob/main/entries/operator-loschmidt-echo-q80.json">View machine-readable entry</a></p>
     </section>
+    <section class="entry" id="random-graph-sampling-70q">
+      <p class="kicker">Diagnostic only</p>
+      <h2>Random Graph Sampling on 70 data qubits</h2>
+      <p class="summary">A complete 70-data-qubit non-Clifford circuit was sampled on IBM hardware, alongside an independent 70+8-qubit stabilizer-verification workflow and local classical scaling studies.</p>
+      <dl class="facts">
+        <div><dt>Scale</dt><dd>70 qubits</dd></div>
+        <div><dt>Backend</dt><dd>IBM Kingston through Q-CTRL Fire Opal and IBM Runtime</dd></div>
+        <div><dt>Primary timing</dt><dd>19 s</dd></div>
+        <div><dt>Timing scope</dt><dd>Provider quantum-seconds for 256 samples from the complete 70-data-qubit circuit; excludes queue and local workflow time</dd></div>
+      </dl>
+      <p class="headline"><strong>Measured comparison.</strong> Hardware returned 256 samples in 19 quantum-seconds, while a local Aer fit projects about 6.89 million years for one 70-qubit sample; sample counts and output quality are not matched.</p>
+      <h3>Classical baselines</h3>
+      <div class="table-wrap"><table><thead><tr><th>Method</th><th>Wall time</th><th>Status</th></tr></thead><tbody><tr><td>Local Qiskit Aer extended-stabilizer fit evaluated at 70 qubits</td><td>217,512,854,796,362.625 s</td><td>extrapolated; not measured at 70 qubits and not quality matched</td></tr><tr><td>Local ITensorMPS at maximum bond dimension 64</td><td>205.36 s</td><td>completed but strongly truncated and not converged</td></tr><tr><td>Local exact MPS anchor at 14 induced qubits</td><td>3.23 s</td><td>exact small-width validation; not a 70-qubit baseline</td></tr></tbody></table></div>
+      <div class="columns">
+        <div><h3>Official sources</h3><ul><li><a href="https://github.com/quantum-advantage-tracker/quantum-advantage-tracker.github.io/issues/151">Quantum Advantage Tracker issue 151</a></li><li><a href="https://github.com/quantum-advantage-tracker/quantum-advantage-tracker.github.io/tree/main/data/classically-verifiable-problems/circuit-models/random_graph_sampling">Released Random Graph Sampling circuits</a></li></ul></div>
+        <div><h3>Complete implementation</h3><ul><li><a href="https://edukaizen.nl/random-graph-sampling/">Edukaizen project</a></li><li><a href="https://github.com/BramDo/random_graph">GitHub implementation</a></li></ul></div>
+      </div>
+      <h3>Claim boundary</h3><ul><li>The 70-qubit classical runtime is extrapolated from measurements ending at 12 qubits, not measured at full width.</li><li>The quantum samples have no validated full-distribution fidelity, and the separate predeclared 95 percent stabilizer test failed.</li><li>The post-hoc 75 percent lower bound is an exploratory sensitivity result, not 75 percent fidelity and not evidence of quantum advantage.</li></ul>
+      <p class="entry-data"><a href="https://github.com/BramDo/pro-student-quantum-advantage-list/blob/main/entries/random-graph-sampling-70q.json">View machine-readable entry</a></p>
+    </section>
     <section class="intro"><h2>Make the list better</h2><p>Copy the entry template, add the official source and full implementation, state both timing scopes, and preserve every convergence or accuracy limitation. Classical challenges are first-class contributions.</p><p><a href="https://github.com/BramDo/pro-student-quantum-advantage-list/blob/main/CONTRIBUTING.md">Read the contribution guide</a>.</p></section>
   </main>
-  <footer><div class="wrap">Evidence updated through 2026-07-11. Content: CC BY 4.0. Code: MIT.</div></footer>
+  <footer><div class="wrap">Evidence updated through 2026-07-16. Content: CC BY 4.0. Code: MIT.</div></footer>
 </body>
 </html>

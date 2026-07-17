@@ -8,6 +8,7 @@ conditional on each entry's declared resources and claim boundary.
 | [1D Fermi-Hubbard](entries/fermi-hubbard-120q.json) | 120 qubits / 60 sites | 33.148928 s | Local time-to-answer separation |
 | [SU(2) hadron dynamics](entries/su2-hadron-120q.json) | 120 qubits / 60 sites | 1.425408 s | Paper-aligned local separation |
 | [Operator Loschmidt Echo Q80](entries/operator-loschmidt-echo-q80.json) | 80 qubits | 328 s | Local runtime lower bound |
+| [Random Graph Sampling](entries/random-graph-sampling-70q.json) | 70 qubits | 19 s | Diagnostic only |
 
 ## Fermi-Hubbard dynamics on 120 qubits
 
@@ -76,3 +77,25 @@ A tracker-compatible 80-qubit extension estimates an Operator Loschmidt Echo fro
 - The classical calculation did not converge and no matched-accuracy ratio was obtained.
 - This is a tracker-compatible 80-qubit extension with N_init=8, not an official tracker instance or an N_init=500 reproduction.
 - The observation is local and does not cover every classical implementation or optimized compute platform.
+
+## Random Graph Sampling on 70 data qubits
+
+A complete 70-data-qubit non-Clifford circuit was sampled on IBM hardware, alongside an independent 70+8-qubit stabilizer-verification workflow and local classical scaling studies.
+
+**Comparison:** Hardware returned 256 samples in 19 quantum-seconds, while a local Aer fit projects about 6.89 million years for one 70-qubit sample; sample counts and output quality are not matched.
+
+**Official sources**
+
+- [Quantum Advantage Tracker issue 151](https://github.com/quantum-advantage-tracker/quantum-advantage-tracker.github.io/issues/151)
+- [Released Random Graph Sampling circuits](https://github.com/quantum-advantage-tracker/quantum-advantage-tracker.github.io/tree/main/data/classically-verifiable-problems/circuit-models/random_graph_sampling)
+
+**Implementation**
+
+- [Edukaizen project](https://edukaizen.nl/random-graph-sampling/)
+- [GitHub repository](https://github.com/BramDo/random_graph)
+
+**Claim boundary**
+
+- The 70-qubit classical runtime is extrapolated from measurements ending at 12 qubits, not measured at full width.
+- The quantum samples have no validated full-distribution fidelity, and the separate predeclared 95 percent stabilizer test failed.
+- The post-hoc 75 percent lower bound is an exploratory sensitivity result, not 75 percent fidelity and not evidence of quantum advantage.
