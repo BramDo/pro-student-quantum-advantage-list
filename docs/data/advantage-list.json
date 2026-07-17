@@ -295,6 +295,8 @@
     },
     {
       "claim_boundary": [
+        "The Tracker result used restricted access to IBM Boston, whereas this independent reproduction used the available IBM Kingston route; backend access, physical mapping, and calibration window are therefore not matched.",
+        "Boston produced a substantially stronger workload-level result, but its historical calibration and complete raw fidelity-analysis record are not public, so the result does not establish that Boston was universally better hardware than Kingston.",
         "The 70-qubit classical runtime is extrapolated from measurements ending at 12 qubits, not measured at full width.",
         "The quantum samples have no validated full-distribution fidelity, and the separate predeclared 95 percent stabilizer test failed.",
         "The post-hoc 75 percent lower bound is an exploratory sensitivity result, not 75 percent fidelity and not evidence of quantum advantage."
@@ -351,7 +353,7 @@
       ],
       "quantum": {
         "backend": "IBM Kingston through Q-CTRL Fire Opal and IBM Runtime",
-        "result_summary": "The complete circuit returned 256 samples. The separate checked dataset retained 4,519 of 184,320 shots and gave a graph-state-prefix point estimate of 0.01217; its predeclared one-sided 95 percent lower-bound test failed.",
+        "result_summary": "The complete circuit returned 256 samples. The separate checked dataset retained 4,519 of 184,320 shots and gave a graph-state-prefix point estimate of 0.01217; its predeclared one-sided 95 percent lower-bound test failed. The original restricted-access IBM Boston execution reported substantially stronger effective performance than this independently accessible Kingston reproduction.",
         "task": "Sample the complete random-graph circuit and estimate the graph-state prefix with predeclared stabilizers",
         "timings": [
           {

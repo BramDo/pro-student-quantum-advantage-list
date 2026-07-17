@@ -35,7 +35,10 @@ class EntryTests(unittest.TestCase):
         entry = json.loads((ROOT / "entries" / "random-graph-sampling-70q.json").read_text(encoding="utf-8"))
         self.assertEqual(entry["comparison"]["classification"], "diagnostic_only")
         self.assertIsNone(entry["comparison"]["ratio"])
-        self.assertIn("not evidence of quantum advantage", " ".join(entry["claim_boundary"]))
+        boundaries = " ".join(entry["claim_boundary"])
+        self.assertIn("not evidence of quantum advantage", boundaries)
+        self.assertIn("restricted access to IBM Boston", boundaries)
+        self.assertIn("IBM Kingston", boundaries)
 
     def test_generated_outputs_are_current(self):
         for path, content in BUILD.outputs(BUILD.load_entries()).items():

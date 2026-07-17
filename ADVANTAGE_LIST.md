@@ -96,6 +96,8 @@ A complete 70-data-qubit non-Clifford circuit was sampled on IBM hardware, along
 
 **Claim boundary**
 
+- The Tracker result used restricted access to IBM Boston, whereas this independent reproduction used the available IBM Kingston route; backend access, physical mapping, and calibration window are therefore not matched.
+- Boston produced a substantially stronger workload-level result, but its historical calibration and complete raw fidelity-analysis record are not public, so the result does not establish that Boston was universally better hardware than Kingston.
 - The 70-qubit classical runtime is extrapolated from measurements ending at 12 qubits, not measured at full width.
 - The quantum samples have no validated full-distribution fidelity, and the separate predeclared 95 percent stabilizer test failed.
 - The post-hoc 75 percent lower bound is an exploratory sensitivity result, not 75 percent fidelity and not evidence of quantum advantage.
