@@ -12,10 +12,10 @@ SPEC.loader.exec_module(BUILD)
 
 
 class EntryTests(unittest.TestCase):
-    def test_four_entries_validate(self):
+    def test_five_entries_validate(self):
         entries = BUILD.load_entries()
-        self.assertEqual(len(entries), 4)
-        self.assertEqual({entry["scale"]["qubits"] for entry in entries}, {70, 80, 120})
+        self.assertEqual(len(entries), 5)
+        self.assertEqual({entry["scale"]["qubits"] for entry in entries}, {60, 70, 80, 120})
 
     def test_every_entry_is_challengeable(self):
         for entry in BUILD.load_entries():
@@ -40,10 +40,29 @@ class EntryTests(unittest.TestCase):
         self.assertIn("restricted access to IBM Boston", boundaries)
         self.assertIn("IBM Kingston", boundaries)
 
+    def test_qml_entry_is_a_bounded_local_runtime_advantage(self):
+        entry = json.loads((ROOT / "entries" / "qos-pbmc68k-qml-60q.json").read_text(encoding="utf-8"))
+        self.assertEqual(entry["comparison"]["classification"], "local_runtime_lower_bound")
+        self.assertTrue(entry["comparison"]["ratio_is_lower_bound"])
+        self.assertGreater(entry["comparison"]["ratio"], 99.1)
+        self.assertEqual(entry["quantum"]["timings"][0]["seconds"], 26.0)
+        boundaries = " ".join(entry["claim_boundary"])
+        self.assertIn("did not converge", boundaries)
+        self.assertIn("submission-to-retrieval", boundaries)
+        self.assertIn("not an end-to-end speedup", boundaries)
+
     def test_generated_outputs_are_current(self):
         for path, content in BUILD.outputs(BUILD.load_entries()).items():
             self.assertTrue(path.exists(), path)
             self.assertEqual(path.read_text(encoding="utf-8"), content)
+
+    def test_edukaizen_fragment_contains_the_qml_advantage(self):
+        content = (ROOT / "docs" / "edukaizen-page.html").read_text(encoding="utf-8")
+        self.assertIn("PBMC68k QML 60q", content)
+        self.assertIn("greater than 99.1x", content)
+        self.assertIn("17/32", content)
+        self.assertIn("26 quantum-seconds", content)
+        self.assertNotIn("<!doctype html>", content.lower())
 
 
 if __name__ == "__main__":

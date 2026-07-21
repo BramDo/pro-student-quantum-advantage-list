@@ -1,0 +1,129 @@
+<style>
+.psqal{max-width:1040px;margin:0 auto;color:#17212b}.psqal *{box-sizing:border-box}.psqal h1,.psqal h2,.psqal h3{color:#101820;letter-spacing:0}.psqal h1{font-size:clamp(2rem,5vw,3.4rem);line-height:1.06;margin:0 0 1rem}.psqal h2{font-size:1.75rem;margin:0 0 1rem}.psqal h3{font-size:1.22rem;margin:1.5rem 0 .6rem}.psqal p,.psqal li{font-size:1.02rem;line-height:1.65}.psqal a{color:#006f73;text-underline-offset:3px}.psqal-intro{border-top:6px solid #e4572e;padding:2rem 0}.psqal-lede{max-width:850px;font-size:1.22rem!important;color:#34434f}.psqal-definition{padding:1rem 1.2rem;border-left:5px solid #1d7874;background:#f2f7f6}.psqal-table{overflow-x:auto;margin:1.2rem 0}.psqal table{width:100%;min-width:720px;border-collapse:collapse}.psqal th{background:#17212b;color:#fff;text-align:left}.psqal th,.psqal td{padding:.72rem;border:1px solid #b9c5cc;vertical-align:top}.psqal tbody tr:nth-child(even){background:#f5f7f8}.psqal-entry{padding:2.5rem 0;border-top:4px solid #2f6690}.psqal-entry:nth-of-type(3n+1){border-top-color:#e4572e}.psqal-entry:nth-of-type(3n+2){border-top-color:#1d7874}.psqal-kicker{margin:0 0 .4rem;color:#53636f;font-size:.82rem!important;font-weight:750;text-transform:uppercase}.psqal-summary{max-width:900px;font-size:1.08rem!important}.psqal-facts{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));border:1px solid #cbd5dc}.psqal-facts div{padding:1rem;display:flex;flex-direction:column;gap:.25rem}.psqal-facts strong{font-size:.8rem;text-transform:uppercase;color:#53636f}.psqal-claim{padding:1rem 1.15rem;border-left:4px solid #17212b;background:#f7f8f9}.psqal-columns{display:grid;grid-template-columns:1fr 1fr;gap:2rem}.psqal-boundary{margin-top:2rem;padding:1.25rem;border-top:4px solid #e4572e;background:#fff5ef}.psqal-updated{color:#53636f;font-size:.9rem!important}@media(max-width:720px){.psqal-facts,.psqal-columns{grid-template-columns:1fr}.psqal h1{font-size:2.15rem}}
+</style>
+<article class="psqal">
+  <header class="psqal-intro">
+    <p class="psqal-kicker">Edukaizen benchmark register</p>
+    <h1>Pro Student Quantum Advantage List</h1>
+    <p class="psqal-lede">Five complete, challengeable student-scale quantum projects. Four show a local time-to-answer or runtime separation under declared resources; Random Graph remains diagnostic because output-quality matching is open.</p>
+    <div class="psqal-definition"><strong>Definition used here.</strong> A local practical advantage means that a measured quantum workflow reached a useful answer faster than a named classical workflow for the same stated task on the resources actually available to the project. It is not proof against every classical algorithm, GPU cluster, supercomputer, or future implementation.</div>
+  </header>
+  <section class="psqal-entry">
+    <h2>The current list</h2>
+    <div class="psqal-table"><table><thead><tr><th>Project</th><th>Scale</th><th>Primary quantum timing</th><th>Classification</th></tr></thead><tbody><tr><td><a href="#fermi-hubbard-120q">1D Fermi-Hubbard</a></td><td>120 qubits / 60 sites</td><td>33.148928 s</td><td>Local time-to-answer separation</td></tr><tr><td><a href="#su2-hadron-120q">SU(2) hadron dynamics</a></td><td>120 qubits / 60 sites</td><td>1.425408 s</td><td>Paper-aligned local separation</td></tr><tr><td><a href="#operator-loschmidt-echo-q80">Operator Loschmidt Echo Q80</a></td><td>80 qubits</td><td>328 s</td><td>Local runtime lower bound</td></tr><tr><td><a href="#random-graph-sampling-70q">Random Graph Sampling</a></td><td>70 qubits</td><td>19 s</td><td>Diagnostic only</td></tr><tr><td><a href="#qos-pbmc68k-qml-60q">PBMC68k QML 60q</a></td><td>60 qubits</td><td>26 s</td><td>Local runtime lower bound</td></tr></tbody></table></div>
+  </section>
+
+  <section class="psqal-entry" id="fermi-hubbard-120q">
+    <p class="psqal-kicker">Entry 1 &middot; Local time-to-answer separation</p>
+    <h2>Fermi-Hubbard dynamics on 120 qubits</h2>
+    <p class="psqal-summary">A 60-site Fermi-Hubbard hardware workflow produced local charge, spin, and double-occupancy observables and was compared with local MPS and observable-specific Majorana calculations.</p>
+    <div class="psqal-facts">
+      <div><strong>Scale</strong><span>120 qubits / 60 sites</span></div>
+      <div><strong>Backend</strong><span>IBM Kingston through Q-CTRL Fire Opal</span></div>
+      <div><strong>Primary timing</strong><span>33.148928 s</span></div>
+      <div><strong>Task</strong><span>Estimate local observables after 30 Trotter steps at model time t=6</span></div>
+    </div>
+    <p class="psqal-claim"><strong>Measured comparison.</strong> The quantum execution proxy was 272.50x shorter than the local chi=256 MPS wall time for this declared instance.</p>
+    <p><strong>Quantum result.</strong> The hardware produced a full 120-qubit observable profile; raw mean double occupancy was 0.22862549 and readout-corrected mean double occupancy was 0.23067722.</p>
+    <h3>Classical baselines</h3>
+    <div class="psqal-table"><table><thead><tr><th>Method</th><th>Wall time</th><th>Status</th></tr></thead><tbody><tr><td>Local quimb MPS with maximum bond dimension chi=256</td><td>9,033 s</td><td>not fully converged; maximum bond reached the requested cap</td></tr><tr><td>Local Majorana propagation with cutoff 2</td><td>20.96 s</td><td>faster than the quantum proxy but visibly inaccurate</td></tr><tr><td>Local Majorana propagation with cutoff 4</td><td>1,153.51 s</td><td>close to the chi=256 value for this selected observable</td></tr></tbody></table></div>
+    <div class="psqal-columns">
+      <div><h3>Official sources</h3><ul><li><a href="https://arxiv.org/abs/2605.04025">Hartnett et al., large-scale Fermi-Hubbard digital quantum simulation</a></li><li><a href="https://arxiv.org/abs/2606.04771">Rausch et al., GPU and symmetry-aware classical challenge</a></li></ul></div>
+      <div><h3>Complete implementation</h3><ul><li><a href="https://edukaizen.nl/fermi-hubbard-quantum-simulation-project/">Edukaizen project</a></li><li><a href="https://github.com/BramDo/fermi-hubbard-60q-tdvp">GitHub implementation</a></li><li><a href="https://edukaizen.nl/fermi-hubbard-quantum-computer-part-5-quantum-advantage-or-time-to-answer/">Detailed article</a></li></ul></div>
+    </div>
+    <h3>Claim boundary</h3>
+    <ul><li>This is a local time-to-answer result, not a reproduction of the paper&#x27;s headline practical-advantage claim.</li><li>The chi=256 MPS baseline did not establish full convergence.</li><li>The fast Majorana route demonstrates that observable-specific classical methods can change the ranking.</li></ul>
+  </section>
+  <section class="psqal-entry" id="su2-hadron-120q">
+    <p class="psqal-kicker">Entry 2 &middot; Paper-aligned local separation</p>
+    <h2>Non-Abelian SU(2) hadron dynamics on 120 active qubits</h2>
+    <p class="psqal-summary">A Loop-String-Hadron implementation follows a differential hadron signal on a 60-site lattice and compares the quantum route with local circuit-MPS checks and published tensor-network and Pauli-propagation baselines.</p>
+    <div class="psqal-facts">
+      <div><strong>Scale</strong><span>120 qubits / 60 sites</span></div>
+      <div><strong>Backend</strong><span>IBM hardware through Q-CTRL Fire Opal</span></div>
+      <div><strong>Primary timing</strong><span>1.425408 s</span></div>
+      <div><strong>Task</strong><span>Estimate differential hadron observables and verify the conserved charge sector</span></div>
+    </div>
+    <p class="psqal-claim"><strong>Measured comparison.</strong> Both the local circuit checks and the paper-native baselines show a substantial runtime separation under their declared timing definitions.</p>
+    <p><strong>Quantum result.</strong> The local hardware route produced charge-sector and differential-observable data for the 120-qubit circuit family.</p>
+    <h3>Classical baselines</h3>
+    <div class="psqal-table"><table><thead><tr><th>Method</th><th>Wall time</th><th>Status</th></tr></thead><tbody><tr><td>Local Aer MPS on compiled QASM</td><td>34.281305 s</td><td>completed local sanity baseline</td></tr><tr><td>Local ITensorMPS on compiled QASM</td><td>174.611 s</td><td>completed local sanity baseline</td></tr><tr><td>Published Pauli propagation on CPU at step 5</td><td>477.4471 s</td><td>published baseline</td></tr><tr><td>Published Pauli propagation on GPU at step 5</td><td>547.581 s</td><td>published baseline</td></tr><tr><td>Published ITensor TDVP tensor network at step 5</td><td>584.092 s</td><td>published baseline</td></tr></tbody></table></div>
+    <div class="psqal-columns">
+      <div><h3>Official sources</h3><ul><li><a href="https://arxiv.org/abs/2602.18080">Ilcic et al., Observation of Robust and Coherent Non-Abelian Hadron Dynamics on Noisy Quantum Processors</a></li><li><a href="https://github.com/quantum-advantage-tracker/quantum-advantage-tracker.github.io/issues/149">Quantum Advantage Tracker issue 149</a></li><li><a href="https://github.com/indrakshir/LSH-IBM">Official LSH-IBM circuit repository</a></li><li><a href="https://github.com/mathew0036/lsh_data">Official lsh_data repository</a></li></ul></div>
+      <div><h3>Complete implementation</h3><ul><li><a href="https://edukaizen.nl/hadron-quantumsimulatie/">Edukaizen project</a></li><li><a href="https://github.com/BramDo/hadron">GitHub implementation</a></li><li><a href="https://edukaizen.nl/hadron-quantumsimulatie/quantumvoordeel-vergelijking/">Detailed article</a></li></ul></div>
+    </div>
+    <h3>Claim boundary</h3>
+    <ul><li>Hardware-only time is not cloud wall time and excludes several service overheads.</li><li>The local scalar normalization remains distinct from the tracker&#x27;s published hadron scalar.</li><li>The result supports runtime separation and circuit or sector validation, not an independent precision reproduction of every published observable.</li></ul>
+  </section>
+  <section class="psqal-entry" id="operator-loschmidt-echo-q80">
+    <p class="psqal-kicker">Entry 3 &middot; Local runtime lower bound</p>
+    <h2>Operator Loschmidt Echo on 80 qubits</h2>
+    <p class="psqal-summary">A tracker-compatible 80-qubit extension estimates an Operator Loschmidt Echo from finite computational-basis samples and compares the complete mitigated hardware action with a bounded tracker-linked BP-TN calculation.</p>
+    <div class="psqal-facts">
+      <div><strong>Scale</strong><span>80 qubits</span></div>
+      <div><strong>Backend</strong><span>IBM Kingston through Q-CTRL Fire Opal</span></div>
+      <div><strong>Primary timing</strong><span>328 s</span></div>
+      <div><strong>Task</strong><span>Estimate a finite-sample Operator Loschmidt Echo scrambling observable</span></div>
+    </div>
+    <p class="psqal-claim"><strong>Measured comparison.</strong> The incomplete bond-dimension-64 classical delta half alone exceeded the complete Fire Opal action by more than 2.75x on this machine.</p>
+    <p><strong>Quantum result.</strong> The measured delta/delta0 OLE ratio was 0.74028847 +/- 0.01663657; all eight sample ratios were positive.</p>
+    <h3>Classical baselines</h3>
+    <div class="psqal-table"><table><thead><tr><th>Method</th><th>Wall time</th><th>Status</th></tr></thead><tbody><tr><td>Tracker-linked Heisenberg BP-TN at bond dimension 16</td><td>365.14 s</td><td>not converged; apparent ratio is not a valid physical estimate</td></tr><tr><td>Tracker-linked Heisenberg BP-TN delta half at bond dimension 32</td><td>342.42 s</td><td>not converged; value shifted by 86 percent from bond dimension 16</td></tr><tr><td>Tracker-linked Heisenberg BP-TN delta half at bond dimension 64</td><td>901.01 s</td><td>timeout before producing a result</td></tr></tbody></table></div>
+    <div class="psqal-columns">
+      <div><h3>Official sources</h3><ul><li><a href="https://quantum-advantage-tracker.github.io/trackers/observable-estimations">Quantum Advantage Tracker observable-estimation register</a></li><li><a href="https://github.com/quantum-advantage-tracker/quantum-advantage-tracker.github.io/tree/main/data/observable-estimations/circuit-models/operator_loschmidt_echo">Released Operator Loschmidt Echo circuits</a></li></ul></div>
+      <div><h3>Complete implementation</h3><ul><li><a href="https://edukaizen.nl/quantum-tracker-ole-q80-project/">Edukaizen project</a></li><li><a href="https://github.com/BramDo/onderzoek_blackhole_echo_status_2026-03-05_131816">GitHub implementation</a></li><li><a href="https://edukaizen.nl/quantum-tracker-ole-q80-part-4-the-tensor-network-challenge/">Detailed article</a></li></ul></div>
+    </div>
+    <h3>Claim boundary</h3>
+    <ul><li>The classical calculation did not converge and no matched-accuracy ratio was obtained.</li><li>This is a tracker-compatible 80-qubit extension with N_init=8, not an official tracker instance or an N_init=500 reproduction.</li><li>The observation is local and does not cover every classical implementation or optimized compute platform.</li></ul>
+  </section>
+  <section class="psqal-entry" id="random-graph-sampling-70q">
+    <p class="psqal-kicker">Entry 4 &middot; Diagnostic only</p>
+    <h2>Random Graph Sampling on 70 data qubits</h2>
+    <p class="psqal-summary">A complete 70-data-qubit non-Clifford circuit was sampled on IBM hardware, alongside an independent 70+8-qubit stabilizer-verification workflow and local classical scaling studies.</p>
+    <div class="psqal-facts">
+      <div><strong>Scale</strong><span>70 qubits</span></div>
+      <div><strong>Backend</strong><span>IBM Kingston through Q-CTRL Fire Opal and IBM Runtime</span></div>
+      <div><strong>Primary timing</strong><span>19 s</span></div>
+      <div><strong>Task</strong><span>Sample the complete random-graph circuit and estimate the graph-state prefix with predeclared stabilizers</span></div>
+    </div>
+    <p class="psqal-claim"><strong>Measured comparison.</strong> Hardware returned 256 samples in 19 quantum-seconds, while a local Aer fit projects about 6.89 million years for one 70-qubit sample; sample counts and output quality are not matched.</p>
+    <p><strong>Quantum result.</strong> The complete circuit returned 256 samples. The separate checked dataset retained 4,519 of 184,320 shots and gave a graph-state-prefix point estimate of 0.01217; its predeclared one-sided 95 percent lower-bound test failed. The original restricted-access IBM Boston execution reported substantially stronger effective performance than this independently accessible Kingston reproduction.</p>
+    <h3>Classical baselines</h3>
+    <div class="psqal-table"><table><thead><tr><th>Method</th><th>Wall time</th><th>Status</th></tr></thead><tbody><tr><td>Local Qiskit Aer extended-stabilizer fit evaluated at 70 qubits</td><td>217,512,854,796,362.625 s</td><td>extrapolated; not measured at 70 qubits and not quality matched</td></tr><tr><td>Local ITensorMPS at maximum bond dimension 64</td><td>205.36 s</td><td>completed but strongly truncated and not converged</td></tr><tr><td>Local exact MPS anchor at 14 induced qubits</td><td>3.23 s</td><td>exact small-width validation; not a 70-qubit baseline</td></tr></tbody></table></div>
+    <div class="psqal-columns">
+      <div><h3>Official sources</h3><ul><li><a href="https://github.com/quantum-advantage-tracker/quantum-advantage-tracker.github.io/issues/151">Quantum Advantage Tracker issue 151</a></li><li><a href="https://github.com/quantum-advantage-tracker/quantum-advantage-tracker.github.io/tree/main/data/classically-verifiable-problems/circuit-models/random_graph_sampling">Released Random Graph Sampling circuits</a></li></ul></div>
+      <div><h3>Complete implementation</h3><ul><li><a href="https://edukaizen.nl/random-graph-sampling/">Edukaizen project</a></li><li><a href="https://github.com/BramDo/random_graph">GitHub implementation</a></li><li><a href="https://edukaizen.nl/19-seconds-versus-6-89-million-years/">Detailed article</a></li></ul></div>
+    </div>
+    <h3>Claim boundary</h3>
+    <ul><li>The Tracker result used restricted access to IBM Boston, whereas this independent reproduction used the available IBM Kingston route; backend access, physical mapping, and calibration window are therefore not matched.</li><li>Boston produced a substantially stronger workload-level result, but its historical calibration and complete raw fidelity-analysis record are not public, so the result does not establish that Boston was universally better hardware than Kingston.</li><li>The 70-qubit classical runtime is extrapolated from measurements ending at 12 qubits, not measured at full width.</li><li>The quantum samples have no validated full-distribution fidelity, and the separate predeclared 95 percent stabilizer test failed.</li><li>The post-hoc 75 percent lower bound is an exploratory sensitivity result, not 75 percent fidelity and not evidence of quantum advantage.</li></ul>
+  </section>
+  <section class="psqal-entry" id="qos-pbmc68k-qml-60q">
+    <p class="psqal-kicker">Entry 5 &middot; Local runtime lower bound</p>
+    <h2>QOS-inspired PBMC68k feature generation on 60 qubits</h2>
+    <p class="psqal-summary">A frozen 60-qubit QOS-inspired feature map generated 627 measured features for real PBMC68k cells on IBM Fez, reached the strongest held-out point score, and completed far sooner than the bounded local MPS attempt for the same specified feature target.</p>
+    <div class="psqal-facts">
+      <div><strong>Scale</strong><span>60 qubits</span></div>
+      <div><strong>Backend</strong><span>IBM Fez through Q-CTRL Fire Opal</span></div>
+      <div><strong>Primary timing</strong><span>26 s</span></div>
+      <div><strong>Task</strong><span>Generate 627 ordered X, Y, and Z Pauli features for each of 64 fixed PBMC68k cells</span></div>
+    </div>
+    <p class="psqal-claim"><strong>Measured comparison.</strong> Hardware generated the complete 60-qubit feature result in 26 quantum-seconds while local MPS remained incomplete after 2,577 seconds: a kernel-time lower bound greater than 99.1x; the complete Fire Opal route retained a lower bound greater than 5.0x.</p>
+    <p><strong>Quantum result.</strong> Held-out balanced accuracy was 0.53125 (17/32), compared with 0.50000 (16/32) for the predeclared linear baseline and 0.43750 (14/32) for RBF. The exact McNemar p-value against linear was 1.0 and the paired-bootstrap 95 percent interval was -0.1875 to 0.25.</p>
+    <h3>Classical baselines</h3>
+    <div class="psqal-table"><table><thead><tr><th>Method</th><th>Wall time</th><th>Status</th></tr></thead><tbody><tr><td>Local MPS convergence ladder for the same 60-qubit circuit and 627-feature target</td><td>2,577 s</td><td>stopped without a converged feature result</td></tr><tr><td>Training-only-selected linear SVC on classically prepared gene data</td><td>not available</td><td>completed; 0.50000 balanced accuracy (16/32)</td></tr><tr><td>Training-only-selected RBF SVC on classically prepared gene data</td><td>not available</td><td>completed; 0.43750 balanced accuracy (14/32)</td></tr></tbody></table></div>
+    <div class="psqal-columns">
+      <div><h3>Official sources</h3><ul><li><a href="https://arxiv.org/abs/2604.07639">Exponential quantum advantage in processing massive classical data</a></li><li><a href="https://github.com/haimengzhao/quantum-oracle-sketching">Official Quantum Oracle Sketching repository</a></li><li><a href="https://www.10xgenomics.com/datasets/fresh-68-k-pbm-cs-donor-a-1-standard-1-1-0">10x Genomics PBMC68k dataset</a></li></ul></div>
+      <div><h3>Complete implementation</h3><ul><li><a href="https://edukaizen.nl/quantum-oracle-sketching-qml-genexpressie/">Edukaizen project</a></li><li><a href="https://github.com/BramDo/qlab-ml-adv-all-runners">GitHub implementation</a></li><li><a href="https://edukaizen.nl/quantum-oracle-sketching-qml-genexpressie/voorstel-60-qubit-qml-vervolgstudie/">Detailed article</a></li><li><a href="https://edukaizen.nl/quantum-oracle-sketching-qml-gene-expression/proposal-60-qubit-qml-follow-up-study/">Detailed article</a></li></ul></div>
+    </div>
+    <h3>Claim boundary</h3>
+    <ul><li>The MPS route did not converge, so the same feature target was specified but numerical feature equality at a matched error tolerance was not established.</li><li>The 26 quantum-seconds value was read from the Fire Opal dashboard; the archived get_result payload omitted the quantum-seconds field.</li><li>The greater-than-99.1x ratio compares QPU-only dashboard time with local MPS wall time; the broader submission-to-retrieval comparison is a lower bound greater than 5.02x.</li><li>The inexpensive classical linear and RBF classifiers do not require simulation of the 60-qubit feature map, so this is not an end-to-end speedup over ordinary classical machine learning.</li><li>The held-out test contains only 32 cells; the one-cell hardware lead is not statistically significant and does not establish general predictive advantage.</li><li>This is a local result under declared hardware and classical resources, not a claim against every tensor-network method, compute platform, or future implementation.</li></ul>
+  </section>
+  <section class="psqal-boundary">
+    <h2>What this list does not claim</h2>
+    <p>A stronger classical implementation is a successful challenge, not a problem. Every result is conditional on its stated observable or task, accuracy or convergence status, timing scope, and available resources. The list does not certify formal complexity-theoretic advantage.</p>
+  </section>
+  <footer>
+    <p><a href="https://bramdo.github.io/pro-student-quantum-advantage-list/">GitHub Pages evidence register</a> &middot; <a href="https://github.com/BramDo/pro-student-quantum-advantage-list">Source and machine-readable entries</a></p>
+    <p class="psqal-updated">Version 1.2, evidence updated through 2026-07-21.</p>
+  </footer>
+</article>

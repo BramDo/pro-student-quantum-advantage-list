@@ -14,6 +14,7 @@ ENTRIES_DIR = ROOT / "entries"
 DOCS_DIR = ROOT / "docs"
 DATA_PATH = DOCS_DIR / "data" / "advantage-list.json"
 INDEX_PATH = DOCS_DIR / "index.html"
+WORDPRESS_PATH = DOCS_DIR / "edukaizen-page.html"
 MARKDOWN_PATH = ROOT / "ADVANTAGE_LIST.md"
 
 CLASSIFICATIONS = {
@@ -272,6 +273,97 @@ def render_html(entries: list[dict]) -> str:
     return "\n".join(line.rstrip() for line in document.splitlines()) + "\n"
 
 
+def render_wordpress_entry(entry: dict, index: int) -> str:
+    timing = primary_timing(entry)
+    baselines = "".join(
+        "<tr>"
+        f"<td>{html.escape(item['method'])}</td>"
+        f"<td>{html.escape(seconds_text(item['seconds']))}</td>"
+        f"<td>{html.escape(item['status'])}</td>"
+        "</tr>"
+        for item in entry["classical_baselines"]
+    )
+    sources = link_list(entry["official_sources"])
+    implementation = (
+        f'<li><a href="{html.escape(entry["implementation"]["edukaizen_url"], quote=True)}">Edukaizen project</a></li>'
+        + "".join(
+            f'<li><a href="{html.escape(url, quote=True)}">GitHub implementation</a></li>'
+            for url in entry["implementation"]["github_repositories"]
+        )
+        + "".join(
+            f'<li><a href="{html.escape(url, quote=True)}">Detailed article</a></li>'
+            for url in entry["implementation"]["key_articles"]
+        )
+    )
+    boundaries = "".join(
+        f"<li>{html.escape(item)}</li>" for item in entry["claim_boundary"]
+    )
+    return f"""
+  <section class="psqal-entry" id="{html.escape(entry['id'])}">
+    <p class="psqal-kicker">Entry {index} &middot; {html.escape(CLASSIFICATIONS[entry['comparison']['classification']])}</p>
+    <h2>{html.escape(entry['title'])}</h2>
+    <p class="psqal-summary">{html.escape(entry['summary'])}</p>
+    <div class="psqal-facts">
+      <div><strong>Scale</strong><span>{html.escape(scale_text(entry))}</span></div>
+      <div><strong>Backend</strong><span>{html.escape(entry['quantum']['backend'])}</span></div>
+      <div><strong>Primary timing</strong><span>{html.escape(seconds_text(timing['seconds']))}</span></div>
+      <div><strong>Task</strong><span>{html.escape(entry['quantum']['task'])}</span></div>
+    </div>
+    <p class="psqal-claim"><strong>Measured comparison.</strong> {html.escape(entry['comparison']['headline'])}</p>
+    <p><strong>Quantum result.</strong> {html.escape(entry['quantum']['result_summary'])}</p>
+    <h3>Classical baselines</h3>
+    <div class="psqal-table"><table><thead><tr><th>Method</th><th>Wall time</th><th>Status</th></tr></thead><tbody>{baselines}</tbody></table></div>
+    <div class="psqal-columns">
+      <div><h3>Official sources</h3><ul>{sources}</ul></div>
+      <div><h3>Complete implementation</h3><ul>{implementation}</ul></div>
+    </div>
+    <h3>Claim boundary</h3>
+    <ul>{boundaries}</ul>
+  </section>"""
+
+
+def render_wordpress(entries: list[dict]) -> str:
+    rows = "".join(
+        "<tr>"
+        f'<td><a href="#{html.escape(entry["id"])}">{html.escape(entry["short_title"])}</a></td>'
+        f"<td>{html.escape(scale_text(entry))}</td>"
+        f"<td>{html.escape(seconds_text(primary_timing(entry)['seconds']))}</td>"
+        f"<td>{html.escape(CLASSIFICATIONS[entry['comparison']['classification']])}</td>"
+        "</tr>"
+        for entry in entries
+    )
+    sections = "".join(
+        render_wordpress_entry(entry, index)
+        for index, entry in enumerate(entries, start=1)
+    )
+    updated = max(entry["evidence_date"] for entry in entries)
+    return f"""<style>
+.psqal{{max-width:1040px;margin:0 auto;color:#17212b}}.psqal *{{box-sizing:border-box}}.psqal h1,.psqal h2,.psqal h3{{color:#101820;letter-spacing:0}}.psqal h1{{font-size:clamp(2rem,5vw,3.4rem);line-height:1.06;margin:0 0 1rem}}.psqal h2{{font-size:1.75rem;margin:0 0 1rem}}.psqal h3{{font-size:1.22rem;margin:1.5rem 0 .6rem}}.psqal p,.psqal li{{font-size:1.02rem;line-height:1.65}}.psqal a{{color:#006f73;text-underline-offset:3px}}.psqal-intro{{border-top:6px solid #e4572e;padding:2rem 0}}.psqal-lede{{max-width:850px;font-size:1.22rem!important;color:#34434f}}.psqal-definition{{padding:1rem 1.2rem;border-left:5px solid #1d7874;background:#f2f7f6}}.psqal-table{{overflow-x:auto;margin:1.2rem 0}}.psqal table{{width:100%;min-width:720px;border-collapse:collapse}}.psqal th{{background:#17212b;color:#fff;text-align:left}}.psqal th,.psqal td{{padding:.72rem;border:1px solid #b9c5cc;vertical-align:top}}.psqal tbody tr:nth-child(even){{background:#f5f7f8}}.psqal-entry{{padding:2.5rem 0;border-top:4px solid #2f6690}}.psqal-entry:nth-of-type(3n+1){{border-top-color:#e4572e}}.psqal-entry:nth-of-type(3n+2){{border-top-color:#1d7874}}.psqal-kicker{{margin:0 0 .4rem;color:#53636f;font-size:.82rem!important;font-weight:750;text-transform:uppercase}}.psqal-summary{{max-width:900px;font-size:1.08rem!important}}.psqal-facts{{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));border:1px solid #cbd5dc}}.psqal-facts div{{padding:1rem;display:flex;flex-direction:column;gap:.25rem}}.psqal-facts strong{{font-size:.8rem;text-transform:uppercase;color:#53636f}}.psqal-claim{{padding:1rem 1.15rem;border-left:4px solid #17212b;background:#f7f8f9}}.psqal-columns{{display:grid;grid-template-columns:1fr 1fr;gap:2rem}}.psqal-boundary{{margin-top:2rem;padding:1.25rem;border-top:4px solid #e4572e;background:#fff5ef}}.psqal-updated{{color:#53636f;font-size:.9rem!important}}@media(max-width:720px){{.psqal-facts,.psqal-columns{{grid-template-columns:1fr}}.psqal h1{{font-size:2.15rem}}}}
+</style>
+<article class="psqal">
+  <header class="psqal-intro">
+    <p class="psqal-kicker">Edukaizen benchmark register</p>
+    <h1>Pro Student Quantum Advantage List</h1>
+    <p class="psqal-lede">Five complete, challengeable student-scale quantum projects. Four show a local time-to-answer or runtime separation under declared resources; Random Graph remains diagnostic because output-quality matching is open.</p>
+    <div class="psqal-definition"><strong>Definition used here.</strong> A local practical advantage means that a measured quantum workflow reached a useful answer faster than a named classical workflow for the same stated task on the resources actually available to the project. It is not proof against every classical algorithm, GPU cluster, supercomputer, or future implementation.</div>
+  </header>
+  <section class="psqal-entry">
+    <h2>The current list</h2>
+    <div class="psqal-table"><table><thead><tr><th>Project</th><th>Scale</th><th>Primary quantum timing</th><th>Classification</th></tr></thead><tbody>{rows}</tbody></table></div>
+  </section>
+{sections}
+  <section class="psqal-boundary">
+    <h2>What this list does not claim</h2>
+    <p>A stronger classical implementation is a successful challenge, not a problem. Every result is conditional on its stated observable or task, accuracy or convergence status, timing scope, and available resources. The list does not certify formal complexity-theoretic advantage.</p>
+  </section>
+  <footer>
+    <p><a href="https://bramdo.github.io/pro-student-quantum-advantage-list/">GitHub Pages evidence register</a> &middot; <a href="https://github.com/BramDo/pro-student-quantum-advantage-list">Source and machine-readable entries</a></p>
+    <p class="psqal-updated">Version 1.2, evidence updated through {html.escape(updated)}.</p>
+  </footer>
+</article>
+"""
+
+
 def data_feed(entries: list[dict]) -> str:
     return json.dumps(
         {
@@ -292,6 +384,7 @@ def outputs(entries: list[dict]) -> dict[Path, str]:
         MARKDOWN_PATH: render_markdown(entries),
         DATA_PATH: data_feed(entries),
         INDEX_PATH: render_html(entries),
+        WORDPRESS_PATH: render_wordpress(entries),
     }
 
 

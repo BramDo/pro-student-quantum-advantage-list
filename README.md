@@ -30,6 +30,8 @@ challenge and should update the list.
 | [1D Fermi-Hubbard dynamics](entries/fermi-hubbard-120q.json) | 120 qubits / 60 sites | 33.148928 s execution proxy | 9,033 s local chi=256 MPS, plus Majorana checks | Local time-to-answer separation |
 | [Non-Abelian SU(2) hadron dynamics](entries/su2-hadron-120q.json) | 120 active qubits / 60 sites | 1.425408 s hardware plus readout circuits | Local circuit MPS and published TN/Pauli-propagation baselines | Local and paper-aligned runtime separation |
 | [Operator Loschmidt Echo Q80](entries/operator-loschmidt-echo-q80.json) | 80 qubits | 328 s complete Fire Opal action | BD=64 BP-TN delta half timed out after 901 s | Local lower bound greater than 2.75x; classical result not converged |
+| [Random Graph Sampling](entries/random-graph-sampling-70q.json) | 70 qubits | 19 QPU s | Aer projection and truncated local MPS | Diagnostic only; output quality is not matched |
+| [PBMC68k QML 60q](entries/qos-pbmc68k-qml-60q.json) | 60 qubits | 26 QPU s; 513 s through retrieval | MPS incomplete after 2,577 s | Local feature-generation lower bound greater than 99.1x at kernel scope and 5.0x through retrieval |
 
 ## Why student and hobbyist projects matter
 

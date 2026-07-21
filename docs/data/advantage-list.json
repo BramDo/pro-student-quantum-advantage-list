@@ -389,9 +389,109 @@
         "70-qubits"
       ],
       "title": "Random Graph Sampling on 70 data qubits"
+    },
+    {
+      "claim_boundary": [
+        "The MPS route did not converge, so the same feature target was specified but numerical feature equality at a matched error tolerance was not established.",
+        "The 26 quantum-seconds value was read from the Fire Opal dashboard; the archived get_result payload omitted the quantum-seconds field.",
+        "The greater-than-99.1x ratio compares QPU-only dashboard time with local MPS wall time; the broader submission-to-retrieval comparison is a lower bound greater than 5.02x.",
+        "The inexpensive classical linear and RBF classifiers do not require simulation of the 60-qubit feature map, so this is not an end-to-end speedup over ordinary classical machine learning.",
+        "The held-out test contains only 32 cells; the one-cell hardware lead is not statistically significant and does not establish general predictive advantage.",
+        "This is a local result under declared hardware and classical resources, not a claim against every tensor-network method, compute platform, or future implementation."
+      ],
+      "classical_baselines": [
+        {
+          "method": "Local MPS convergence ladder for the same 60-qubit circuit and 627-feature target",
+          "scope": "Local wall time through all eight bond-dimension-64 parts and one of eight bond-dimension-128 parts; bond dimensions 256 and 512 were not reached",
+          "seconds": 2577.0,
+          "status": "stopped without a converged feature result"
+        },
+        {
+          "method": "Training-only-selected linear SVC on classically prepared gene data",
+          "scope": "Same frozen 32-cell training and 32-cell test split, evaluated by held-out balanced accuracy",
+          "seconds": null,
+          "status": "completed; 0.50000 balanced accuracy (16/32)"
+        },
+        {
+          "method": "Training-only-selected RBF SVC on classically prepared gene data",
+          "scope": "Same frozen 32-cell training and 32-cell test split, evaluated by held-out balanced accuracy",
+          "seconds": null,
+          "status": "completed; 0.43750 balanced accuracy (14/32)"
+        }
+      ],
+      "comparison": {
+        "classification": "local_runtime_lower_bound",
+        "headline": "Hardware generated the complete 60-qubit feature result in 26 quantum-seconds while local MPS remained incomplete after 2,577 seconds: a kernel-time lower bound greater than 99.1x; the complete Fire Opal route retained a lower bound greater than 5.0x.",
+        "ratio": 99.1153846154,
+        "ratio_is_lower_bound": true,
+        "scope": "The primary ratio compares dashboard QPU time with local MPS wall time for the same specified feature target, not matched numerical error. Using the 513-second submission-to-retrieval interval instead gives a lower bound greater than 5.02x."
+      },
+      "evidence_date": "2026-07-21",
+      "id": "qos-pbmc68k-qml-60q",
+      "implementation": {
+        "edukaizen_url": "https://edukaizen.nl/quantum-oracle-sketching-qml-genexpressie/",
+        "github_repositories": [
+          "https://github.com/BramDo/qlab-ml-adv-all-runners"
+        ],
+        "key_articles": [
+          "https://edukaizen.nl/quantum-oracle-sketching-qml-genexpressie/voorstel-60-qubit-qml-vervolgstudie/",
+          "https://edukaizen.nl/quantum-oracle-sketching-qml-gene-expression/proposal-60-qubit-qml-follow-up-study/"
+        ]
+      },
+      "official_sources": [
+        {
+          "label": "Exponential quantum advantage in processing massive classical data",
+          "type": "paper",
+          "url": "https://arxiv.org/abs/2604.07639"
+        },
+        {
+          "label": "Official Quantum Oracle Sketching repository",
+          "type": "repository",
+          "url": "https://github.com/haimengzhao/quantum-oracle-sketching"
+        },
+        {
+          "label": "10x Genomics PBMC68k dataset",
+          "type": "data",
+          "url": "https://www.10xgenomics.com/datasets/fresh-68-k-pbm-cs-donor-a-1-standard-1-1-0"
+        }
+      ],
+      "quantum": {
+        "backend": "IBM Fez through Q-CTRL Fire Opal",
+        "result_summary": "Held-out balanced accuracy was 0.53125 (17/32), compared with 0.50000 (16/32) for the predeclared linear baseline and 0.43750 (14/32) for RBF. The exact McNemar p-value against linear was 1.0 and the paired-bootstrap 95 percent interval was -0.1875 to 0.25.",
+        "task": "Generate 627 ordered X, Y, and Z Pauli features for each of 64 fixed PBMC68k cells",
+        "timings": [
+          {
+            "primary": true,
+            "scope": "Quantum-seconds reported by the Fire Opal dashboard for action 2335848; excludes orchestration, queueing, retrieval, data preparation, and classifier training",
+            "seconds": 26.0
+          },
+          {
+            "primary": false,
+            "scope": "Approximate submission-to-fully-retrieved interval for the complete 192-circuit Fire Opal action",
+            "seconds": 513.0
+          }
+        ],
+        "workflow": "A shallow 6x10 module-B4 circuit, three measurement bases per cell, 192 circuits, and 128 shots per circuit"
+      },
+      "scale": {
+        "qubits": 60,
+        "sites": null
+      },
+      "schema_version": 1,
+      "short_title": "PBMC68k QML 60q",
+      "summary": "A frozen 60-qubit QOS-inspired feature map generated 627 measured features for real PBMC68k cells on IBM Fez, reached the strongest held-out point score, and completed far sooner than the bounded local MPS attempt for the same specified feature target.",
+      "tags": [
+        "quantum-machine-learning",
+        "pbmc68k",
+        "quantum-oracle-sketching",
+        "fire-opal",
+        "tensor-networks",
+        "60-qubits"
+      ],
+      "title": "QOS-inspired PBMC68k feature generation on 60 qubits"
     }
   ],
-  "entry_count": 4,
+  "entry_count": 5,
   "project": "Pro Student Quantum Advantage List",
   "repository": "https://github.com/BramDo/pro-student-quantum-advantage-list",
   "schema_version": 1
