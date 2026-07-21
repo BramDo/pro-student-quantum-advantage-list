@@ -64,6 +64,13 @@ class EntryTests(unittest.TestCase):
         self.assertIn("26 quantum-seconds", content)
         self.assertNotIn("<!doctype html>", content.lower())
 
+    def test_github_pages_contains_the_qml_score_and_timing(self):
+        content = (ROOT / "docs" / "index.html").read_text(encoding="utf-8")
+        self.assertIn("PBMC68k QML 60q", content)
+        self.assertIn("17/32", content)
+        self.assertIn("greater than 99.1x", content)
+        self.assertIn("greater than 5.0x", content)
+
 
 if __name__ == "__main__":
     unittest.main()

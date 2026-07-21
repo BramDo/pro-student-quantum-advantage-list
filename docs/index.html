@@ -71,6 +71,7 @@
         <div><dt>Timing scope</dt><dd>Estimated main plus readout circuit execution; excludes full human and cloud workflow time</dd></div>
       </dl>
       <p class="headline"><strong>Measured comparison.</strong> The quantum execution proxy was 272.50x shorter than the local chi=256 MPS wall time for this declared instance.</p>
+      <p><strong>Quantum result.</strong> The hardware produced a full 120-qubit observable profile; raw mean double occupancy was 0.22862549 and readout-corrected mean double occupancy was 0.23067722.</p>
       <h3>Classical baselines</h3>
       <div class="table-wrap"><table><thead><tr><th>Method</th><th>Wall time</th><th>Status</th></tr></thead><tbody><tr><td>Local quimb MPS with maximum bond dimension chi=256</td><td>9,033 s</td><td>not fully converged; maximum bond reached the requested cap</td></tr><tr><td>Local Majorana propagation with cutoff 2</td><td>20.96 s</td><td>faster than the quantum proxy but visibly inaccurate</td></tr><tr><td>Local Majorana propagation with cutoff 4</td><td>1,153.51 s</td><td>close to the chi=256 value for this selected observable</td></tr></tbody></table></div>
       <div class="columns">
@@ -91,6 +92,7 @@
         <div><dt>Timing scope</dt><dd>Local hardware time including readout circuits; excludes queue, API, compilation, and local analysis</dd></div>
       </dl>
       <p class="headline"><strong>Measured comparison.</strong> Both the local circuit checks and the paper-native baselines show a substantial runtime separation under their declared timing definitions.</p>
+      <p><strong>Quantum result.</strong> The local hardware route produced charge-sector and differential-observable data for the 120-qubit circuit family.</p>
       <h3>Classical baselines</h3>
       <div class="table-wrap"><table><thead><tr><th>Method</th><th>Wall time</th><th>Status</th></tr></thead><tbody><tr><td>Local Aer MPS on compiled QASM</td><td>34.281305 s</td><td>completed local sanity baseline</td></tr><tr><td>Local ITensorMPS on compiled QASM</td><td>174.611 s</td><td>completed local sanity baseline</td></tr><tr><td>Published Pauli propagation on CPU at step 5</td><td>477.4471 s</td><td>published baseline</td></tr><tr><td>Published Pauli propagation on GPU at step 5</td><td>547.581 s</td><td>published baseline</td></tr><tr><td>Published ITensor TDVP tensor network at step 5</td><td>584.092 s</td><td>published baseline</td></tr></tbody></table></div>
       <div class="columns">
@@ -111,6 +113,7 @@
         <div><dt>Timing scope</dt><dd>Complete Fire Opal action wall time for all sixteen mitigated circuits</dd></div>
       </dl>
       <p class="headline"><strong>Measured comparison.</strong> The incomplete bond-dimension-64 classical delta half alone exceeded the complete Fire Opal action by more than 2.75x on this machine.</p>
+      <p><strong>Quantum result.</strong> The measured delta/delta0 OLE ratio was 0.74028847 +/- 0.01663657; all eight sample ratios were positive.</p>
       <h3>Classical baselines</h3>
       <div class="table-wrap"><table><thead><tr><th>Method</th><th>Wall time</th><th>Status</th></tr></thead><tbody><tr><td>Tracker-linked Heisenberg BP-TN at bond dimension 16</td><td>365.14 s</td><td>not converged; apparent ratio is not a valid physical estimate</td></tr><tr><td>Tracker-linked Heisenberg BP-TN delta half at bond dimension 32</td><td>342.42 s</td><td>not converged; value shifted by 86 percent from bond dimension 16</td></tr><tr><td>Tracker-linked Heisenberg BP-TN delta half at bond dimension 64</td><td>901.01 s</td><td>timeout before producing a result</td></tr></tbody></table></div>
       <div class="columns">
@@ -131,6 +134,7 @@
         <div><dt>Timing scope</dt><dd>Provider quantum-seconds for 256 samples from the complete 70-data-qubit circuit; excludes queue and local workflow time</dd></div>
       </dl>
       <p class="headline"><strong>Measured comparison.</strong> Hardware returned 256 samples in 19 quantum-seconds, while a local Aer fit projects about 6.89 million years for one 70-qubit sample; sample counts and output quality are not matched.</p>
+      <p><strong>Quantum result.</strong> The complete circuit returned 256 samples. The separate checked dataset retained 4,519 of 184,320 shots and gave a graph-state-prefix point estimate of 0.01217; its predeclared one-sided 95 percent lower-bound test failed. The original restricted-access IBM Boston execution reported substantially stronger effective performance than this independently accessible Kingston reproduction.</p>
       <h3>Classical baselines</h3>
       <div class="table-wrap"><table><thead><tr><th>Method</th><th>Wall time</th><th>Status</th></tr></thead><tbody><tr><td>Local Qiskit Aer extended-stabilizer fit evaluated at 70 qubits</td><td>217,512,854,796,362.625 s</td><td>extrapolated; not measured at 70 qubits and not quality matched</td></tr><tr><td>Local ITensorMPS at maximum bond dimension 64</td><td>205.36 s</td><td>completed but strongly truncated and not converged</td></tr><tr><td>Local exact MPS anchor at 14 induced qubits</td><td>3.23 s</td><td>exact small-width validation; not a 70-qubit baseline</td></tr></tbody></table></div>
       <div class="columns">
@@ -151,6 +155,7 @@
         <div><dt>Timing scope</dt><dd>Quantum-seconds reported by the Fire Opal dashboard for action 2335848; excludes orchestration, queueing, retrieval, data preparation, and classifier training</dd></div>
       </dl>
       <p class="headline"><strong>Measured comparison.</strong> Hardware generated the complete 60-qubit feature result in 26 quantum-seconds while local MPS remained incomplete after 2,577 seconds: a kernel-time lower bound greater than 99.1x; the complete Fire Opal route retained a lower bound greater than 5.0x.</p>
+      <p><strong>Quantum result.</strong> Held-out balanced accuracy was 0.53125 (17/32), compared with 0.50000 (16/32) for the predeclared linear baseline and 0.43750 (14/32) for RBF. The exact McNemar p-value against linear was 1.0 and the paired-bootstrap 95 percent interval was -0.1875 to 0.25.</p>
       <h3>Classical baselines</h3>
       <div class="table-wrap"><table><thead><tr><th>Method</th><th>Wall time</th><th>Status</th></tr></thead><tbody><tr><td>Local MPS convergence ladder for the same 60-qubit circuit and 627-feature target</td><td>2,577 s</td><td>stopped without a converged feature result</td></tr><tr><td>Training-only-selected linear SVC on classically prepared gene data</td><td>not available</td><td>completed; 0.50000 balanced accuracy (16/32)</td></tr><tr><td>Training-only-selected RBF SVC on classically prepared gene data</td><td>not available</td><td>completed; 0.43750 balanced accuracy (14/32)</td></tr></tbody></table></div>
       <div class="columns">

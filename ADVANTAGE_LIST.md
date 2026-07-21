@@ -17,6 +17,8 @@ A 60-site Fermi-Hubbard hardware workflow produced local charge, spin, and doubl
 
 **Comparison:** The quantum execution proxy was 272.50x shorter than the local chi=256 MPS wall time for this declared instance.
 
+**Quantum result:** The hardware produced a full 120-qubit observable profile; raw mean double occupancy was 0.22862549 and readout-corrected mean double occupancy was 0.23067722.
+
 **Official sources**
 
 - [Hartnett et al., large-scale Fermi-Hubbard digital quantum simulation](https://arxiv.org/abs/2605.04025)
@@ -38,6 +40,8 @@ A 60-site Fermi-Hubbard hardware workflow produced local charge, spin, and doubl
 A Loop-String-Hadron implementation follows a differential hadron signal on a 60-site lattice and compares the quantum route with local circuit-MPS checks and published tensor-network and Pauli-propagation baselines.
 
 **Comparison:** Both the local circuit checks and the paper-native baselines show a substantial runtime separation under their declared timing definitions.
+
+**Quantum result:** The local hardware route produced charge-sector and differential-observable data for the 120-qubit circuit family.
 
 **Official sources**
 
@@ -63,6 +67,8 @@ A tracker-compatible 80-qubit extension estimates an Operator Loschmidt Echo fro
 
 **Comparison:** The incomplete bond-dimension-64 classical delta half alone exceeded the complete Fire Opal action by more than 2.75x on this machine.
 
+**Quantum result:** The measured delta/delta0 OLE ratio was 0.74028847 +/- 0.01663657; all eight sample ratios were positive.
+
 **Official sources**
 
 - [Quantum Advantage Tracker observable-estimation register](https://quantum-advantage-tracker.github.io/trackers/observable-estimations)
@@ -84,6 +90,8 @@ A tracker-compatible 80-qubit extension estimates an Operator Loschmidt Echo fro
 A complete 70-data-qubit non-Clifford circuit was sampled on IBM hardware, alongside an independent 70+8-qubit stabilizer-verification workflow and local classical scaling studies.
 
 **Comparison:** Hardware returned 256 samples in 19 quantum-seconds, while a local Aer fit projects about 6.89 million years for one 70-qubit sample; sample counts and output quality are not matched.
+
+**Quantum result:** The complete circuit returned 256 samples. The separate checked dataset retained 4,519 of 184,320 shots and gave a graph-state-prefix point estimate of 0.01217; its predeclared one-sided 95 percent lower-bound test failed. The original restricted-access IBM Boston execution reported substantially stronger effective performance than this independently accessible Kingston reproduction.
 
 **Official sources**
 
@@ -108,6 +116,8 @@ A complete 70-data-qubit non-Clifford circuit was sampled on IBM hardware, along
 A frozen 60-qubit QOS-inspired feature map generated 627 measured features for real PBMC68k cells on IBM Fez, reached the strongest held-out point score, and completed far sooner than the bounded local MPS attempt for the same specified feature target.
 
 **Comparison:** Hardware generated the complete 60-qubit feature result in 26 quantum-seconds while local MPS remained incomplete after 2,577 seconds: a kernel-time lower bound greater than 99.1x; the complete Fire Opal route retained a lower bound greater than 5.0x.
+
+**Quantum result:** Held-out balanced accuracy was 0.53125 (17/32), compared with 0.50000 (16/32) for the predeclared linear baseline and 0.43750 (14/32) for RBF. The exact McNemar p-value against linear was 1.0 and the paired-bootstrap 95 percent interval was -0.1875 to 0.25.
 
 **Official sources**
 

@@ -134,6 +134,8 @@ def render_markdown(entries: list[dict]) -> str:
             "",
             f"**Comparison:** {entry['comparison']['headline']}",
             "",
+            f"**Quantum result:** {entry['quantum']['result_summary']}",
+            "",
             "**Official sources**",
             "",
         ])
@@ -179,6 +181,7 @@ def render_entry(entry: dict) -> str:
         <div><dt>Timing scope</dt><dd>{html.escape(timing['scope'])}</dd></div>
       </dl>
       <p class="headline"><strong>Measured comparison.</strong> {html.escape(entry['comparison']['headline'])}</p>
+      <p><strong>Quantum result.</strong> {html.escape(entry['quantum']['result_summary'])}</p>
       <h3>Classical baselines</h3>
       <div class="table-wrap"><table><thead><tr><th>Method</th><th>Wall time</th><th>Status</th></tr></thead><tbody>{baselines}</tbody></table></div>
       <div class="columns">
