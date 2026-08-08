@@ -10,7 +10,7 @@
   </header>
   <section class="psqal-entry">
     <h2>The current list</h2>
-    <div class="psqal-table"><table><thead><tr><th>Project</th><th>Scale</th><th>Primary quantum timing</th><th>Classification</th></tr></thead><tbody><tr><td><a href="#fermi-hubbard-120q">1D Fermi-Hubbard</a></td><td>120 qubits / 60 sites</td><td>33.148928 s</td><td>Local time-to-answer separation</td></tr><tr><td><a href="#su2-hadron-120q">SU(2) hadron dynamics</a></td><td>120 qubits / 60 sites</td><td>1.425408 s</td><td>Paper-aligned local separation</td></tr><tr><td><a href="#operator-loschmidt-echo-q80">Operator Loschmidt Echo Q80</a></td><td>80 qubits</td><td>328 s</td><td>Local runtime lower bound</td></tr><tr><td><a href="#random-graph-sampling-70q">Random Graph Sampling</a></td><td>70 qubits</td><td>19 s</td><td>Diagnostic only</td></tr><tr><td><a href="#qos-pbmc68k-qml-60q">PBMC68k QML 60q</a></td><td>60 qubits</td><td>26 s</td><td>Local runtime lower bound</td></tr></tbody></table></div>
+    <div class="psqal-table"><table><thead><tr><th>Project</th><th>Scale</th><th>Primary quantum timing</th><th>Classification</th></tr></thead><tbody><tr><td><a href="#fermi-hubbard-120q">1D Fermi-Hubbard</a></td><td>120 qubits / 60 sites</td><td>33.148928 s</td><td>Local time-to-answer separation</td></tr><tr><td><a href="#su2-hadron-120q">SU(2) hadron dynamics</a></td><td>120 qubits / 60 sites</td><td>1.425408 s</td><td>Paper-aligned local separation</td></tr><tr><td><a href="#operator-loschmidt-echo-q80">Operator Loschmidt Echo Q80</a></td><td>80 qubits</td><td>328 s</td><td>Local runtime lower bound</td></tr><tr><td><a href="#random-graph-sampling-70q">Random Graph Sampling</a></td><td>70 qubits</td><td>19 s</td><td>Diagnostic only</td></tr><tr><td><a href="#qos-pbmc68k-qml-60q">PBMC68k QML 60q</a></td><td>60 qubits</td><td>26 s</td><td>Local runtime lower bound</td></tr><tr><td><a href="#floquet-ising-51q">Floquet-Ising 51q</a></td><td>51 qubits</td><td>41 s</td><td>Local time-to-answer separation</td></tr></tbody></table></div>
   </section>
 
   <section class="psqal-entry" id="fermi-hubbard-120q">
@@ -118,12 +118,33 @@
     <h3>Claim boundary</h3>
     <ul><li>The MPS route did not converge, so the same feature target was specified but numerical feature equality at a matched error tolerance was not established.</li><li>The 26 quantum-seconds value was read from the Fire Opal dashboard; the archived get_result payload omitted the quantum-seconds field.</li><li>The greater-than-99.1x ratio compares QPU-only dashboard time with local MPS wall time; the broader submission-to-retrieval comparison is a lower bound greater than 5.02x.</li><li>The inexpensive classical linear and RBF classifiers do not require simulation of the 60-qubit feature map, so this is not an end-to-end speedup over ordinary classical machine learning.</li><li>The held-out test contains only 32 cells; the one-cell hardware lead is not statistically significant and does not establish general predictive advantage.</li><li>This is a local result under declared hardware and classical resources, not a claim against every tensor-network method, compute platform, or future implementation.</li></ul>
   </section>
+  <section class="psqal-entry" id="floquet-ising-51q">
+    <p class="psqal-kicker">Entry 6 &middot; Local time-to-answer separation</p>
+    <h2>Floquet-Ising oscillation detection on 51 qubits</h2>
+    <p class="psqal-summary">A complete 51-qubit IBM Fez PEA/ZNE trajectory detected a reproducible Floquet-Ising oscillation in less declared execution time than a local D=64 PEPS simple-update trajectory for the same coordination-two magnetization.</p>
+    <div class="psqal-facts">
+      <div><strong>Scale</strong><span>51 qubits</span></div>
+      <div><strong>Backend</strong><span>IBM Fez</span></div>
+      <div><strong>Primary timing</strong><span>41 s</span></div>
+      <div><strong>Task</strong><span>Obtain and detect the oscillatory coordination-two magnetization trajectory for the fixed 51-qubit circuit over 16 Floquet cycles</span></div>
+    </div>
+    <p class="psqal-claim"><strong>Measured comparison.</strong> The 41-QPU-second PEA/ZNE route detected the 51-qubit oscillation 8.93x sooner than the 366.17-second local D=64 PEPS-SU trajectory under the declared timing scopes.</p>
+    <p><strong>Quantum result.</strong> The fitted PEA/ZNE period was 4.76 cycles with profile interval 4.62 to 4.92; the fitted oscillation amplitude was about 5.2 conditional fit standard errors, consistent with two independent raw plus M3 trajectories at periods 4.48 and 4.61.</p>
+    <h3>Classical baselines</h3>
+    <div class="psqal-table"><table><thead><tr><th>Method</th><th>Wall time</th><th>Status</th></tr></thead><tbody><tr><td>Local Quimb arbitrary-geometry PEPS simple update at D=64</td><td>366.169545 s</td><td>complete; D=40-to-D=64 convergence accepted through cycle 8 only, with cycles 9-16 diagnostic rather than converged</td></tr><tr><td>Local Quimb arbitrary-geometry PEPS simple update at D=40</td><td>118.33 s</td><td>complete; used with D=64 to define the low-D convergence window</td></tr><tr><td>Published PEPS-BP production calculations at D=512 and D=700</td><td>not available</td><td>paper baseline; 35.1 hours at D=512 and 599.8 hours at D=700, with late-cycle convergence limitations</td></tr></tbody></table></div>
+    <div class="psqal-columns">
+      <div><h3>Official sources</h3><ul><li><a href="https://arxiv.org/abs/2607.24937">Leviatan et al., Quantum Simulations beyond Classical Capabilities with Error-Mitigated Dynamic Circuits</a></li><li><a href="https://github.com/quantum-advantage-tracker/quantum-advantage-tracker.github.io">Quantum Advantage Tracker repository</a></li></ul></div>
+      <div><h3>Complete implementation</h3><ul><li><a href="https://edukaizen.nl/floquet-ising-toy-model/">Edukaizen project</a></li><li><a href="https://github.com/BramDo/FLOQUET-QEM">GitHub implementation</a></li><li><a href="https://edukaizen.nl/floquet-ising-toy-model/van-toy-model-naar-51-qubits/">Detailed article</a></li></ul></div>
+    </div>
+    <h3>Claim boundary</h3>
+    <ul><li>This is a partial, task-specific practical time-to-signal advantage, not a general or complexity-theoretic quantum-advantage claim.</li><li>The 41-second timing is QPU execution only and excludes queueing, orchestration, retrieval, analysis, and classical mitigation processing.</li><li>The classical D=64 PEPS-SU trajectory is converged by the declared low-D diagnostic only through cycle 8; cycles 9-16 are not a claim-ready classical reference.</li><li>Across the eight trusted cycles, PEA/ZNE has diagnostic SRMSE 3.154 and maximum absolute z-score 6.932, so the preregistered matched-accuracy thresholds are not met.</li><li>The local PEPS-SU implementation is not the paper&#x27;s PEPS-BP production method at D=512 and D=700, and a stronger observable-specific classical result may change the ranking.</li></ul>
+  </section>
   <section class="psqal-boundary">
     <h2>What this list does not claim</h2>
     <p>A stronger classical implementation is a successful challenge, not a problem. Every result is conditional on its stated observable or task, accuracy or convergence status, timing scope, and available resources. The list does not certify formal complexity-theoretic advantage.</p>
   </section>
   <footer>
     <p><a href="https://bramdo.github.io/pro-student-quantum-advantage-list/">GitHub Pages evidence register</a> &middot; <a href="https://github.com/BramDo/pro-student-quantum-advantage-list">Source and machine-readable entries</a></p>
-    <p class="psqal-updated">Version 1.2, evidence updated through 2026-07-21.</p>
+    <p class="psqal-updated">Version 1.2, evidence updated through 2026-08-08.</p>
   </footer>
 </article>

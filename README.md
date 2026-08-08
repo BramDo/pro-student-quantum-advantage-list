@@ -32,6 +32,7 @@ challenge and should update the list.
 | [Operator Loschmidt Echo Q80](entries/operator-loschmidt-echo-q80.json) | 80 qubits | 328 s complete Fire Opal action | BD=64 BP-TN delta half timed out after 901 s | Local lower bound greater than 2.75x; classical result not converged |
 | [Random Graph Sampling](entries/random-graph-sampling-70q.json) | 70 qubits | 19 QPU s | Aer projection and truncated local MPS | Diagnostic only; output quality is not matched |
 | [PBMC68k QML 60q](entries/qos-pbmc68k-qml-60q.json) | 60 qubits | 26 QPU s; 513 s through retrieval | MPS incomplete after 2,577 s | Local feature-generation lower bound greater than 99.1x at kernel scope and 5.0x through retrieval |
+| [Floquet-Ising 51q](entries/floquet-ising-51q.json) | 51 qubits | 41 QPU s | 366.17 s local D=64 PEPS-SU | Partial task-specific time-to-signal advantage of 8.93x; accuracy is not matched |
 
 ## Why student and hobbyist projects matter
 

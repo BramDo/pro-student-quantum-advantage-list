@@ -10,6 +10,7 @@ conditional on each entry's declared resources and claim boundary.
 | [Operator Loschmidt Echo Q80](entries/operator-loschmidt-echo-q80.json) | 80 qubits | 328 s | Local runtime lower bound |
 | [Random Graph Sampling](entries/random-graph-sampling-70q.json) | 70 qubits | 19 s | Diagnostic only |
 | [PBMC68k QML 60q](entries/qos-pbmc68k-qml-60q.json) | 60 qubits | 26 s | Local runtime lower bound |
+| [Floquet-Ising 51q](entries/floquet-ising-51q.json) | 51 qubits | 41 s | Local time-to-answer separation |
 
 ## Fermi-Hubbard dynamics on 120 qubits
 
@@ -138,3 +139,29 @@ A frozen 60-qubit QOS-inspired feature map generated 627 measured features for r
 - The inexpensive classical linear and RBF classifiers do not require simulation of the 60-qubit feature map, so this is not an end-to-end speedup over ordinary classical machine learning.
 - The held-out test contains only 32 cells; the one-cell hardware lead is not statistically significant and does not establish general predictive advantage.
 - This is a local result under declared hardware and classical resources, not a claim against every tensor-network method, compute platform, or future implementation.
+
+## Floquet-Ising oscillation detection on 51 qubits
+
+A complete 51-qubit IBM Fez PEA/ZNE trajectory detected a reproducible Floquet-Ising oscillation in less declared execution time than a local D=64 PEPS simple-update trajectory for the same coordination-two magnetization.
+
+**Comparison:** The 41-QPU-second PEA/ZNE route detected the 51-qubit oscillation 8.93x sooner than the 366.17-second local D=64 PEPS-SU trajectory under the declared timing scopes.
+
+**Quantum result:** The fitted PEA/ZNE period was 4.76 cycles with profile interval 4.62 to 4.92; the fitted oscillation amplitude was about 5.2 conditional fit standard errors, consistent with two independent raw plus M3 trajectories at periods 4.48 and 4.61.
+
+**Official sources**
+
+- [Leviatan et al., Quantum Simulations beyond Classical Capabilities with Error-Mitigated Dynamic Circuits](https://arxiv.org/abs/2607.24937)
+- [Quantum Advantage Tracker repository](https://github.com/quantum-advantage-tracker/quantum-advantage-tracker.github.io)
+
+**Implementation**
+
+- [Edukaizen project](https://edukaizen.nl/floquet-ising-toy-model/)
+- [GitHub repository](https://github.com/BramDo/FLOQUET-QEM)
+
+**Claim boundary**
+
+- This is a partial, task-specific practical time-to-signal advantage, not a general or complexity-theoretic quantum-advantage claim.
+- The 41-second timing is QPU execution only and excludes queueing, orchestration, retrieval, analysis, and classical mitigation processing.
+- The classical D=64 PEPS-SU trajectory is converged by the declared low-D diagnostic only through cycle 8; cycles 9-16 are not a claim-ready classical reference.
+- Across the eight trusted cycles, PEA/ZNE has diagnostic SRMSE 3.154 and maximum absolute z-score 6.932, so the preregistered matched-accuracy thresholds are not met.
+- The local PEPS-SU implementation is not the paper's PEPS-BP production method at D=512 and D=700, and a stronger observable-specific classical result may change the ranking.

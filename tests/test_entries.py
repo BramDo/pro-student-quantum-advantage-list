@@ -12,10 +12,12 @@ SPEC.loader.exec_module(BUILD)
 
 
 class EntryTests(unittest.TestCase):
-    def test_five_entries_validate(self):
+    def test_six_entries_validate(self):
         entries = BUILD.load_entries()
-        self.assertEqual(len(entries), 5)
-        self.assertEqual({entry["scale"]["qubits"] for entry in entries}, {60, 70, 80, 120})
+        self.assertEqual(len(entries), 6)
+        self.assertEqual(
+            {entry["scale"]["qubits"] for entry in entries}, {51, 60, 70, 80, 120}
+        )
 
     def test_every_entry_is_challengeable(self):
         for entry in BUILD.load_entries():
@@ -51,6 +53,19 @@ class EntryTests(unittest.TestCase):
         self.assertIn("submission-to-retrieval", boundaries)
         self.assertIn("not an end-to-end speedup", boundaries)
 
+    def test_floquet_entry_is_partial_time_to_signal_advantage(self):
+        entry = json.loads(
+            (ROOT / "entries" / "floquet-ising-51q.json").read_text(encoding="utf-8")
+        )
+        self.assertEqual(entry["comparison"]["classification"], "local_time_to_answer")
+        self.assertAlmostEqual(entry["comparison"]["ratio"], 8.930964505048817)
+        self.assertEqual(entry["quantum"]["timings"][0]["seconds"], 41.0)
+        self.assertEqual(entry["classical_baselines"][0]["seconds"], 366.1695447070015)
+        boundaries = " ".join(entry["claim_boundary"])
+        self.assertIn("partial, task-specific", boundaries)
+        self.assertIn("SRMSE 3.154", boundaries)
+        self.assertIn("maximum absolute z-score 6.932", boundaries)
+
     def test_generated_outputs_are_current(self):
         for path, content in BUILD.outputs(BUILD.load_entries()).items():
             self.assertTrue(path.exists(), path)
@@ -70,6 +85,18 @@ class EntryTests(unittest.TestCase):
         self.assertIn("17/32", content)
         self.assertIn("greater than 99.1x", content)
         self.assertIn("greater than 5.0x", content)
+
+    def test_readme_and_public_pages_contain_floquet_boundary(self):
+        readme = (ROOT / "README.md").read_text(encoding="utf-8")
+        pages = (ROOT / "docs" / "index.html").read_text(encoding="utf-8")
+        edukaizen = (ROOT / "docs" / "edukaizen-page.html").read_text(
+            encoding="utf-8"
+        )
+        for content in (readme, pages, edukaizen):
+            self.assertIn("Floquet-Ising 51q", content)
+            self.assertIn("8.93", content)
+        self.assertIn("accuracy is not matched", readme)
+        self.assertIn("SRMSE 3.154", pages)
 
 
 if __name__ == "__main__":
