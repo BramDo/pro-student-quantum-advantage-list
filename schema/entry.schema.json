@@ -64,7 +64,7 @@
       "required": ["classification", "headline", "ratio", "ratio_is_lower_bound", "scope"],
       "properties": {
         "classification": {
-          "enum": ["local_time_to_answer", "local_runtime_lower_bound", "paper_aligned_local_separation", "diagnostic_only"]
+          "enum": ["local_time_to_answer", "local_runtime_lower_bound", "paper_aligned_local_separation", "local_execution_metric", "diagnostic_only"]
         },
         "headline": {"type": "string", "minLength": 20},
         "ratio": {"type": ["number", "null"], "exclusiveMinimum": 0},
@@ -89,6 +89,7 @@
       "required": ["edukaizen_url", "github_repositories", "key_articles"],
       "properties": {
         "edukaizen_url": {"type": "string", "format": "uri", "pattern": "^https://"},
+        "access_note": {"type": "string", "minLength": 20},
         "github_repositories": {
           "type": "array", "items": {"type": "string", "format": "uri", "pattern": "^https://"}
         },

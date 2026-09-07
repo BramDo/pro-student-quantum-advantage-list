@@ -21,6 +21,7 @@ CLASSIFICATIONS = {
     "local_time_to_answer": "Local time-to-answer separation",
     "local_runtime_lower_bound": "Local runtime lower bound",
     "paper_aligned_local_separation": "Paper-aligned local separation",
+    "local_execution_metric": "Local execution-metric ratio; accuracy unvalidated",
     "diagnostic_only": "Diagnostic only",
 }
 
@@ -142,6 +143,8 @@ def render_markdown(entries: list[dict]) -> str:
         lines.extend(f"- [{source['label']}]({source['url']})" for source in entry["official_sources"])
         lines.extend(["", "**Implementation**", "", f"- [Edukaizen project]({entry['implementation']['edukaizen_url']})"])
         lines.extend(f"- [GitHub repository]({url})" for url in entry["implementation"]["github_repositories"])
+        if entry["implementation"].get("access_note"):
+            lines.extend(["", entry["implementation"]["access_note"]])
         lines.extend(["", "**Claim boundary**", ""])
         lines.extend(f"- {item}" for item in entry["claim_boundary"])
     return "\n".join(lines) + "\n"
@@ -152,6 +155,11 @@ def link_list(items: list[dict]) -> str:
         f'<li><a href="{html.escape(item["url"], quote=True)}">{html.escape(item["label"])}</a></li>'
         for item in items
     )
+
+
+def access_note_html(entry: dict) -> str:
+    note = entry["implementation"].get("access_note", "")
+    return f'<p><strong>Access.</strong> {html.escape(note)}</p>' if note else ""
 
 
 def render_entry(entry: dict) -> str:
@@ -186,7 +194,7 @@ def render_entry(entry: dict) -> str:
       <div class="table-wrap"><table><thead><tr><th>Method</th><th>Wall time</th><th>Status</th></tr></thead><tbody>{baselines}</tbody></table></div>
       <div class="columns">
         <div><h3>Official sources</h3><ul>{link_list(entry['official_sources'])}</ul></div>
-        <div><h3>Complete implementation</h3><ul><li><a href="{html.escape(entry['implementation']['edukaizen_url'], quote=True)}">Edukaizen project</a></li>{repositories}</ul></div>
+        <div><h3>Complete implementation</h3><ul><li><a href="{html.escape(entry['implementation']['edukaizen_url'], quote=True)}">Edukaizen project</a></li>{repositories}</ul>{access_note_html(entry)}</div>
       </div>
       <h3>Claim boundary</h3><ul>{boundaries}</ul>
       <p class="entry-data"><a href="https://github.com/BramDo/pro-student-quantum-advantage-list/blob/main/entries/{html.escape(entry['id'])}.json">View machine-readable entry</a></p>
@@ -263,6 +271,7 @@ def render_html(entries: list[dict]) -> str:
       <h2>What counts here</h2>
       <div class="definition"><strong>Local practical advantage</strong> means that a measured quantum workflow reached a useful answer faster than a named classical workflow for the same stated task on the resources actually available to the project. It is not proof against every classical algorithm or supercomputer.</div>
       <p>A stronger classical result is not a problem for this list. It is a successful challenge. The entry and its classification should change when the evidence changes.</p>
+      <p>Execution-metric and diagnostic entries are included with separate labels; they do not assert validated time-to-answer advantage.</p>
       <div class="table-wrap"><table><thead><tr><th>Project</th><th>Scale</th><th>Primary quantum timing</th><th>Classification</th></tr></thead><tbody>{rows}</tbody></table></div>
       <figure class="figure"><img src="assets/fermi-hubbard-120q-charge-density.png" alt="Measured charge-density outcome by site for the 120-qubit Fermi-Hubbard hardware run"><figcaption>One of the measured outcomes behind the list: the 120-qubit Fermi-Hubbard charge-density profile. The sector-plus-readout route is diagnostic because postselection discarded 98.9 percent of shots.</figcaption></figure>
     </section>
@@ -318,7 +327,7 @@ def render_wordpress_entry(entry: dict, index: int) -> str:
     <div class="psqal-table"><table><thead><tr><th>Method</th><th>Wall time</th><th>Status</th></tr></thead><tbody>{baselines}</tbody></table></div>
     <div class="psqal-columns">
       <div><h3>Official sources</h3><ul>{sources}</ul></div>
-      <div><h3>Complete implementation</h3><ul>{implementation}</ul></div>
+      <div><h3>Complete implementation</h3><ul>{implementation}</ul>{access_note_html(entry)}</div>
     </div>
     <h3>Claim boundary</h3>
     <ul>{boundaries}</ul>
@@ -347,7 +356,7 @@ def render_wordpress(entries: list[dict]) -> str:
   <header class="psqal-intro">
     <p class="psqal-kicker">Edukaizen benchmark register</p>
     <h1>Pro Student Quantum Advantage List</h1>
-    <p class="psqal-lede">Five complete, challengeable student-scale quantum projects. Four show a local time-to-answer or runtime separation under declared resources; Random Graph remains diagnostic because output-quality matching is open.</p>
+    <p class="psqal-lede">{len(entries)} student-scale project reports, with separate labels for local time-to-answer comparisons, runtime bounds, execution-metric ratios and diagnostic results. Timing scope, numerical accuracy and public access are stated for each entry.</p>
     <div class="psqal-definition"><strong>Definition used here.</strong> A local practical advantage means that a measured quantum workflow reached a useful answer faster than a named classical workflow for the same stated task on the resources actually available to the project. It is not proof against every classical algorithm, GPU cluster, supercomputer, or future implementation.</div>
   </header>
   <section class="psqal-entry">

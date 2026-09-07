@@ -12,11 +12,11 @@ SPEC.loader.exec_module(BUILD)
 
 
 class EntryTests(unittest.TestCase):
-    def test_six_entries_validate(self):
+    def test_seven_entries_validate(self):
         entries = BUILD.load_entries()
-        self.assertEqual(len(entries), 6)
+        self.assertEqual(len(entries), 7)
         self.assertEqual(
-            {entry["scale"]["qubits"] for entry in entries}, {51, 60, 70, 80, 120}
+            {entry["scale"]["qubits"] for entry in entries}, {51, 60, 70, 72, 80, 120}
         )
 
     def test_every_entry_is_challengeable(self):
@@ -70,6 +70,33 @@ class EntryTests(unittest.TestCase):
         for path, content in BUILD.outputs(BUILD.load_entries()).items():
             self.assertTrue(path.exists(), path)
             self.assertEqual(path.read_text(encoding="utf-8"), content)
+
+    def test_nighthawk_preserves_timing_and_accuracy_boundaries(self):
+        entry = json.loads((ROOT / "entries" / "fermi-hubbard-2d-nighthawk-72q.json").read_text(encoding="utf-8"))
+        self.assertEqual(entry["comparison"]["classification"], "local_execution_metric")
+        self.assertFalse(entry["comparison"]["ratio_is_lower_bound"])
+        self.assertEqual(BUILD.primary_timing(entry)["seconds"], 7.0)
+        self.assertEqual([t["seconds"] for t in entry["quantum"]["timings"]], [7.0, 8.0, 180.858322])
+        self.assertAlmostEqual(entry["comparison"]["ratio"], entry["classical_baselines"][0]["seconds"] / 7)
+        boundaries = " ".join(entry["claim_boundary"])
+        for text in ["not a 20x shorter end-to-end", "Both TFLO holdout checks failed", "not converged", "Chi128 was not performed", "remains private"]:
+            self.assertIn(text, boundaries)
+        self.assertIn("not a replacement for measured N", boundaries)
+        self.assertIn("public project-report route", entry["implementation"]["access_note"])
+
+    def test_nighthawk_access_note_and_ratio_are_visible(self):
+        for file in ["docs/index.html", "docs/edukaizen-page.html", "ADVANTAGE_LIST.md"]:
+            content = (ROOT / file).read_text(encoding="utf-8")
+            for text in ["2D Hubbard Nighthawk", "21.55x", "circa 20x", "accuracy unvalidated", "private GitHub repository", "Both TFLO holdout checks failed"]:
+                self.assertIn(text, content)
+        wp = (ROOT / "docs/edukaizen-page.html").read_text(encoding="utf-8")
+        self.assertIn("7 student-scale project reports", wp)
+        self.assertNotIn("Five complete", wp)
+
+    def test_classification_contract_matches_renderer(self):
+        schema = json.loads((ROOT / "schema" / "entry.schema.json").read_text())
+        values = schema["properties"]["comparison"]["properties"]["classification"]["enum"]
+        self.assertEqual(set(values), set(BUILD.CLASSIFICATIONS))
 
     def test_edukaizen_fragment_contains_the_qml_advantage(self):
         content = (ROOT / "docs" / "edukaizen-page.html").read_text(encoding="utf-8")

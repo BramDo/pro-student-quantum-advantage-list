@@ -23,6 +23,10 @@ It is not proof that every classical algorithm, GPU cluster, supercomputer, or
 future implementation is slower. A stronger classical result is a successful
 challenge and should update the list.
 
+Execution-metric and diagnostic entries are also included, with separate labels.
+An execution-metric ratio compares explicitly different clock scopes; it does
+not establish a validated time-to-answer or matched-accuracy advantage.
+
 ## Current entries
 
 | Project | Scale | Quantum timing used | Classical reference | Classification |
@@ -33,6 +37,12 @@ challenge and should update the list.
 | [Random Graph Sampling](entries/random-graph-sampling-70q.json) | 70 qubits | 19 QPU s | Aer projection and truncated local MPS | Diagnostic only; output quality is not matched |
 | [PBMC68k QML 60q](entries/qos-pbmc68k-qml-60q.json) | 60 qubits | 26 QPU s; 513 s through retrieval | MPS incomplete after 2,577 s | Local feature-generation lower bound greater than 99.1x at kernel scope and 5.0x through retrieval |
 | [Floquet-Ising 51q](entries/floquet-ising-51q.json) | 51 qubits | 41 QPU s | 366.17 s local D=64 PEPS-SU | Partial task-specific time-to-signal advantage of 8.93x; accuracy is not matched |
+| [2D Hubbard Nighthawk](entries/fermi-hubbard-2d-nighthawk-72q.json) | 72 qubits / 36 sites | 7 registered QPU s, whole paired job | 150.819180 s local chi64 MPS kernel; not converged | Local execution-metric ratio 21.55x (circa 20x); accuracy unvalidated |
+
+The Nighthawk project has [nine public articles](https://edukaizen.nl/2d-local-quantum-advantage/).
+Its raw research repository remains private. The approximately 181 s provider
+running-to-finished interval, failed TFLO holdouts and uncertified chi64 reference
+are preserved in its entry; the 7 QPU s are not end-to-end time.
 
 ## Why student and hobbyist projects matter
 

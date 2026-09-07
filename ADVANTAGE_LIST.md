@@ -11,6 +11,7 @@ conditional on each entry's declared resources and claim boundary.
 | [Random Graph Sampling](entries/random-graph-sampling-70q.json) | 70 qubits | 19 s | Diagnostic only |
 | [PBMC68k QML 60q](entries/qos-pbmc68k-qml-60q.json) | 60 qubits | 26 s | Local runtime lower bound |
 | [Floquet-Ising 51q](entries/floquet-ising-51q.json) | 51 qubits | 41 s | Local time-to-answer separation |
+| [2D Hubbard Nighthawk](entries/fermi-hubbard-2d-nighthawk-72q.json) | 72 qubits / 36 sites | 7 s | Local execution-metric ratio; accuracy unvalidated |
 
 ## Fermi-Hubbard dynamics on 120 qubits
 
@@ -165,3 +166,33 @@ A complete 51-qubit IBM Fez PEA/ZNE trajectory detected a reproducible Floquet-I
 - The classical D=64 PEPS-SU trajectory is converged by the declared low-D diagnostic only through cycle 8; cycles 9-16 are not a claim-ready classical reference.
 - Across the eight trusted cycles, PEA/ZNE has diagnostic SRMSE 3.154 and maximum absolute z-score 6.932, so the preregistered matched-accuracy thresholds are not met.
 - The local PEPS-SU implementation is not the paper's PEPS-BP production method at D=512 and D=700, and a stronger observable-specific classical result may change the ranking.
+
+## 2D Local Quantum Advantage: 6x6 Hubbard on Nighthawk
+
+A student/hobby project ran full-fermion 6x6 Hubbard circuits on 72 modes and measured charge, spin and doublons. Its local milestone is circa 20x less registered QPU usage than the current laptop-side chi64 MPS kernel time. The timing ratio is measured; numerical accuracy and end-to-end advantage remain unvalidated.
+
+**Comparison:** The local chi64 kernel took 150.819180 s versus 7 registered QPU s for the complete paired job: 21.55x, or circa 20x. The separate 8-QPU-second job gives 18.85x. This is an execution-metric ratio, not an end-to-end or matched-accuracy speedup.
+
+**Quantum result:** Readout+TFLO original gave N=31.39633 and D/site=0.090130; compact gave N=31.23064 and D/site=0.077194. Sitewise charge/spin/doublon RMS differences from the uncertified chi64 reference were 0.083889/0.091851/0.050805 (original) and 0.109304/0.125864/0.064116 (compact). Both TFLO holdout checks failed; reconstructed local probabilities reached -0.077303 and -0.092726. These target estimates are unvalidated.
+
+**Official sources**
+
+- [Project authors' Nighthawk source and archived runs (private; permission required)](https://github.com/BramDo/fermi-hubbard-2d-nighthawk)
+
+**Implementation**
+
+- [Edukaizen project](https://edukaizen.nl/2d-local-quantum-advantage/)
+- [GitHub repository](https://github.com/BramDo/fermi-hubbard-2d-nighthawk)
+
+Nine detailed Edukaizen articles and this register entry are public. The complete source, raw runs and theory archive remain in a private GitHub repository; access requires permission. Admission uses the public project-report route, not a claim that the complete implementation is publicly downloadable.
+
+**Claim boundary**
+
+- The approximately 20x milestone compares local classical kernel time with registered QPU usage. It is not a 20x shorter end-to-end run or a matched-accuracy quantum advantage.
+- The 7 seconds cover the entire paired job, not each arm. The earlier 8-second DD/TFLO result is a separate job; mitigation settings and budgets must not be mixed.
+- The latest provider running-to-finished interval was about 181 seconds, already longer than the 150.819-second classical kernel; queueing, preparation and local analysis add other overheads.
+- The chi64 reference has no certified 6x6 error bound and is not converged. Chi128 was not performed, and its estimated cost cannot be counted as extra measured quantum speedup. Concurrent local work also limits timing comparability.
+- Both TFLO holdout checks failed and some reconstructed probabilities are negative. The reported charge, spin and doublon estimates remain unvalidated; apparent agreement of individual observables does not validate the estimator.
+- Exact N=32 is a model constraint, not a replacement for measured N. Original and compact results retain their own measured values and reference differences.
+- This local resource comparison does not establish superiority to all classical algorithms, Google/Bonsai results, or a superconducting-material simulation. The 72-mode model and two-step finite circuit define the tested task.
+- The public reports describe the evidence, but the raw research archive remains private. Full independent reproduction therefore requires access permission; listing the project does not remove this limitation.

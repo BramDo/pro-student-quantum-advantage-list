@@ -1,0 +1,51 @@
+{
+  "schema_version": 1,
+  "id": "fermi-hubbard-2d-nighthawk-72q",
+  "title": "2D Local Quantum Advantage: 6x6 Hubbard on Nighthawk",
+  "short_title": "2D Hubbard Nighthawk",
+  "evidence_date": "2026-09-07",
+  "summary": "A student/hobby project ran full-fermion 6x6 Hubbard circuits on 72 modes and measured charge, spin and doublons. Its local milestone is circa 20x less registered QPU usage than the current laptop-side chi64 MPS kernel time. The timing ratio is measured; numerical accuracy and end-to-end advantage remain unvalidated.",
+  "scale": {"qubits": 72, "sites": 36},
+  "quantum": {
+    "backend": "IBM Nighthawk (ibm_phoenix), IBM Runtime Sampler",
+    "task": "Estimate local charge, spin n_up-n_down and doublons after the finite 6x6 open-boundary Hubbard circuit: N=32 (16 up, 16 down), t=1, t_prime=-0.25, U=8, T=0.4, two symmetric steps",
+    "workflow": "Paired original/compact job daf6foe42tqs73avhoeg: 76 PUBs at 512 shots each (38,912 total), including both target arms, readout calibration, TFLO training and holdouts. Full fermion parity and interactions are retained; each target circuit has 20,736 CZ gates. Readout plus TFLO is used; this paired job has no DD, ZNE, PEC or postselection. The earlier DD/TFLO job daesvo51ierc738mji3g is separate.",
+    "timings": [
+      {"seconds": 7.0, "scope": "Registered qpu_charge_time_seconds for the entire paired original/compact job daf6foe42tqs73avhoeg, including training/calibration circuits; not per arm or end-to-end wall time", "primary": true},
+      {"seconds": 8.0, "scope": "Registered QPU usage for the separate earlier DD/TFLO job daesvo51ierc738mji3g; supports the alternative 18.85x ratio and is not added to the paired job", "primary": false},
+      {"seconds": 180.858322, "scope": "Provider running-to-finished wall interval for daf6foe42tqs73avhoeg; excludes preceding queue time and subsequent local analysis and is not the 7-second resource metric", "primary": false}
+    ],
+    "result_summary": "Readout+TFLO original gave N=31.39633 and D/site=0.090130; compact gave N=31.23064 and D/site=0.077194. Sitewise charge/spin/doublon RMS differences from the uncertified chi64 reference were 0.083889/0.091851/0.050805 (original) and 0.109304/0.125864/0.064116 (compact). Both TFLO holdout checks failed; reconstructed local probabilities reached -0.077303 and -0.092726. These target estimates are unvalidated."
+  },
+  "classical_baselines": [
+    {"method": "Local Quimb finite-circuit MPS, chi=64, one thread", "seconds": 150.81918013700124, "scope": "Measured local classical kernel time for the same full-fermion 6x6 finite-circuit target; excludes imports and Windows/WSL launcher; other local work ran concurrently", "status": "completed but not converged or certified; reference N=31.9999992 and D/site=0.087896; chi128 was not run"},
+    {"method": "Same chi64 calculation, cold worker", "seconds": 156.9054965819996, "scope": "Measured local worker wall time including imports but excluding Windows/WSL launcher; not an isolated system benchmark", "status": "completed; broader timing of the same calculation, not a second independent reference"}
+  ],
+  "comparison": {
+    "classification": "local_execution_metric",
+    "headline": "The local chi64 kernel took 150.819180 s versus 7 registered QPU s for the complete paired job: 21.55x, or circa 20x. The separate 8-QPU-second job gives 18.85x. This is an execution-metric ratio, not an end-to-end or matched-accuracy speedup.",
+    "ratio": 21.54559716242875,
+    "ratio_is_lower_bound": false,
+    "scope": "Classical kernel seconds divided by provider-registered QPU charge seconds. These clocks have different scopes. The latest job's running-to-finished interval was 180.858322 s; a validated time-to-useful-answer advantage has not been established."
+  },
+  "official_sources": [
+    {"label": "Project authors' Nighthawk source and archived runs (private; permission required)", "url": "https://github.com/BramDo/fermi-hubbard-2d-nighthawk", "type": "repository"}
+  ],
+  "implementation": {
+    "edukaizen_url": "https://edukaizen.nl/2d-local-quantum-advantage/",
+    "github_repositories": ["https://github.com/BramDo/fermi-hubbard-2d-nighthawk"],
+    "key_articles": ["https://edukaizen.nl/2d-local-quantum-advantage/6-resultaten/", "https://edukaizen.nl/2d-local-quantum-advantage/7-snelheidswinst/", "https://edukaizen.nl/2d-local-quantum-advantage/5-foutmitigatie/"],
+    "access_note": "Nine detailed Edukaizen articles and this register entry are public. The complete source, raw runs and theory archive remain in a private GitHub repository; access requires permission. Admission uses the public project-report route, not a claim that the complete implementation is publicly downloadable."
+  },
+  "claim_boundary": [
+    "The approximately 20x milestone compares local classical kernel time with registered QPU usage. It is not a 20x shorter end-to-end run or a matched-accuracy quantum advantage.",
+    "The 7 seconds cover the entire paired job, not each arm. The earlier 8-second DD/TFLO result is a separate job; mitigation settings and budgets must not be mixed.",
+    "The latest provider running-to-finished interval was about 181 seconds, already longer than the 150.819-second classical kernel; queueing, preparation and local analysis add other overheads.",
+    "The chi64 reference has no certified 6x6 error bound and is not converged. Chi128 was not performed, and its estimated cost cannot be counted as extra measured quantum speedup. Concurrent local work also limits timing comparability.",
+    "Both TFLO holdout checks failed and some reconstructed probabilities are negative. The reported charge, spin and doublon estimates remain unvalidated; apparent agreement of individual observables does not validate the estimator.",
+    "Exact N=32 is a model constraint, not a replacement for measured N. Original and compact results retain their own measured values and reference differences.",
+    "This local resource comparison does not establish superiority to all classical algorithms, Google/Bonsai results, or a superconducting-material simulation. The 72-mode model and two-step finite circuit define the tested task.",
+    "The public reports describe the evidence, but the raw research archive remains private. Full independent reproduction therefore requires access permission; listing the project does not remove this limitation."
+  ],
+  "tags": ["fermi-hubbard", "2d", "nighthawk", "72-qubits", "readout", "tflo", "mps", "local-execution-metric", "accuracy-unvalidated"]
+}
