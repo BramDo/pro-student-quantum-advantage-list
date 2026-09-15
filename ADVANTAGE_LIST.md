@@ -9,7 +9,6 @@ conditional on each entry's declared resources and claim boundary.
 | [SU(2) hadron dynamics](entries/su2-hadron-120q.json) | 120 qubits / 60 sites | 1.425408 s | Paper-aligned local separation |
 | [Operator Loschmidt Echo Q80](entries/operator-loschmidt-echo-q80.json) | 80 qubits | 328 s | Local runtime lower bound |
 | [Random Graph Sampling](entries/random-graph-sampling-70q.json) | 70 qubits | 19 s | Diagnostic only |
-| [PBMC68k QML 60q](entries/qos-pbmc68k-qml-60q.json) | 60 qubits | 26 s | Local runtime lower bound |
 | [Floquet-Ising 51q](entries/floquet-ising-51q.json) | 51 qubits | 41 s | Local time-to-answer separation |
 | [2D Hubbard Nighthawk](entries/fermi-hubbard-2d-nighthawk-72q.json) | 72 qubits / 36 sites | 7 s | Local execution-metric ratio; accuracy unvalidated |
 
@@ -112,34 +111,6 @@ A complete 70-data-qubit non-Clifford circuit was sampled on IBM hardware, along
 - The 70-qubit classical runtime is extrapolated from measurements ending at 12 qubits, not measured at full width.
 - The quantum samples have no validated full-distribution fidelity, and the separate predeclared 95 percent stabilizer test failed.
 - The post-hoc 75 percent lower bound is an exploratory sensitivity result, not 75 percent fidelity and not evidence of quantum advantage.
-
-## QOS-inspired PBMC68k feature generation on 60 qubits
-
-A frozen 60-qubit QOS-inspired feature map generated 627 measured features for real PBMC68k cells on IBM Fez, reached the strongest held-out point score, and completed far sooner than the bounded local MPS attempt for the same specified feature target.
-
-**Comparison:** Hardware generated the complete 60-qubit feature result in 26 quantum-seconds while local MPS remained incomplete after 2,577 seconds: a kernel-time lower bound greater than 99.1x; the complete Fire Opal route retained a lower bound greater than 5.0x.
-
-**Quantum result:** Held-out balanced accuracy was 0.53125 (17/32), compared with 0.50000 (16/32) for the predeclared linear baseline and 0.43750 (14/32) for RBF. The exact McNemar p-value against linear was 1.0 and the paired-bootstrap 95 percent interval was -0.1875 to 0.25.
-
-**Official sources**
-
-- [Exponential quantum advantage in processing massive classical data](https://arxiv.org/abs/2604.07639)
-- [Official Quantum Oracle Sketching repository](https://github.com/haimengzhao/quantum-oracle-sketching)
-- [10x Genomics PBMC68k dataset](https://www.10xgenomics.com/datasets/fresh-68-k-pbm-cs-donor-a-1-standard-1-1-0)
-
-**Implementation**
-
-- [Edukaizen project](https://edukaizen.nl/quantum-oracle-sketching-qml-genexpressie/)
-- [GitHub repository](https://github.com/BramDo/qlab-ml-adv-all-runners)
-
-**Claim boundary**
-
-- The MPS route did not converge, so the same feature target was specified but numerical feature equality at a matched error tolerance was not established.
-- The 26 quantum-seconds value was read from the Fire Opal dashboard; the archived get_result payload omitted the quantum-seconds field.
-- The greater-than-99.1x ratio compares QPU-only dashboard time with local MPS wall time; the broader submission-to-retrieval comparison is a lower bound greater than 5.02x.
-- The inexpensive classical linear and RBF classifiers do not require simulation of the 60-qubit feature map, so this is not an end-to-end speedup over ordinary classical machine learning.
-- The held-out test contains only 32 cells; the one-cell hardware lead is not statistically significant and does not establish general predictive advantage.
-- This is a local result under declared hardware and classical resources, not a claim against every tensor-network method, compute platform, or future implementation.
 
 ## Floquet-Ising oscillation detection on 51 qubits
 

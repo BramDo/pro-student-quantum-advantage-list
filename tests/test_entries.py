@@ -12,11 +12,11 @@ SPEC.loader.exec_module(BUILD)
 
 
 class EntryTests(unittest.TestCase):
-    def test_seven_entries_validate(self):
+    def test_six_entries_validate(self):
         entries = BUILD.load_entries()
-        self.assertEqual(len(entries), 7)
+        self.assertEqual(len(entries), 6)
         self.assertEqual(
-            {entry["scale"]["qubits"] for entry in entries}, {51, 60, 70, 72, 80, 120}
+            {entry["scale"]["qubits"] for entry in entries}, {51, 70, 72, 80, 120}
         )
 
     def test_every_entry_is_challengeable(self):
@@ -42,16 +42,14 @@ class EntryTests(unittest.TestCase):
         self.assertIn("restricted access to IBM Boston", boundaries)
         self.assertIn("IBM Kingston", boundaries)
 
-    def test_qml_entry_is_a_bounded_local_runtime_advantage(self):
-        entry = json.loads((ROOT / "entries" / "qos-pbmc68k-qml-60q.json").read_text(encoding="utf-8"))
-        self.assertEqual(entry["comparison"]["classification"], "local_runtime_lower_bound")
-        self.assertTrue(entry["comparison"]["ratio_is_lower_bound"])
-        self.assertGreater(entry["comparison"]["ratio"], 99.1)
-        self.assertEqual(entry["quantum"]["timings"][0]["seconds"], 26.0)
-        boundaries = " ".join(entry["claim_boundary"])
-        self.assertIn("did not converge", boundaries)
-        self.assertIn("submission-to-retrieval", boundaries)
-        self.assertIn("not an end-to-end speedup", boundaries)
+    def test_withdrawn_qml_project_is_absent_from_public_register(self):
+        # Feature-generation timing does not establish useful QML advantage.
+        withdrawn = "qos-pbmc68k-qml-60q"
+        self.assertNotIn(withdrawn, {entry["id"] for entry in BUILD.load_entries()})
+        for path in [ROOT / "README.md", *BUILD.outputs(BUILD.load_entries())]:
+            content = path.read_text(encoding="utf-8")
+            self.assertNotIn(withdrawn, content, path)
+            self.assertNotIn("PBMC68k QML 60q", content, path)
 
     def test_floquet_entry_is_partial_time_to_signal_advantage(self):
         entry = json.loads(
@@ -90,7 +88,7 @@ class EntryTests(unittest.TestCase):
             for text in ["2D Hubbard Nighthawk", "21.55x", "circa 20x", "accuracy unvalidated", "private GitHub repository", "Both TFLO holdout checks failed"]:
                 self.assertIn(text, content)
         wp = (ROOT / "docs/edukaizen-page.html").read_text(encoding="utf-8")
-        self.assertIn("7 student-scale project reports", wp)
+        self.assertIn("6 student-scale project reports", wp)
         self.assertNotIn("Five complete", wp)
 
     def test_classification_contract_matches_renderer(self):
@@ -98,20 +96,9 @@ class EntryTests(unittest.TestCase):
         values = schema["properties"]["comparison"]["properties"]["classification"]["enum"]
         self.assertEqual(set(values), set(BUILD.CLASSIFICATIONS))
 
-    def test_edukaizen_fragment_contains_the_qml_advantage(self):
+    def test_edukaizen_fragment_is_embeddable(self):
         content = (ROOT / "docs" / "edukaizen-page.html").read_text(encoding="utf-8")
-        self.assertIn("PBMC68k QML 60q", content)
-        self.assertIn("greater than 99.1x", content)
-        self.assertIn("17/32", content)
-        self.assertIn("26 quantum-seconds", content)
         self.assertNotIn("<!doctype html>", content.lower())
-
-    def test_github_pages_contains_the_qml_score_and_timing(self):
-        content = (ROOT / "docs" / "index.html").read_text(encoding="utf-8")
-        self.assertIn("PBMC68k QML 60q", content)
-        self.assertIn("17/32", content)
-        self.assertIn("greater than 99.1x", content)
-        self.assertIn("greater than 5.0x", content)
 
     def test_readme_and_public_pages_contain_floquet_boundary(self):
         readme = (ROOT / "README.md").read_text(encoding="utf-8")
