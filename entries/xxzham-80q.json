@@ -1,0 +1,53 @@
+{
+  "schema_version": 1,
+  "id": "xxzham-80q",
+  "title": "XXZham: imbalance dynamics of 80 spins",
+  "short_title": "XXZham",
+  "evidence_date": "2026-09-26",
+  "summary": "IBM Kingston returned a complete 31-point imbalance curve for an 80-spin XXZ chain in 76 registered QPU seconds. Local TEBD took 130.69 seconds at chi=64, 1,503.99 seconds at chi=128 and 4,571.54 seconds at chi=256. The chi=128 to 256 refinement passes the 0.005 RMS stability limit but still misses the 0.01 maximum-change limit, so the QPU timing lead over these named settings remains descriptive rather than a matched-quality advantage.",
+  "scale": {"qubits": 80, "sites": 80},
+  "quantum": {
+    "backend": "IBM Kingston, Heron R2, IBM Runtime",
+    "task": "Estimate the 31-point imbalance curve from t=0 to t=5 for the specified quasiperiodic XXZ chain",
+    "workflow": "Completed job danusfv8gn2s739n5n3g used 31 N80 points and three N12 controls, 2048 shots per noise factor, TREX, twirling, XY4 and linear ZNE.",
+    "timings": [
+      {"seconds": 76.0, "scope": "Registered QPU usage for the completed full-curve IBM Kingston job; excludes queue, service overhead and local analysis", "primary": true},
+      {"seconds": 66.928441088, "scope": "Provider circuit-execution field for the same completed job, not an end-to-end time", "primary": false}
+    ],
+    "result_summary": "The completed 80-spin run returned all 31 time points with RMSE 0.036943 against the tensor-network mean. A later 40-second-capped quantum attempt failed and yielded no complete curve."
+  },
+  "classical_baselines": [
+    {"method": "Local one-thread TEBD, chi=16, dt=1/6", "seconds": 8.012, "scope": "Median local execution across five complete 31-point confirmation runs", "status": "Rejected for converged-quality comparison: bond dimension capped at 16 from t=1/3, and the adjacent time-step refinement changed the curve by RMSE 0.024612 and maximum 0.064434, above the 0.005 and 0.01 stability limits"},
+    {"method": "Local refined TEBD, chi=64, dt=1/24", "seconds": 130.689497672, "scope": "Local CPU execution for a more accurate 31-point curve; not end-to-end wall time", "status": "Rejected for converged-quality comparison: the finest chi and time-step refinements still exceeded the 0.005 RMSE and 0.01 maximum-change stability limits"},
+    {"method": "Local one-thread TEBD, chi=128, dt=1/24", "seconds": 1503.989291496, "scope": "One complete local CPU execution for all 31 times through t=5; model preparation and process startup are separate", "status": "Rejected for convergence: relative to chi=64 at the same dt, the curve still changes by 0.00768883 RMS and 0.0215763 maximum, above the 0.005 and 0.01 limits. Accuracy versus the source-curve mean improved to 0.00638163 RMSE and 0.012272 maximum."},
+    {"method": "Local one-thread TEBD, chi=256, dt=1/24", "seconds": 4571.539504329, "scope": "One complete local CPU execution for all 31 times through t=5; model preparation and process startup are separate", "status": "Relative to chi=128 at the same dt, the curve changes by 0.00447729 RMS (passes 0.005) and 0.0134847 maximum (fails 0.01). Accuracy versus the source-curve mean is 0.00513532 RMSE and 0.0107771 maximum. Time-step convergence at chi=256 was not tested."},
+    {"method": "Published H200 Pauli propagation", "seconds": 1673.49, "scope": "Separate upstream Heron R3 fixed-20 benchmark, not a measurement on this project's laptop", "status": "reported source comparison; cannot establish a local laptop speedup"}
+  ],
+  "comparison": {
+    "classification": "local_execution_metric",
+    "headline": "Registered QPU usage was 76 s: 1.72x shorter than local chi=64 TEBD at 130.69 s, 19.79x shorter than chi=128 at 1,503.99 s and 60.15x shorter than chi=256 at 4,571.54 s. Chi=256 improves the curve and passes the RMS refinement limit, but misses the maximum-change limit. This is an execution-time lead rather than a matched-quality quantum advantage.",
+    "ratio": 1.7195986535789473,
+    "ratio_is_lower_bound": false,
+    "scope": "The primary ratio compares 76 seconds of provider QPU usage with 130.689497672 seconds of local CPU execution for chi=64 TEBD. The chi=128 and chi=256 contrasts are 19.79x and 60.15x. No tested classical setting passes the full selected convergence requirement, the clock scopes differ, and the later frozen local-advantage trial had no successful complete quantum result."
+  },
+  "official_sources": [
+    {"label": "Quantum Advantage Tracker issue 244", "url": "https://github.com/quantum-advantage-tracker/quantum-advantage-tracker.github.io/issues/244", "type": "tracker"},
+    {"label": "Original XXZ implementation", "url": "https://github.com/ak2y/Imbalance_XXZ_hz_1D", "type": "repository"}
+  ],
+  "implementation": {
+    "edukaizen_url": "https://edukaizen.nl/xxzham-80-spins-nisq-quantum-computer/",
+    "github_repositories": ["https://github.com/BramDo/XXZham"],
+    "key_articles": ["https://edukaizen.nl/xxzham-80-spins-nisq-quantum-computer/5-results/"],
+    "access_note": "The Edukaizen series is public. The complete project repository is private; full independent reproduction requires access permission."
+  },
+  "claim_boundary": [
+    "The five 8.012-second-median TEBD runs truly computed all 31 times to t=5, but chi=16 saturated early and its curve failed the required refinement stability. Its speed is not an accepted process-quality counterexample.",
+    "The refined 130.69-second chi=64, dt=1/24 TEBD run was more accurate against the source curves but also failed convergence stability. It cannot be used as a qualified classical denominator for a quantum speedup.",
+    "A new chi=128, dt=1/24 run completed in 1,503.99 seconds. Its source-mean RMSE improved from 0.009512 at chi=64 to 0.006382, but the chi=64 to 128 change was 0.007689 RMS and 0.021576 maximum, still beyond the selected 0.005 and 0.01 stability limits; time-step convergence at chi=128 was not tested.",
+    "A chi=256, dt=1/24 run completed in 4,571.54 seconds with 31 finite points through t=5. The chi=128 to 256 curve change was 0.004477 RMS, inside the 0.005 limit, but its 0.013485 maximum still exceeded 0.01. The source-mean RMSE improved to 0.005135; time-step convergence at chi=256 was not tested.",
+    "The reported 5.63x QPU/H200 ratio is a separate upstream Heron R3 comparison and is not a measured local laptop ratio.",
+    "The later capped quantum trial failed, so no complete quantum result met the frozen local time-to-answer protocol.",
+    "Registered QPU usage excludes queue, service overhead and local analysis. No matched-quality or full end-to-end local advantage comparison was established."
+  ],
+  "tags": ["xxz", "80-spins", "imbalance", "tebd", "ibm-kingston", "local-execution-metric"]
+}

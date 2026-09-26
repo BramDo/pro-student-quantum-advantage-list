@@ -12,11 +12,11 @@ SPEC.loader.exec_module(BUILD)
 
 
 class EntryTests(unittest.TestCase):
-    def test_six_entries_validate(self):
+    def test_eight_active_entries_validate(self):
         entries = BUILD.load_entries()
-        self.assertEqual(len(entries), 6)
+        self.assertEqual(len(entries), 8)
         self.assertEqual(
-            {entry["scale"]["qubits"] for entry in entries}, {51, 70, 72, 80, 120}
+            {entry["scale"]["qubits"] for entry in entries}, {51, 61, 70, 72, 80, 120}
         )
 
     def test_every_entry_is_challengeable(self):
@@ -42,14 +42,9 @@ class EntryTests(unittest.TestCase):
         self.assertIn("restricted access to IBM Boston", boundaries)
         self.assertIn("IBM Kingston", boundaries)
 
-    def test_withdrawn_qml_project_is_absent_from_public_register(self):
-        # Feature-generation timing does not establish useful QML advantage.
-        withdrawn = "qos-pbmc68k-qml-60q"
-        self.assertNotIn(withdrawn, {entry["id"] for entry in BUILD.load_entries()})
-        for path in [ROOT / "README.md", *BUILD.outputs(BUILD.load_entries())]:
-            content = path.read_text(encoding="utf-8")
-            self.assertNotIn(withdrawn, content, path)
-            self.assertNotIn("PBMC68k QML 60q", content, path)
+    def test_withdrawn_qml_record_is_not_in_active_register(self):
+        self.assertFalse((ROOT / "entries" / "qos-pbmc68k-qml-60q.json").exists())
+        self.assertNotIn("qos-pbmc68k-qml-60q", {item["id"] for item in BUILD.load_entries()})
 
     def test_floquet_entry_is_partial_time_to_signal_advantage(self):
         entry = json.loads(
@@ -88,7 +83,7 @@ class EntryTests(unittest.TestCase):
             for text in ["2D Hubbard Nighthawk", "21.55x", "circa 20x", "accuracy unvalidated", "private GitHub repository", "Both TFLO holdout checks failed"]:
                 self.assertIn(text, content)
         wp = (ROOT / "docs/edukaizen-page.html").read_text(encoding="utf-8")
-        self.assertIn("6 student-scale project reports", wp)
+        self.assertIn("8 student-scale project reports", wp)
         self.assertNotIn("Five complete", wp)
 
     def test_classification_contract_matches_renderer(self):
@@ -96,9 +91,38 @@ class EntryTests(unittest.TestCase):
         values = schema["properties"]["comparison"]["properties"]["classification"]["enum"]
         self.assertEqual(set(values), set(BUILD.CLASSIFICATIONS))
 
-    def test_edukaizen_fragment_is_embeddable(self):
+    def test_edukaizen_fragment_excludes_withdrawn_qml(self):
         content = (ROOT / "docs" / "edukaizen-page.html").read_text(encoding="utf-8")
+        self.assertNotIn("PBMC68k QML 60q", content)
+        self.assertNotIn("greater than 99.1x", content)
         self.assertNotIn("<!doctype html>", content.lower())
+
+    def test_github_pages_excludes_withdrawn_qml(self):
+        content = (ROOT / "docs" / "index.html").read_text(encoding="utf-8")
+        self.assertNotIn("PBMC68k QML 60q", content)
+        self.assertNotIn("greater than 99.1x", content)
+
+    def test_xxzham_rejects_unconverged_classical_timings(self):
+        entry = json.loads((ROOT / "entries" / "xxzham-80q.json").read_text(encoding="utf-8"))
+        self.assertEqual(entry["comparison"]["classification"], "local_execution_metric")
+        self.assertAlmostEqual(entry["comparison"]["ratio"], 130.689497672 / 76)
+        self.assertTrue(all("Rejected" in baseline["status"] for baseline in entry["classical_baselines"][:3]))
+        self.assertAlmostEqual(entry["classical_baselines"][2]["seconds"], 1503.989291496)
+        self.assertAlmostEqual(entry["classical_baselines"][3]["seconds"], 4571.539504329)
+        self.assertIn("passes 0.005", entry["classical_baselines"][3]["status"])
+        self.assertIn("fails 0.01", entry["classical_baselines"][3]["status"])
+        self.assertIn("rather than a matched-quality quantum advantage", entry["comparison"]["headline"])
+
+    def test_nighthawk_rcs_compares_circuit_following_mps_with_quality_boundary(self):
+        entry = json.loads((ROOT / "entries" / "nighthawk-rcs-61q.json").read_text(encoding="utf-8"))
+        self.assertEqual(entry["comparison"]["classification"], "local_execution_metric")
+        self.assertAlmostEqual(entry["comparison"]["ratio"], 1248.951 / 19)
+        self.assertEqual(entry["classical_baselines"][0]["seconds"], 1248.951)
+        self.assertIn("same released circuit", entry["comparison"]["headline"])
+        self.assertIn("post-measurement", entry["claim_boundary"][0])
+        self.assertIn("negative control", entry["claim_boundary"][1])
+        self.assertIn("not a competitor", entry["claim_boundary"][1])
+        self.assertIn("full 61-bit distribution", entry["claim_boundary"][3])
 
     def test_readme_and_public_pages_contain_floquet_boundary(self):
         readme = (ROOT / "README.md").read_text(encoding="utf-8")

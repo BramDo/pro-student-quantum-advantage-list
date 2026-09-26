@@ -37,11 +37,22 @@ not establish a validated time-to-answer or matched-accuracy advantage.
 | [Random Graph Sampling](entries/random-graph-sampling-70q.json) | 70 qubits | 19 QPU s | Aer projection and truncated local MPS | Diagnostic only; output quality is not matched |
 | [Floquet-Ising 51q](entries/floquet-ising-51q.json) | 51 qubits | 41 QPU s | 366.17 s local D=64 PEPS-SU | Partial task-specific time-to-signal advantage of 8.93x; accuracy is not matched |
 | [2D Hubbard Nighthawk](entries/fermi-hubbard-2d-nighthawk-72q.json) | 72 qubits / 36 sites | 7 registered QPU s, whole paired job | 150.819180 s local chi64 MPS kernel; not converged | Local execution-metric ratio 21.55x (circa 20x); accuracy unvalidated |
+| [XXZham](entries/xxzham-80q.json) | 80 spins | 76 registered QPU s for 31 points | Local TEBD chi=64/128/256 took 130.69/1,503.99/4,571.54 s; chi=256 passes the RMS refinement limit but misses the maximum-change limit | Local execution-metric lead of 1.72x over chi=64; matched-quality advantage unresolved |
+| [Nighthawk RCS](entries/nighthawk-rcs-61q.json) | 61 qubits / 36 cycles | 19 registered QPU s for one million bitstrings | Local chi=128 MPS of the same circuit took 1,248.95 s for 1,000 bitstrings; one-bit RMS 0.09047 | 65.7x local execution-metric lead at exploratory 0.10 marginal tolerance; process fidelity unvalidated |
 
 The Nighthawk project has [nine public articles](https://edukaizen.nl/2d-local-quantum-advantage/).
 Its raw research repository remains private. The approximately 181 s provider
 running-to-finished interval, failed TFLO holdouts and uncertified chi64 reference
 are preserved in its entry; the 7 QPU s are not end-to-end time.
+
+The PBMC68k QML entry was withdrawn after its local-advantage claim failed the
+September 2026 audit. Its earlier version remains in Git history; it is absent
+from the active entries, generated pages and feed.
+The Nighthawk RCS marginal threshold is exploratory and was selected after the
+measurements. A circuit-independent random generator can pass that low-order
+check, but it does not simulate the circuit and is not an eligible process
+competitor. The MPS timing comparison is therefore retained with an explicit
+unvalidated process-fidelity boundary.
 
 ## Why student and hobbyist projects matter
 

@@ -25,6 +25,9 @@ CLASSIFICATIONS = {
     "diagnostic_only": "Diagnostic only",
 }
 
+# Keep this withdrawn entry out of the active register if its file is restored.
+WITHDRAWN_IDS = {"qos-pbmc68k-qml-60q"}
+
 
 class EntryError(ValueError):
     pass
@@ -87,6 +90,8 @@ def load_entries() -> list[dict]:
         if entry["id"] in ids:
             raise EntryError(f"Duplicate entry id {entry['id']}")
         ids.add(entry["id"])
+        if entry["id"] in WITHDRAWN_IDS:
+            continue
         entries.append(entry)
     if not entries:
         raise EntryError("No entries found")
@@ -370,7 +375,7 @@ def render_wordpress(entries: list[dict]) -> str:
   </section>
   <footer>
     <p><a href="https://bramdo.github.io/pro-student-quantum-advantage-list/">GitHub Pages evidence register</a> &middot; <a href="https://github.com/BramDo/pro-student-quantum-advantage-list">Source and machine-readable entries</a></p>
-    <p class="psqal-updated">Version 1.2, evidence updated through {html.escape(updated)}.</p>
+    <p class="psqal-updated">Version 1.3.7, evidence updated through {html.escape(updated)}.</p>
   </footer>
 </article>
 """
