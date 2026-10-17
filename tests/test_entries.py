@@ -105,24 +105,27 @@ class EntryTests(unittest.TestCase):
     def test_xxzham_rejects_unconverged_classical_timings(self):
         entry = json.loads((ROOT / "entries" / "xxzham-80q.json").read_text(encoding="utf-8"))
         self.assertEqual(entry["comparison"]["classification"], "local_execution_metric")
-        self.assertAlmostEqual(entry["comparison"]["ratio"], 130.689497672 / 76)
+        self.assertAlmostEqual(entry["comparison"]["ratio"], 35432.308620882 / 76)
         self.assertTrue(all("Rejected" in baseline["status"] for baseline in entry["classical_baselines"][:3]))
         self.assertAlmostEqual(entry["classical_baselines"][2]["seconds"], 1503.989291496)
         self.assertAlmostEqual(entry["classical_baselines"][3]["seconds"], 4571.539504329)
         self.assertIn("passes 0.005", entry["classical_baselines"][3]["status"])
         self.assertIn("fails 0.01", entry["classical_baselines"][3]["status"])
-        self.assertIn("rather than a matched-quality quantum advantage", entry["comparison"]["headline"])
+        self.assertAlmostEqual(entry["classical_baselines"][4]["seconds"], 35432.308620882)
+        self.assertIn("first", entry["classical_baselines"][4]["status"].lower())
+        self.assertIn("time-step", entry["classical_baselines"][4]["status"])
+        self.assertIn("not a matched-quality", entry["comparison"]["headline"])
+        self.assertEqual(entry["evidence_date"], "2026-09-27")
 
     def test_nighthawk_rcs_compares_circuit_following_mps_with_quality_boundary(self):
         entry = json.loads((ROOT / "entries" / "nighthawk-rcs-61q.json").read_text(encoding="utf-8"))
         self.assertEqual(entry["comparison"]["classification"], "local_execution_metric")
         self.assertAlmostEqual(entry["comparison"]["ratio"], 1248.951 / 19)
         self.assertEqual(entry["classical_baselines"][0]["seconds"], 1248.951)
-        self.assertIn("same released circuit", entry["comparison"]["headline"])
-        self.assertIn("post-measurement", entry["claim_boundary"][0])
-        self.assertIn("negative control", entry["claim_boundary"][1])
-        self.assertIn("not a competitor", entry["claim_boundary"][1])
-        self.assertIn("full 61-bit distribution", entry["claim_boundary"][3])
+        self.assertIn("released circuit", entry["comparison"]["headline"])
+        boundaries = " ".join(entry["claim_boundary"])
+        for text in ("post-measurement", "negative control", "not a competitor", "full 61-bit distribution", "raw million-shot data"):
+            self.assertIn(text, boundaries)
 
     def test_readme_and_public_pages_contain_floquet_boundary(self):
         readme = (ROOT / "README.md").read_text(encoding="utf-8")
@@ -135,6 +138,29 @@ class EntryTests(unittest.TestCase):
             self.assertIn("8.93", content)
         self.assertIn("accuracy is not matched", readme)
         self.assertIn("SRMSE 3.154", pages)
+
+
+    def test_profile_and_readme_inventory_comes_from_active_entries(self):
+        entries = BUILD.load_entries()
+        profile = (ROOT / "docs/github-profile-projects.md").read_text(encoding="utf-8")
+        readme = (ROOT / "README.md").read_text(encoding="utf-8")
+        for content in (profile, readme):
+            block = content.split("<!-- advantage-list:start -->")[1].split("<!-- advantage-list:end -->")[0]
+            self.assertEqual(block.count(".json)"), len(entries))
+            for entry in entries:
+                self.assertIn(entry["id"] + ".json)", block)
+            self.assertNotIn("qos-pbmc68k", block)
+
+    def test_wordpress_fingerprint_matches_generated_evidence_feed(self):
+        from hashlib import sha256
+        entries = BUILD.load_entries()
+        feed = BUILD.data_feed(entries)
+        page = BUILD.render_wordpress(entries)
+        self.assertIn(sha256(feed.encode("utf-8")).hexdigest(), page)
+        metadata = json.loads(feed)
+        self.assertEqual(metadata["entry_count"], 8)
+        self.assertEqual(metadata["evidence_updated_through"], "2026-09-27")
+        self.assertEqual(metadata["synchronized_on"], "2026-10-17")
 
 
 if __name__ == "__main__":

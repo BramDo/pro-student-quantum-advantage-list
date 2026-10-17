@@ -15,7 +15,7 @@
     "workflow": "Estimator PEA/ZNE with three controlled noise factors, 1,024 shots per factor, fresh layer-noise learning, and the fixed physical layout",
     "timings": [
       {
-        "seconds": 41.0,
+        "seconds": 41,
         "scope": "QPU execution time for the complete PEA/ZNE route; excludes queueing, orchestration, retrieval, analysis, and classical mitigation processing",
         "primary": true
       }
@@ -45,9 +45,10 @@
   "comparison": {
     "classification": "local_time_to_answer",
     "headline": "The 41-QPU-second PEA/ZNE route detected the 51-qubit oscillation 8.93x sooner than the 366.17-second local D=64 PEPS-SU trajectory under the declared timing scopes.",
-    "ratio": 8.930964505048817,
+    "ratio": 8.930964505048816,
     "ratio_is_lower_bound": false,
-    "scope": "This is a task-specific time-to-qualitative-signal comparison between QPU execution time and local PEPS wall time for the same circuit and observable; it excludes cloud workflow overhead and does not assert matched numerical accuracy."
+    "scope": "This is a task-specific time-to-qualitative-signal comparison between QPU execution time and local PEPS wall time for the same circuit and observable; it excludes cloud workflow overhead and does not assert matched numerical accuracy.",
+    "label": "Partial task-specific time-to-signal advantage of 8.93x; accuracy is not matched"
   },
   "official_sources": [
     {

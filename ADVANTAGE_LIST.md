@@ -9,10 +9,10 @@ conditional on each entry's declared resources and claim boundary.
 | [SU(2) hadron dynamics](entries/su2-hadron-120q.json) | 120 qubits / 60 sites | 1.425408 s | Paper-aligned local separation |
 | [Operator Loschmidt Echo Q80](entries/operator-loschmidt-echo-q80.json) | 80 qubits | 328 s | Local runtime lower bound |
 | [Random Graph Sampling](entries/random-graph-sampling-70q.json) | 70 qubits | 19 s | Diagnostic only |
-| [Floquet-Ising 51q](entries/floquet-ising-51q.json) | 51 qubits | 41 s | Local time-to-answer separation |
+| [Floquet-Ising 51q](entries/floquet-ising-51q.json) | 51 qubits | 41 s | Partial task-specific time-to-signal advantage of 8.93x; accuracy is not matched |
 | [2D Hubbard Nighthawk](entries/fermi-hubbard-2d-nighthawk-72q.json) | 72 qubits / 36 sites | 7 s | Local execution-metric ratio; accuracy unvalidated |
-| [Nighthawk RCS](entries/nighthawk-rcs-61q.json) | 61 qubits | 19 s | Local execution-metric ratio; accuracy unvalidated |
-| [XXZham](entries/xxzham-80q.json) | 80 qubits / 80 sites | 76 s | Local execution-metric ratio; accuracy unvalidated |
+| [Nighthawk RCS](entries/nighthawk-rcs-61q.json) | 61 qubits | 19 s | Local execution-metric ratio; process fidelity unvalidated |
+| [XXZham](entries/xxzham-80q.json) | 80 qubits / 80 sites | 76 s | Local execution-metric ratio; convergence unfinished |
 
 ## Fermi-Hubbard dynamics on 120 qubits
 
@@ -172,16 +172,17 @@ Nine detailed Edukaizen articles and this register entry are public. The complet
 
 ## Nighthawk random-circuit sampling on 61 qubits
 
-The released 61-qubit depth-36 circuit returned one million bitstrings on IBM Phoenix in 19 registered QPU seconds. A local chi=128 MPS simulation of the same logical circuit took 1,248.95 seconds for 1,000 bitstrings, a 65.7x execution-metric contrast. Its one-bit RMS discrepancy was 0.09047, within an exploratory 0.10 hobby tolerance; process-level fidelity was not independently matched.
+The released 61-qubit, 36-cycle circuit returned one million bitstrings on IBM Phoenix in 19 registered QPU seconds. A local chi=128 MPS simulation of the same logical circuit took 1,248.95 seconds for 1,000 bitstrings. This is a 65.7x local execution-metric lead over that circuit-following simulator; process-level fidelity has not been independently matched.
 
-**Comparison:** The 19-second QPU usage was 65.7x shorter than a 1,248.95-second local chi=128 MPS simulation of the same released circuit. The MPS one-bit RMS discrepancy of 0.09047 passes an exploratory 0.10 hobby tolerance, but circuit-level fidelity was not matched.
+**Comparison:** The 19-second QPU usage was 65.7x shorter than the 1,248.95-second local chi=128 MPS run of the released circuit. Its RMS difference from the IBM data across 61 one-bit probabilities was 0.09047, within an exploratory hobby tolerance of 0.10. That low-order check does not establish equal process fidelity. The shot counts and timing scopes also differ.
 
-**Quantum result:** The IBM job returned one million 61-bit strings and repeated the released circuit's scale and shot count. This project did not independently calculate full-width ideal-probability XEB or fidelity for those strings.
+**Quantum result:** The IBM job returned one million 61-bit strings. It repeated the released circuit's scale and sampling count, but this project has not independently determined its full-distribution XEB or fidelity. The original paper used mirror and patched-XEB estimators for that purpose.
 
 **Official sources**
 
 - [Original 61-qubit Nighthawk preprint](https://arxiv.org/abs/2609.28657)
 - [Paper-linked circuit and analysis repository](https://github.com/BlueQubitDev/rcs-nighthawk)
+- [Independent follow-up: fixed code and publication checkpoint](https://github.com/BramDo/rcs-nighthawk-replication/blob/eed6b0e462981fe98e0f771488f389611d0cafbb/README.md)
 
 **Implementation**
 
@@ -192,24 +193,26 @@ The public repository contains code and article sources. The raw million-shot re
 
 **Claim boundary**
 
-- The 0.10 RMS band is an exploratory post-measurement hobby criterion on one-bit probabilities, much looser than the approximately 0.018 noise-only 95% threshold for 1000 shots.
-- A circuit-independent random-bit generator also passes the one-bit RMS check; it is only a negative control for the check and is not a competitor for simulating the specified quantum process.
-- The 19-second quantum value is QPU usage and the 1,248.95-second classical value is local simulator wall time; shot counts differ by a factor of 1000 and queue, preparation and analysis are excluded.
-- Passing the coarse marginal band does not validate the full 61-bit distribution, ideal-circuit fidelity or full-width XEB. No independent full-distribution quality match was measured.
-- The 65.7x number is a timing lead over one named circuit-following capped-MPS workflow. Without a matched process-fidelity estimate, it is not a demonstrated matched-quality, best-classical, full-distribution or end-to-end quantum advantage.
+- A circuit-independent random-bit generator is not a competitor for simulating this quantum process. It serves only as a negative control showing that one-bit RMS alone cannot verify the process.
+- The 0.10 one-bit RMS band is an exploratory, post-measurement hobby criterion; it is much looser than the approximately 0.018 noise-only 95% threshold for 1,000 shots.
+- The 19 seconds are provider QPU usage for one million shots; the local MPS wall times cover 1,000 shots. Queue, preparation, service overhead and analysis are excluded from the quantum timing.
+- Passing the marginal check does not validate the full 61-bit distribution, ideal-circuit fidelity or full-width XEB. Our run did not reproduce the paper's mirror or patched-XEB fidelity estimates.
+- The 65.7x figure is a timing lead over one named circuit-following capped-MPS implementation, not a demonstrated matched-fidelity, best-classical or end-to-end quantum advantage.
+- The independent follow-up and the original paper release are separate repositories and experiments. The paper's mirror and patched-XEB fidelity estimates cannot be assigned automatically to this new run. The public follow-up omits the raw million-shot data, so its full new comparison cannot be independently recomputed from that public snapshot alone.
 
 ## XXZham: imbalance dynamics of 80 spins
 
-IBM Kingston returned a complete 31-point imbalance curve for an 80-spin XXZ chain in 76 registered QPU seconds. Local TEBD took 130.69 seconds at chi=64, 1,503.99 seconds at chi=128 and 4,571.54 seconds at chi=256. The chi=128 to 256 refinement passes the 0.005 RMS stability limit but still misses the 0.01 maximum-change limit, so the QPU timing lead over these named settings remains descriptive rather than a matched-quality advantage.
+An IBM Kingston Heron R2 run returned the full 31-point imbalance curve for an 80-spin XXZ chain in 76 registered QPU seconds. Local chi=64, chi=128, chi=256 and chi=512 TEBD runs at dt=1/24 took 130.69 s, 1,503.99 s, 4,571.54 s and 35,432.31 s. These yield descriptive QPU execution-time ratios of 1.72x, 19.79x, 60.15x and 466.21x. The chi=256 to 512 curve change passes both selected refinement limits; the full convergence protocol is unfinished.
 
-**Comparison:** Registered QPU usage was 76 s: 1.72x shorter than local chi=64 TEBD at 130.69 s, 19.79x shorter than chi=128 at 1,503.99 s and 60.15x shorter than chi=256 at 4,571.54 s. Chi=256 improves the curve and passes the RMS refinement limit, but misses the maximum-change limit. This is an execution-time lead rather than a matched-quality quantum advantage.
+**Comparison:** QPU usage of 76 s is shorter than local chi=512 TEBD execution (35,432.31 s) by 466.21x. The source-TN-mean RMSE improves from 0.00514 at chi=256 to 0.00454 at chi=512. The chi=256 to 512 curve change is 0.00267 RMS and 0.00676 at its largest point, within the chosen 0.005 and 0.01 limits. The preceding chi=128 to 256 maximum change failed its limit, and time-step convergence at chi=512 was not tested. This is a measured execution-time contrast, not a matched-quality quantum-advantage result.
 
-**Quantum result:** The completed 80-spin run returned all 31 time points with RMSE 0.036943 against the tensor-network mean. A later 40-second-capped quantum attempt failed and yielded no complete curve.
+**Quantum result:** The completed IBM job produced all 31 points with RMSE 0.036943 against the stated tensor-network mean. A later 40-second-capped quantum attempt failed and yielded no complete curve.
 
 **Official sources**
 
 - [Quantum Advantage Tracker issue 244](https://github.com/quantum-advantage-tracker/quantum-advantage-tracker.github.io/issues/244)
 - [Original XXZ implementation](https://github.com/ak2y/Imbalance_XXZ_hz_1D)
+- [Measured chi=512 report and raw-data checkpoint (private)](https://github.com/BramDo/XXZham/blob/89f7bcfe55e670bd6d620753e998af4dcc9c0328/results/n80-chi512-20260926/report.md)
 
 **Implementation**
 
@@ -220,10 +223,9 @@ The Edukaizen series is public. The complete project repository is private; full
 
 **Claim boundary**
 
-- The five 8.012-second-median TEBD runs truly computed all 31 times to t=5, but chi=16 saturated early and its curve failed the required refinement stability. Its speed is not an accepted process-quality counterexample.
-- The refined 130.69-second chi=64, dt=1/24 TEBD run was more accurate against the source curves but also failed convergence stability. It cannot be used as a qualified classical denominator for a quantum speedup.
-- A new chi=128, dt=1/24 run completed in 1,503.99 seconds. Its source-mean RMSE improved from 0.009512 at chi=64 to 0.006382, but the chi=64 to 128 change was 0.007689 RMS and 0.021576 maximum, still beyond the selected 0.005 and 0.01 stability limits; time-step convergence at chi=128 was not tested.
-- A chi=256, dt=1/24 run completed in 4,571.54 seconds with 31 finite points through t=5. The chi=128 to 256 curve change was 0.004477 RMS, inside the 0.005 limit, but its 0.013485 maximum still exceeded 0.01. The source-mean RMSE improved to 0.005135; time-step convergence at chi=256 was not tested.
-- The reported 5.63x QPU/H200 ratio is a separate upstream Heron R3 comparison and is not a measured local laptop ratio.
-- The later capped quantum trial failed, so no complete quantum result met the frozen local time-to-answer protocol.
-- Registered QPU usage excludes queue, service overhead and local analysis. No matched-quality or full end-to-end local advantage comparison was established.
+- The fast chi=16 timing is real: five complete runs reached all 31 times through t=5. It is excluded under the selected convergence gate because its coarse cap and time step fail refinement stability.
+- Chi=128 improved the observable error and took 25 minutes 4 seconds on one local CPU thread. It still changed too much from chi=64, and time-step convergence at chi=128 was not measured. The chi=256 run took 76 minutes 12 seconds and had source-mean RMSE 0.00514; its chi=128 to 256 maximum change of 0.01348 failed the 0.01 limit. The completed chi=512 run took 9 hours 50 minutes 32 seconds, produced 31 finite points through t=5 and had source-mean RMSE 0.00454. Its chi=256 to 512 changes of 0.00267 RMS and 0.00676 maximum pass both limits. A second consecutive passing chi refinement and time-step refinement are still missing.
+- The 76-second QPU usage and local CPU execution have different clock scopes. Queue, service overhead and local setup are not matched in this ratio.
+- The reported 5.63x QPU/H200 ratio belongs to a different upstream Heron R3 benchmark, not the laptop comparison.
+- The later frozen quantum trial had no successful complete result. These local measurements show an execution-metric lead over the named chi=64, chi=128, chi=256 and chi=512 TEBD settings, but do not yet establish matched-quality or end-to-end quantum advantage.
+- The source reference is the average of the frozen TEBD and TDVP curves, not an exact solution or a certified error bound. The chi=512 raw-data SHA-256 is b300c3059a8d0b7fea3aba2097d3e3368df3b483cf03a5962506269e8c3358dd.

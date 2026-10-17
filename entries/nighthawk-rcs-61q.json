@@ -4,46 +4,98 @@
   "title": "Nighthawk random-circuit sampling on 61 qubits",
   "short_title": "Nighthawk RCS",
   "evidence_date": "2026-09-26",
-  "summary": "The released 61-qubit depth-36 circuit returned one million bitstrings on IBM Phoenix in 19 registered QPU seconds. A local chi=128 MPS simulation of the same logical circuit took 1,248.95 seconds for 1,000 bitstrings, a 65.7x execution-metric contrast. Its one-bit RMS discrepancy was 0.09047, within an exploratory 0.10 hobby tolerance; process-level fidelity was not independently matched.",
-  "scale": {"qubits": 61, "sites": null},
+  "summary": "The released 61-qubit, 36-cycle circuit returned one million bitstrings on IBM Phoenix in 19 registered QPU seconds. A local chi=128 MPS simulation of the same logical circuit took 1,248.95 seconds for 1,000 bitstrings. This is a 65.7x local execution-metric lead over that circuit-following simulator; process-level fidelity has not been independently matched.",
+  "scale": {
+    "qubits": 61,
+    "sites": null
+  },
   "quantum": {
     "backend": "IBM Phoenix, Nighthawk r2, IBM Runtime SamplerV2",
     "task": "Sample the released 61-qubit, 36-cycle random circuit and assess its output quality",
     "workflow": "Job dar90plvr3kc73eij3vg used the released logical circuit and paper physical layout, 918 CZ gates, 10 PUBs of 100000 shots, measurement twirling and no automatic resubmission.",
     "timings": [
-      {"seconds": 19.0, "scope": "Provider QPU usage and charge for one million returned bitstrings; excludes queue, preparation, provider overhead and analysis", "primary": true},
-      {"seconds": 15.1273408, "scope": "Provider circuit-execution field inside the same job, distinct from the 19-second QPU charge", "primary": false}
+      {
+        "seconds": 19.0,
+        "scope": "Provider QPU usage and charge for one million returned bitstrings; excludes queue, preparation, provider overhead and analysis",
+        "primary": true
+      },
+      {
+        "seconds": 15.1273408,
+        "scope": "Provider circuit-execution field inside the same job, distinct from the 19-second QPU charge",
+        "primary": false
+      }
     ],
-    "result_summary": "The IBM job returned one million 61-bit strings and repeated the released circuit's scale and shot count. This project did not independently calculate full-width ideal-probability XEB or fidelity for those strings."
+    "result_summary": "The IBM job returned one million 61-bit strings. It repeated the released circuit's scale and sampling count, but this project has not independently determined its full-distribution XEB or fidelity. The original paper used mirror and patched-XEB estimators for that purpose."
   },
   "classical_baselines": [
-    {"method": "Local Qiskit Aer MPS, chi=128", "seconds": 1248.951, "scope": "Single local WSL simulator wall-time run on the same logical circuit for 1000 bitstrings", "status": "RMS difference from IBM across 61 one-bit fractions was 0.09047, inside an exploratory post-measurement 0.10 band; full distribution not validated"},
-    {"method": "Local Qiskit Aer MPS, chi=64", "seconds": 173.806, "scope": "Single local WSL simulator wall-time run for 1000 bitstrings", "status": "one-bit RMS difference 0.10923, outside the exploratory 0.10 band"},
-    {"method": "Local Qiskit Aer MPS, chi=8", "seconds": 1.453, "scope": "Single local WSL simulator wall-time run for 1000 bitstrings", "status": "one-bit RMS difference 0.19505, outside the exploratory 0.10 band"}
+    {
+      "method": "Local Qiskit Aer MPS, chi=128",
+      "seconds": 1248.951,
+      "scope": "Single local WSL simulator wall-time run on the same logical circuit for 1000 bitstrings",
+      "status": "RMS difference from IBM across 61 one-bit fractions was 0.09047, inside an exploratory post-measurement 0.10 band; full distribution not validated"
+    },
+    {
+      "method": "Local Qiskit Aer MPS, chi=64",
+      "seconds": 173.806,
+      "scope": "Single local WSL simulator wall-time run for 1000 bitstrings",
+      "status": "one-bit RMS difference 0.10923, outside the exploratory 0.10 band"
+    },
+    {
+      "method": "Local Qiskit Aer MPS, chi=8",
+      "seconds": 1.453,
+      "scope": "Single local WSL simulator wall-time run for 1000 bitstrings",
+      "status": "one-bit RMS difference 0.19505, outside the exploratory 0.10 band"
+    }
   ],
   "comparison": {
     "classification": "local_execution_metric",
-    "headline": "The 19-second QPU usage was 65.7x shorter than a 1,248.95-second local chi=128 MPS simulation of the same released circuit. The MPS one-bit RMS discrepancy of 0.09047 passes an exploratory 0.10 hobby tolerance, but circuit-level fidelity was not matched.",
+    "headline": "The 19-second QPU usage was 65.7x shorter than the 1,248.95-second local chi=128 MPS run of the released circuit. Its RMS difference from the IBM data across 61 one-bit probabilities was 0.09047, within an exploratory hobby tolerance of 0.10. That low-order check does not establish equal process fidelity. The shot counts and timing scopes also differ.",
     "ratio": 65.73426315789474,
     "ratio_is_lower_bound": false,
-    "scope": "This is a local execution-metric contrast between hardware and one named circuit-following capped-MPS implementation, not a matched-fidelity time-to-answer result. The provider QPU usage covers one million shots; the local wall time covers 1000 shots."
+    "scope": "This is a local execution-metric contrast between hardware and one named circuit-following capped-MPS implementation, not a matched-fidelity time-to-answer result. The provider QPU usage covers one million shots; the local wall time covers 1000 shots.",
+    "label": "Local execution-metric ratio; process fidelity unvalidated"
   },
   "official_sources": [
-    {"label": "Original 61-qubit Nighthawk preprint", "url": "https://arxiv.org/abs/2609.28657", "type": "paper"},
-    {"label": "Paper-linked circuit and analysis repository", "url": "https://github.com/BlueQubitDev/rcs-nighthawk", "type": "repository"}
+    {
+      "label": "Original 61-qubit Nighthawk preprint",
+      "url": "https://arxiv.org/abs/2609.28657",
+      "type": "paper"
+    },
+    {
+      "label": "Paper-linked circuit and analysis repository",
+      "url": "https://github.com/BlueQubitDev/rcs-nighthawk",
+      "type": "repository"
+    },
+    {
+      "label": "Independent follow-up: fixed code and publication checkpoint",
+      "url": "https://github.com/BramDo/rcs-nighthawk-replication/blob/eed6b0e462981fe98e0f771488f389611d0cafbb/README.md",
+      "type": "repository"
+    }
   ],
   "implementation": {
     "edukaizen_url": "https://edukaizen.nl/nighthawk-61-qubit-random-circuit-sampling-en/",
-    "github_repositories": ["https://github.com/BramDo/rcs-nighthawk-replication"],
-    "key_articles": ["https://edukaizen.nl/nighthawk-61-qubit-random-circuit-sampling-en/3-mps-and-quantum-advantage/"],
+    "github_repositories": [
+      "https://github.com/BramDo/rcs-nighthawk-replication"
+    ],
+    "key_articles": [
+      "https://edukaizen.nl/nighthawk-61-qubit-random-circuit-sampling-en/3-mps-and-quantum-advantage/"
+    ],
     "access_note": "The public repository contains code and article sources. The raw million-shot research data and large binaries were not included in that public release."
   },
   "claim_boundary": [
-    "The 0.10 RMS band is an exploratory post-measurement hobby criterion on one-bit probabilities, much looser than the approximately 0.018 noise-only 95% threshold for 1000 shots.",
-    "A circuit-independent random-bit generator also passes the one-bit RMS check; it is only a negative control for the check and is not a competitor for simulating the specified quantum process.",
-    "The 19-second quantum value is QPU usage and the 1,248.95-second classical value is local simulator wall time; shot counts differ by a factor of 1000 and queue, preparation and analysis are excluded.",
-    "Passing the coarse marginal band does not validate the full 61-bit distribution, ideal-circuit fidelity or full-width XEB. No independent full-distribution quality match was measured.",
-    "The 65.7x number is a timing lead over one named circuit-following capped-MPS workflow. Without a matched process-fidelity estimate, it is not a demonstrated matched-quality, best-classical, full-distribution or end-to-end quantum advantage."
+    "A circuit-independent random-bit generator is not a competitor for simulating this quantum process. It serves only as a negative control showing that one-bit RMS alone cannot verify the process.",
+    "The 0.10 one-bit RMS band is an exploratory, post-measurement hobby criterion; it is much looser than the approximately 0.018 noise-only 95% threshold for 1,000 shots.",
+    "The 19 seconds are provider QPU usage for one million shots; the local MPS wall times cover 1,000 shots. Queue, preparation, service overhead and analysis are excluded from the quantum timing.",
+    "Passing the marginal check does not validate the full 61-bit distribution, ideal-circuit fidelity or full-width XEB. Our run did not reproduce the paper's mirror or patched-XEB fidelity estimates.",
+    "The 65.7x figure is a timing lead over one named circuit-following capped-MPS implementation, not a demonstrated matched-fidelity, best-classical or end-to-end quantum advantage.",
+    "The independent follow-up and the original paper release are separate repositories and experiments. The paper's mirror and patched-XEB fidelity estimates cannot be assigned automatically to this new run. The public follow-up omits the raw million-shot data, so its full new comparison cannot be independently recomputed from that public snapshot alone."
   ],
-  "tags": ["nighthawk", "rcs", "61-qubits", "mps", "marginal-tolerance", "local-execution-metric"]
+  "tags": [
+    "nighthawk",
+    "rcs",
+    "61-qubits",
+    "mps",
+    "marginal-tolerance",
+    "local-execution-metric"
+  ]
 }

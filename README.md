@@ -1,8 +1,8 @@
 # Pro Student Quantum Advantage List
 
-An open, extensible register of complete student-scale quantum projects that
-show a **local practical quantum advantage** or **time-to-answer separation**
-under explicitly declared resources.
+An open, extensible evidence register of student-scale quantum projects,
+including local time-to-answer reports, runtime bounds, execution-metric
+comparisons and diagnostic results under explicitly declared resources.
 
 This repository complements the
 [Quantum Advantage Tracker](https://quantum-advantage-tracker.github.io/). A
@@ -29,16 +29,20 @@ not establish a validated time-to-answer or matched-accuracy advantage.
 
 ## Current entries
 
-| Project | Scale | Quantum timing used | Classical reference | Classification |
-|---|---:|---:|---|---|
-| [1D Fermi-Hubbard dynamics](entries/fermi-hubbard-120q.json) | 120 qubits / 60 sites | 33.148928 s execution proxy | 9,033 s local chi=256 MPS, plus Majorana checks | Local time-to-answer separation |
-| [Non-Abelian SU(2) hadron dynamics](entries/su2-hadron-120q.json) | 120 active qubits / 60 sites | 1.425408 s hardware plus readout circuits | Local circuit MPS and published TN/Pauli-propagation baselines | Local and paper-aligned runtime separation |
-| [Operator Loschmidt Echo Q80](entries/operator-loschmidt-echo-q80.json) | 80 qubits | 328 s complete Fire Opal action | BD=64 BP-TN delta half timed out after 901 s | Local lower bound greater than 2.75x; classical result not converged |
-| [Random Graph Sampling](entries/random-graph-sampling-70q.json) | 70 qubits | 19 QPU s | Aer projection and truncated local MPS | Diagnostic only; output quality is not matched |
-| [Floquet-Ising 51q](entries/floquet-ising-51q.json) | 51 qubits | 41 QPU s | 366.17 s local D=64 PEPS-SU | Partial task-specific time-to-signal advantage of 8.93x; accuracy is not matched |
-| [2D Hubbard Nighthawk](entries/fermi-hubbard-2d-nighthawk-72q.json) | 72 qubits / 36 sites | 7 registered QPU s, whole paired job | 150.819180 s local chi64 MPS kernel; not converged | Local execution-metric ratio 21.55x (circa 20x); accuracy unvalidated |
-| [XXZham](entries/xxzham-80q.json) | 80 spins | 76 registered QPU s for 31 points | Local TEBD chi=64/128/256 took 130.69/1,503.99/4,571.54 s; chi=256 passes the RMS refinement limit but misses the maximum-change limit | Local execution-metric lead of 1.72x over chi=64; matched-quality advantage unresolved |
-| [Nighthawk RCS](entries/nighthawk-rcs-61q.json) | 61 qubits / 36 cycles | 19 registered QPU s for one million bitstrings | Local chi=128 MPS of the same circuit took 1,248.95 s for 1,000 bitstrings; one-bit RMS 0.09047 | 65.7x local execution-metric lead at exploratory 0.10 marginal tolerance; process fidelity unvalidated |
+<!-- advantage-list:start -->
+8 active project reports. Register version 1.3.9; evidence through 2026-09-27; synchronized 2026-10-17.
+
+| Project | Scale | Primary quantum timing | Classification |
+|---|---:|---:|---|
+| [1D Fermi-Hubbard](entries/fermi-hubbard-120q.json) | 120 qubits / 60 sites | 33.148928 s | Local time-to-answer separation |
+| [SU(2) hadron dynamics](entries/su2-hadron-120q.json) | 120 qubits / 60 sites | 1.425408 s | Paper-aligned local separation |
+| [Operator Loschmidt Echo Q80](entries/operator-loschmidt-echo-q80.json) | 80 qubits | 328 s | Local runtime lower bound |
+| [Random Graph Sampling](entries/random-graph-sampling-70q.json) | 70 qubits | 19 s | Diagnostic only |
+| [Floquet-Ising 51q](entries/floquet-ising-51q.json) | 51 qubits | 41 s | Partial task-specific time-to-signal advantage of 8.93x; accuracy is not matched |
+| [2D Hubbard Nighthawk](entries/fermi-hubbard-2d-nighthawk-72q.json) | 72 qubits / 36 sites | 7 s | Local execution-metric ratio; accuracy unvalidated |
+| [Nighthawk RCS](entries/nighthawk-rcs-61q.json) | 61 qubits | 19 s | Local execution-metric ratio; process fidelity unvalidated |
+| [XXZham](entries/xxzham-80q.json) | 80 qubits / 80 sites | 76 s | Local execution-metric ratio; convergence unfinished |
+<!-- advantage-list:end -->
 
 The Nighthawk project has [nine public articles](https://edukaizen.nl/2d-local-quantum-advantage/).
 Its raw research repository remains private. The approximately 181 s provider
@@ -80,6 +84,16 @@ scientific review. Read the full essay:
 5. Include accuracy, convergence, finite-sample, and scaling limitations.
 6. Run `python scripts/build.py` and `python -m unittest discover -s tests`.
 7. Open a pull request, or use one of the repository issue templates.
+
+The eight JSON records in `entries/` are the authoritative source for the
+generated register, Edukaizen page, README table and
+[`docs/github-profile-projects.md`](docs/github-profile-projects.md).
+Run `python scripts/build.py` after changing an entry. Publish
+`docs/edukaizen-page.html` to the existing Edukaizen page and copy the generated
+profile block into `BramDo/BramDo/README.md`; retain the block markers.
+`python scripts/build.py --check` detects stale generated content.
+The synchronization date records publication maintenance; the evidence date
+continues to record the underlying experiment or analysis.
 
 The machine-readable contract is documented in
 [`schema/entry.schema.json`](schema/entry.schema.json). The generated public feed
